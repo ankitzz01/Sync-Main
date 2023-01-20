@@ -1,0 +1,69 @@
+const { Client, ChatInputCommandInteraction, ApplicationCommandOptionType, ChannelType, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits, EmbedBuilder } = require("discord.js")
+module.exports = {
+    name: "panel",
+    description: "Create a music panel",
+    category: "Others",
+    UserPerms: ["ManageGuild"],
+    options: [
+        {
+            name: "channel",
+            description: "Select the channel",
+            type: ApplicationCommandOptionType.Channel,
+            channelTypes: [ChannelType.GuildText],
+            required: true
+        },
+    ],
+
+    /**
+     * @param {Client} client
+     * @param {ChatInputCommandInteraction} interaction
+     */
+    async execute(interaction, client) {
+        const { options, guild, reply, editReply } = interaction
+        const Channel = options.getChannel("channel")
+
+        const errEmbed = new EmbedBuilder()
+            .setColor("DarkRed")
+
+        if (!Channel.permissionsFor(guild.members.me).has(PermissionFlagsBits.SendMessages)) return reply({
+            embeds: [errEmbed.setDescription()
+                .setDescription(`I don't have permissions to send messages in ${Channel}`)
+            ], ephemeral: true
+        })
+
+        const volup = "<:musicvolumeup:1026518220166922361>"
+        const voldown = "<:musicvolumedown:1026518217801338900>"
+        const pauseresume = "<:musicplaypause:1026518174881038437>"
+        const skip = "<:musicnext:1026518134905110650>"
+        const stop = "<:musicstop:1026518215557394472>"
+
+        const row = new ActionRowBuilder().addComponents(
+
+            new ButtonBuilder()
+                .setCustomId("vol-down")
+                .setEmoji(voldown)
+                .setStyle(ButtonStyle.Secondary),
+
+            new ButtonBuilder()
+                .setCustomId("pause-resume-song")
+                .setEmoji(pauseresume)
+                .setStyle(ButtonStyle.Secondary),
+
+            new ButtonBuilder()
+                .setCustomId("stop-song")
+                .setEmoji(stop)
+                .setStyle(ButtonStyle.Secondary),
+
+            new ButtonBuilder()
+                .setCustomId("skip-song")
+                .setEmoji(skip)
+                .setStyle(ButtonStyle.Secondary),
+
+            new ButtonBuilder()
+                .setCustomId("vol-up")
+                .setEmoji(volup)
+                .setStyle(ButtonStyle.Secondary),
+
+        )
+    }
+}
