@@ -15,7 +15,7 @@ module.exports = {
   async execute(interaction, client) {
 
     const Intro = `**Hey ${interaction.user.username}, it's me Sync Music.\nI offer non-stop playback of your favorite tunes with customizable filters to fit your taste.\nChoose me for all of your music needs.**\n\n`
-    const Features = `**My Command Categories:\n\n${emojis.music} | Music Commands\n${emojis.info} | Info Commands\n${emojis.filter} | Filter\n${emojis.settings} | Others\n\n**`
+    const Features = `**My Command Categories:\n\n${emojis.music} | Music Commands\n${emojis.info} | General Commands\n${emojis.filter} | Filter\n${emojis.settings} | Others\n\n**`
     const Last = `\`Choose a category from below\``
     const Promo = `\n\n**[Invite Me](${client.config.invite})  :  [Support Server](${client.config.support})  :  [Vote Me](${client.config.topgg})**`
 
