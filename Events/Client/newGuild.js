@@ -1,4 +1,5 @@
 const { Client, Guild, EmbedBuilder } = require("discord.js")
+const { log } = require("../../Functions/log")
 
 module.exports = {
     name: "guildCreate",
@@ -9,29 +10,22 @@ module.exports = {
      */
     async execute(guild, client) {
 
-        const logChannel = client.config.GuildLog
-        const channel = client.channels.cache.get(logChannel)
-
-        if (!channel) return console.log("[WARNING] NO NEW GUILD LOG CHANNEL FOUND!")
-
         const guildLogo = guild.iconURL()
-        if (!guild.iconURL) guildLogo = 'https://png.pngtree.com/png-clipart/20200701/original/pngtree-red-error-icon-png-image_5418881.jpg'
+        if (!guild.iconURL) guildLogo = null
 
         const owner = guild.members.cache.get(guild.ownerId)
 
-        return channel.send({
-            embeds: [
-                new EmbedBuilder()
-                    .setAuthor({ name: `New Server - ${guild.name}`, iconURL: guildLogo })
-                    .setThumbnail(guildLogo)
-                    .setTimestamp()
-                    .setColor("DarkBlue")
-                    .setDescription(`\`\`\`Name: ${guild.name}\
+        const embed = new EmbedBuilder()
+            .setAuthor({ name: `New Server - ${guild.name}`, iconURL: guildLogo })
+            .setThumbnail(guildLogo)
+            .setTimestamp()
+            .setColor("DarkBlue")
+            .setDescription(`\`\`\`Name: ${guild.name}\
                     \nID: ${guild.id}\
                     \nOwner: ${owner.displayName} (${guild.ownerId})\
                     \nMembers: ${guild.memberCount}\`\`\``)
-                    .setFooter({text: `Total - ${client.guilds.cache.size}`})
-            ]
-        })
+            .setFooter({ text: `Total - ${client.guilds.cache.size}` })
+
+        log(client, embed, client.config.guildLog)
     }
 }

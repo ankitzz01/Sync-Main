@@ -1,6 +1,7 @@
 const { Client, CommandInteraction, InteractionType, EmbedBuilder } = require("discord.js")
 const { ApplicationCommand } = InteractionType
 const Reply = require("../../Systems/Reply")
+const { log } = require("../../Functions/log")
 
 module.exports = {
     name: "interactionCreate",
@@ -27,11 +28,8 @@ module.exports = {
 
         command.execute(interaction, client)
 
-        const channel = client.channels.cache.get(client.config.commandLog)
-        if (!channel) return
-
         const guildLogo = interaction.guild.iconURL()
-        if (!interaction.guild.iconURL) guildLogo = 'https://png.pngtree.com/png-clipart/20200701/original/pngtree-red-error-icon-png-image_5418881.jpg'
+        if (!interaction.guild.iconURL) guildLogo = null
 
         const Embed = new EmbedBuilder()
             .setColor("DarkBlue")
@@ -40,6 +38,6 @@ module.exports = {
         \nCommand Used: ${interaction.commandName} (${interaction.commandId})\
         \nUsed by: ${interaction.user.tag} (${interaction.user.id})\`\`\``)
 
-        channel.send({ embeds: [Embed] })
+        log(client, Embed, client.config.commandLog)
     }
 }

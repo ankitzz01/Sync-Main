@@ -1,6 +1,7 @@
 const { Client, Message, EmbedBuilder, PermissionFlagsBits } = require("discord.js")
 const db = require("../../Structures/Schema/musicChannel")
 const convert = require("youtube-timestamp")
+const { log } = require("../../Functions/log")
 
 module.exports = {
     name: "messageCreate",
@@ -12,7 +13,7 @@ module.exports = {
 
     async execute(message, client) {
 
-        const { author, guild, channel, content } = message
+        const { author, guild, channel, content, member} = message
 
         if (!guild || author.bot) return
         const data = await db.findOne({ Guild: guild.id, Channel: channel.id }).catch(err => { })
@@ -24,23 +25,21 @@ module.exports = {
 
         if (!channel.permissionsFor(guild.members.me).has(PermissionFlagsBits.SendMessages)) return
 
-        const AuthorMember = await guild.members.cache.get(author)
-
-        if (!AuthorMember.voice.channel) return channel.send({
+        if (!member.voice.channel) return channel.send({
             embeds: [new EmbedBuilder()
                 .setColor("DarkRed")
                 .setDescription("You need to join a voice channel")
             ]
         })
 
-        if (!AuthorMember.voice.channel.joinable) return channel.send({
+        if (!member.voice.channel.joinable) return channel.send({
             embeds: [new EmbedBuilder()
                 .setColor("DarkRed")
                 .setDescription("I do not have permission to join your voice channel!")
             ]
         })
 
-        if (guild.members.me.voice.channel && AuthorMember.voice.channel.id !== guild.members.me.voice.channelId) return channel.send({
+        if (guild.members.me.voice.channel && member.voice.channel.id !== guild.members.me.voice.channelId) return channel.send({
             embeds: [new EmbedBuilder()
                 .setColor("DarkRed")
                 .setDescription(`I am already playing music in <#${guild.members.me.voice.channelId}>`)
@@ -48,19 +47,18 @@ module.exports = {
         })
 
         const query = content
-
         let res
 
         const player = await client.player.create({
             guild: guild.id,
-            voiceChannel: AuthorMember.voice.channelId,
+            voiceChannel: member.voice.channel.id,
             textChannel: channel.id,
             selfDeafen: true
         })
 
         if (player.state !== "CONNECTED") await player.connect()
 
-        if(message.deletable) await message.delete()
+        if (message.deletable) await message.delete()
 
         try {
 
@@ -115,5 +113,14 @@ module.exports = {
         } catch (error) {
             console.log(error)
         }
+
+        const Embed = new EmbedBuilder()
+            .setColor("DarkBlue")
+            .setAuthor({ name: `${message.guild.name}`, iconURL: message.guild.iconURL() ? message.guild.iconURL() : null })
+            .setDescription(`\`\`\`Song Reqested in: ${message.guild.name}\
+            \nChannel: ${message.channel.name}\
+            \nAuthor: ${message.author.username}\`\`\``)
+
+        log(client, Embed, client.config.commandLog)
     }
 }
