@@ -30,9 +30,8 @@ module.exports = {
         if (await check.differentVoice(interaction)) return
 
         const query = options.getString("query")
-        const Erela = client.player
 
-        const player = await Erela.create({
+        const player = await client.player.create({
             guild: guild.id,
             voiceChannel: member.voice.channel.id,
             textChannel: channel.id,

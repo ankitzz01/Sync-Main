@@ -24,7 +24,7 @@ module.exports = {
 
         if (!channel.permissionsFor(guild.members.me).has(PermissionFlagsBits.SendMessages)) return
 
-        const AuthorMember = guild.members.cache.get(author.id)
+        const AuthorMember = await guild.members.cache.get(author)
 
         if (!AuthorMember.voice.channel) return channel.send({
             embeds: [new EmbedBuilder()
@@ -49,13 +49,11 @@ module.exports = {
 
         const query = content
 
-        const Erela = client.player
-
         let res
 
-        const player = await Erela.create({
+        const player = await client.player.create({
             guild: guild.id,
-            voiceChannel: AuthorMember.voice.channel.id,
+            voiceChannel: AuthorMember.voice.channelId,
             textChannel: channel.id,
             selfDeafen: true
         })
