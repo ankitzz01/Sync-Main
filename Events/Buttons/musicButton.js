@@ -16,12 +16,6 @@ module.exports = {
 
         const { guild } = interaction
 
-        const volup = "<:musicvolumeup:1026518220166922361>"
-        const voldown = "<:musicvolumedown:1026518217801338900>"
-        const pauseresume = "<:musicplaypause:1026518174881038437>"
-        const skip = "<:musicnext:1026518134905110650>"
-        const stop = "<:musicstop:1026518215557394472>"
-
         const Manager = client.player
         const player = Manager.players.get(guild.id)
 
@@ -153,37 +147,37 @@ module.exports = {
                 const disable = new ActionRowBuilder().addComponents(
                     new ButtonBuilder()
                         .setCustomId("vol-down")
-                        .setEmoji(voldown)
+                        .setEmoji(client.config.button.voldown)
                         .setStyle(ButtonStyle.Secondary)
                         .setDisabled(true),
 
                     new ButtonBuilder()
                         .setCustomId("pause-resume-song")
-                        .setEmoji(pauseresume)
+                        .setEmoji(client.config.button.pauseresume)
                         .setStyle(ButtonStyle.Secondary)
                         .setDisabled(true),
 
                     new ButtonBuilder()
                         .setCustomId("stop-song")
-                        .setEmoji(stop)
+                        .setEmoji(client.config.button.stop)
                         .setStyle(ButtonStyle.Secondary)
                         .setDisabled(true),
 
                     new ButtonBuilder()
                         .setCustomId("skip-song")
-                        .setEmoji(skip)
+                        .setEmoji(client.config.button.skip)
                         .setStyle(ButtonStyle.Secondary)
                         .setDisabled(true),
 
                     new ButtonBuilder()
                         .setCustomId("vol-up")
-                        .setEmoji(volup)
+                        .setEmoji(client.config.button.volup)
                         .setStyle(ButtonStyle.Secondary)
                         .setDisabled(true),
 
                 )
 
-                if (interaction.message.editable) interaction.message.edit({components: [disable]})
+                if (interaction.message.editable) interaction.message.edit({ components: [disable] })
 
                 const data = await buttonDB.find({ Guild: player.guild })
 

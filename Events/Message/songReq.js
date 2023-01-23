@@ -13,7 +13,7 @@ module.exports = {
 
     async execute(message, client) {
 
-        const { author, guild, channel, content, member} = message
+        const { author, guild, channel, content, member } = message
 
         if (!guild || author.bot) return
         const data = await db.findOne({ Guild: guild.id, Channel: channel.id }).catch(err => { })
@@ -56,6 +56,13 @@ module.exports = {
             selfDeafen: true
         })
 
+        const Embed = new EmbedBuilder()
+            .setColor("DarkBlue")
+            .setAuthor({ name: `${message.guild.name}`, iconURL: message.guild.iconURL() ? message.guild.iconURL() : null })
+            .setDescription(`\`\`\`Song Reqested in: ${message.guild.name}\
+            \nChannel: ${message.channel.name}\
+            \nAuthor: ${message.author.username}\`\`\``)
+
         if (player.state !== "CONNECTED") await player.connect()
 
         if (message.deletable) await message.delete()
@@ -88,7 +95,7 @@ module.exports = {
                 player.queue.add(res.tracks)
                 if (!player.playing && !player.paused && !player.queue.size) await player.play()
 
-                return channel.send({
+                channel.send({
                     embeds: [new EmbedBuilder()
                         .setColor(client.color)
                         .setAuthor({ name: "ADDED TO QUEUE", iconURL: author.displayAvatarURL(), url: client.config.invite })
@@ -96,31 +103,28 @@ module.exports = {
                     ]
                 })
 
+                return log(client, Embed, client.config.commandLog)
+
+
             } else if (["TRACK_LOADED", "SEARCH_RESULT"].includes(res.loadType)) {
 
                 player.queue.add(res.tracks[0])
                 if (!player.playing && !player.paused && !player.queue.size) await player.play()
 
-                return channel.send({
+                channel.send({
                     embeds: [new EmbedBuilder()
                         .setColor(client.color)
                         .setAuthor({ name: "ADDED TO QUEUE", iconURL: author.displayAvatarURL(), url: client.config.invite })
                         .setDescription(`[\`\`${res.tracks[0].title}\`\`](${link})\n\n**Added by: ${author} | Duration: **\`\`❯ ${convert(res.tracks[0].duration)}\`\``)
                     ]
                 })
+
+                return log(client, Embed, client.config.commandLog)
+
             }
 
         } catch (error) {
             console.log(error)
         }
-
-        const Embed = new EmbedBuilder()
-            .setColor("DarkBlue")
-            .setAuthor({ name: `${message.guild.name}`, iconURL: message.guild.iconURL() ? message.guild.iconURL() : null })
-            .setDescription(`\`\`\`Song Reqested in: ${message.guild.name}\
-            \nChannel: ${message.channel.name}\
-            \nAuthor: ${message.author.username}\`\`\``)
-
-        log(client, Embed, client.config.commandLog)
     }
 }
