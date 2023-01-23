@@ -12,9 +12,6 @@ module.exports = {
      */
     async execute(player, track, type, client) {
 
-        const channel = client.channels.cache.get(player.textChannel)
-        if (!channel) return
-
         const songtime = track.duration
 
         let data = await db.findOne({ User: track.requester.id }).catch(err => { })
@@ -33,6 +30,10 @@ module.exports = {
 
             await data.save()
         }
+
+        const Channel = client.channels.cache.get(player.textChannel)
+        if (!Channel) return
+        if (Channel.type !== ChannelType.GuildText) return
 
         const settings = new ActionRowBuilder().addComponents(
             new ButtonBuilder()
@@ -66,9 +67,6 @@ module.exports = {
                 .setDisabled(true),
 
         )
-
-        const Channel = client.channels.cache.get(player.textChannel)
-        if (!Channel) return
 
         const bdata = await buttonDB.find({ Guild: player.guild, Channel: player.textChannel })
 

@@ -57,6 +57,9 @@ module.exports = {
       await data[i].delete()
     }
 
+    if (Channel.type !== ChannelType.GuildText) return
+    if (!Channel.guild.members.me.permissionsIn(Channel).has(PermissionFlagsBits.SendMessages)) return
+
     const leaveEmbed = new EmbedBuilder()
       .setColor("Blue")
       .setAuthor({ name: "Queue has ended! No more music to play...", iconURL: client.user.displayAvatarURL() })
@@ -74,9 +77,6 @@ module.exports = {
         .setStyle(ButtonStyle.Link),
 
     )
-
-    if (Channel.type !== ChannelType.GuildText) return
-    if (!Channel.guild.members.me.permissionsIn(Channel).has(PermissionFlagsBits.SendMessages)) return
 
     await Channel.send({
       embeds: [leaveEmbed],

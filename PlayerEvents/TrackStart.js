@@ -2,6 +2,7 @@ const { Client, ChannelType, EmbedBuilder, ActionRowBuilder, ButtonBuilder, Butt
 const { Player } = require("erela.js")
 const msToTimestamp = require("youtube-timestamp")
 const buttonDB = require("../Structures/Schema/buttonRemove")
+const wait = require("node:timers/promises").setTimeout
 
 module.exports = {
     name: "trackStart",
@@ -15,7 +16,7 @@ module.exports = {
         const Channel = client.channels.cache.get(player.textChannel)
         if (!Channel) return
         if (Channel.type !== ChannelType.GuildText) return
-        if (!Channel.permissionsFor(Channel.guild.members.me).has(PermissionFlagsBits.SendMessages)) return
+        if (!Channel.guild.members.me.permissionsIn(Channel).has(PermissionFlagsBits.SendMessages)) return
 
         const songtime = track.duration
 
@@ -68,6 +69,7 @@ module.exports = {
             Channel: player.textChannel,
             MessageID: msg.id
         })
+        await wait(2000)
 
         await buttonData.save()
 
