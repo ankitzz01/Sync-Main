@@ -48,7 +48,7 @@ client.player = new Manager({
 
 client.on("raw", (d) => client.player.updateVoiceState(d))
 
-const Handlers = ["Events", "Commands", "Errors", "Player"]
+const Handlers = ["event", "command", "error", "playerEvent"]
 
 Handlers.forEach(handler => {
 
