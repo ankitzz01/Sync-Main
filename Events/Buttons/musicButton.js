@@ -2,6 +2,7 @@ const { ButtonInteraction, Client, EmbedBuilder, ActionRowBuilder, ButtonBuilder
 const check = require("../../Functions/check")
 const wait = require("node:timers/promises").setTimeout
 const buttonDB = require("../../Structures/Schema/buttonRemove")
+const emoji = require("../../emojis.json")
 
 module.exports = {
     name: "interactionCreate",
@@ -147,31 +148,31 @@ module.exports = {
                 const disable = new ActionRowBuilder().addComponents(
                     new ButtonBuilder()
                         .setCustomId("vol-down")
-                        .setEmoji(client.config.button.voldown)
+                        .setEmoji(emoji.button.voldown)
                         .setStyle(ButtonStyle.Secondary)
                         .setDisabled(true),
 
                     new ButtonBuilder()
                         .setCustomId("pause-resume-song")
-                        .setEmoji(client.config.button.pauseresume)
+                        .setEmoji(emoji.button.pauseresume)
                         .setStyle(ButtonStyle.Secondary)
                         .setDisabled(true),
 
                     new ButtonBuilder()
                         .setCustomId("stop-song")
-                        .setEmoji(client.config.button.stop)
+                        .setEmoji(emoji.button.stop)
                         .setStyle(ButtonStyle.Secondary)
                         .setDisabled(true),
 
                     new ButtonBuilder()
                         .setCustomId("skip-song")
-                        .setEmoji(client.config.button.skip)
+                        .setEmoji(emoji.button.skip)
                         .setStyle(ButtonStyle.Secondary)
                         .setDisabled(true),
 
                     new ButtonBuilder()
                         .setCustomId("vol-up")
-                        .setEmoji(client.config.button.volup)
+                        .setEmoji(emoji.button.volup)
                         .setStyle(ButtonStyle.Secondary)
                         .setDisabled(true),
 
