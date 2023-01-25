@@ -3,6 +3,7 @@ const { Player } = require("erela.js")
 const msToTimestamp = require("youtube-timestamp")
 const buttonDB = require("../Structures/Schema/buttonRemove")
 const wait = require("node:timers/promises").setTimeout
+const emoji = require("../emojis.json")
 
 module.exports = {
     name: "trackStart",
@@ -23,27 +24,27 @@ module.exports = {
         const settings = new ActionRowBuilder().addComponents(
             new ButtonBuilder()
                 .setCustomId("vol-down")
-                .setEmoji(client.config.button.voldown)
+                .setEmoji(emoji.button.voldown)
                 .setStyle(ButtonStyle.Secondary),
 
             new ButtonBuilder()
                 .setCustomId("pause-resume-song")
-                .setEmoji(client.config.button.pauseresume)
+                .setEmoji(emoji.button.pauseresume)
                 .setStyle(ButtonStyle.Secondary),
 
             new ButtonBuilder()
                 .setCustomId("stop-song")
-                .setEmoji(client.config.button.stop)
+                .setEmoji(emoji.button.stop)
                 .setStyle(ButtonStyle.Secondary),
 
             new ButtonBuilder()
                 .setCustomId("skip-song")
-                .setEmoji(client.config.button.skip)
+                .setEmoji(emoji.button.skip)
                 .setStyle(ButtonStyle.Secondary),
 
             new ButtonBuilder()
                 .setCustomId("vol-up")
-                .setEmoji(client.config.button.volup)
+                .setEmoji(emoji.button.volup)
                 .setStyle(ButtonStyle.Secondary),
 
         )
