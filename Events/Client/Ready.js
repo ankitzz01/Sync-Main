@@ -11,16 +11,34 @@ module.exports = {
 
         const mongoURL = client.config.mongo
 
-        const { user } = client
+        const { user, guilds, users } = client
 
         client.player.init(user.id)
 
         console.log(`${user.tag} is now online!`)
 
-        user.setActivity({
-            name: `Music`,
-            type: ActivityType.Listening,
-        })
+        const activity = [
+            {
+                name: `${guilds.cache.size} guilds`,
+                type: ActivityType.Watching,
+            },
+            {
+                name: `${users.cache.size} users`,
+                type: ActivityType.Watching,
+            }
+        ]
+
+        setInterval(() => {
+
+            let random = Math.random()
+
+            user.setActivity(
+
+                activity[random]
+
+            )
+
+        }, 1000 * 60 * 10)
 
         mongoose.set('strictQuery', true)
 
