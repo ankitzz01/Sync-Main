@@ -1,4 +1,4 @@
-const { Client, Message, EmbedBuilder, PermissionFlagsBits } = require("discord.js")
+const { Client, Message, EmbedBuilder, PermissionFlagsBits, ChannelType } = require("discord.js")
 const db = require("../../Structures/Schema/musicChannel")
 const convert = require("youtube-timestamp")
 const { log } = require("../../Functions/log")
@@ -36,6 +36,13 @@ module.exports = {
             embeds: [new EmbedBuilder()
                 .setColor("DarkRed")
                 .setDescription("I do not have permission to join your voice channel!")
+            ]
+        })
+
+        if (member.voice.channel.type == ChannelType.GuildStageVoice) return channel.send({
+            embeds: [new EmbedBuilder()
+                .setColor("DarkRed")
+                .setDescription("Playing on Stage isn't supported yet")
             ]
         })
 

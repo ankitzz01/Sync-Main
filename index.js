@@ -2,7 +2,6 @@ const { Client, Partials, Collection } = require("discord.js")
 const { promisify } = require("util")
 const { glob } = require("glob")
 const PG = promisify(glob)
-const Ascii = require("ascii-table")
 const Spotify = require("erela.js-spotify")
 const { AppleMusic } = require("better-erela.js-apple")
 const Deezer = require("erela.js-deezer")
@@ -52,7 +51,7 @@ const Handlers = ["event", "command", "error", "playerEvent"]
 
 Handlers.forEach(handler => {
 
-    require(`./Structures/Handlers/${handler}`)(client, PG, Ascii)
+    require(`./Structures/Handlers/${handler}`)(client, PG)
 
 })
 

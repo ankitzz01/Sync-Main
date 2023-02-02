@@ -1,5 +1,6 @@
 const { Client, ActivityType } = require("discord.js")
 const mongoose = require("mongoose")
+const c = require("colors")
 
 module.exports = {
     name: "ready",
@@ -15,30 +16,14 @@ module.exports = {
 
         client.player.init(user.id)
 
-        console.log(`${user.tag} is now online!`)
+        console.log(`${user.tag} is now online!`.green)
 
-        const activity = [
-            {
-                name: `${guilds.cache.size} guilds`,
-                type: ActivityType.Watching,
-            },
-            {
-                name: `${users.cache.size} users`,
-                type: ActivityType.Watching,
-            }
-        ]
+        user.setActivity({
 
-        setInterval(() => {
+            name: `Music`,
+            type: ActivityType.Playing,
 
-            let random = Math.random()
-
-            user.setActivity(
-
-                activity[random]
-
-            )
-
-        }, 1000 * 60 * 10)
+        })
 
         mongoose.set('strictQuery', true)
 
@@ -49,7 +34,7 @@ module.exports = {
             useUnifiedTopology: true
         }).then(() => {
 
-            console.log("Connected to the database")
+            console.log("Connected to the database".blue)
         }).catch(err => console.log(err))
     }
 }

@@ -1,14 +1,13 @@
-const { Perms } = require("../Validation/Permissions")
 const { Client } = require("discord.js")
+const c = require("colors")
 
 /**
  * @param { Client } client
  */
-module.exports = async (client, PG, Ascii) => {
-
-    const Table = new Ascii("Commands Loaded")
+module.exports = async (client, PG) => {
 
     CommandsArray = []
+    let loaded = 0
 
     const CommandFiles = await PG(`${process.cwd()}/Commands/*/*.js`)
 
@@ -16,22 +15,16 @@ module.exports = async (client, PG, Ascii) => {
 
         const command = require(file)
 
-        if (!command.name) return Table.addRow(file.split("/")[7], "🔸 FAILED", "Missing a name")
-
-        if (!command.context && !command.description) return Table.addRow(command.name, "🔸 FAILED", "Missing a description")
-
-        if (command.UserPerms)
-            if (command.UserPerms.every(perms => Perms.includes(perms))) command.default_member_permissions = false
-            else return Table.addRow(command.name, "🔸 FAILED", "User Permission is invalid")
+        if (command.UserPerms) command.default_member_permissions = false
 
         client.commands.set(command.name, command)
         CommandsArray.push(command)
 
-        await Table.addRow(command.name, "✅ Loaded")
+        loaded += 1
 
     })
 
-    console.log(Table.toString())
+    console.log(`Loaded ${loaded} commands`.green)
 
     client.on("ready", () => {
 

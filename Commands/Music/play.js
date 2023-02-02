@@ -28,6 +28,7 @@ module.exports = {
         if (await check.memberVoice(interaction)) return
         if (await check.joinable(interaction)) return
         if (await check.differentVoice(interaction)) return
+        if (await check.stageCheck(interaction)) return
 
         const query = options.getString("query")
 

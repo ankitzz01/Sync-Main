@@ -1,12 +1,12 @@
 const { Client } = require("discord.js")
-const { Events } = require("../Validation/EventNames")
+const c = require("colors")
 
 /**
  * @param {Client} client
  */
-module.exports = async (client, PG, Ascii) => {
+module.exports = async (client, PG) => {
 
-    const Table = new Ascii("Events Loaded")
+    let loaded = 0
 
     const EventFiles = await PG(`${process.cwd()}/Events/*/*.js`)
 
@@ -14,22 +14,13 @@ module.exports = async (client, PG, Ascii) => {
 
         const event = require(file)
 
-        if (!Events.includes(event.name) || !event.name) {
-
-            const L = file.split("/")
-
-            await Table.addRow(`${event.name || "MISSING"}`, `⛔ Event Name is either invalid or missing: ${L[6] + `/` + L[7]}`)
-            return
-
-        }
-
         if (event.once) client.once(event.name, (...args) => event.execute(...args, client))
         else client.on(event.name, (...args) => event.execute(...args, client))
 
-        await Table.addRow(event.name, "✅ Loaded")
+        loaded += 1
 
     })
 
-    console.log(Table.toString())
+    console.log(`Loaded ${loaded} discord events`.green)
 
 }

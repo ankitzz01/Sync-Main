@@ -10,7 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ascii-table": "^0.0.9",
     "better-erela.js-apple": "^1.0.5",
     "colors": "^1.4.0",
     "discord-arts": "^0.3.6",

@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require("discord.js")
+const { EmbedBuilder, ChannelType } = require("discord.js")
 
 async function joinable(interaction) {
 
@@ -67,4 +67,19 @@ async function botVC(interaction) {
 
 }
 
-module.exports = { joinable, memberVoice, differentVoice, botVC }
+async function stageCheck(interaction) {
+
+    const { guild, member } = interaction
+
+    if (member.voice.channel.type == ChannelType.GuildStageVoice) return interaction.reply({
+        embeds: [new EmbedBuilder()
+            .setColor("DarkRed")
+            .setDescription("Playing on Stage isn't supported yet")
+        ], ephemeral: true
+    })
+
+    return false
+
+}
+
+module.exports = { joinable, memberVoice, differentVoice, botVC, stageCheck }
