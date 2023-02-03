@@ -1,10 +1,11 @@
-const { ChatInputCommandInteraction, EmbedBuilder, ActionRowBuilder, Client, StringSelectMenuBuilder } = require("discord.js")
+const { ChatInputCommandInteraction, EmbedBuilder, ActionRowBuilder, Client, StringSelectMenuBuilder, SlashCommandBuilder } = require("discord.js")
 const fs = require("fs")
 const emojis = require("../../emojis.json")
 
 module.exports = {
-  name: "help",
-  description: "Send the command list",
+  data: new SlashCommandBuilder()
+    .setName("help")
+    .setDescription("Get the command list"),
   category: "General",
 
   /**
@@ -20,11 +21,11 @@ module.exports = {
     const Promo = `\n\n**[Invite Me](${client.config.invite})  :  [Support Server](${client.config.support})  :  [Vote Me](${client.config.topgg})**`
 
     var embedMsg = new EmbedBuilder()
-        .setAuthor({ name: `${client.user.username}`, iconURL: client.user.displayAvatarURL() })
-        .setColor(client.color)
-        .setDescription(`${Intro}${Features}${Last}${Promo}`)
-        .setFooter({ text: `${client.user.username}`, iconURL: client.user.displayAvatarURL() })
-        .setThumbnail(client.user.displayAvatarURL())
+      .setAuthor({ name: `${client.user.username}`, iconURL: client.user.displayAvatarURL() })
+      .setColor(client.color)
+      .setDescription(`${Intro}${Features}${Last}${Promo}`)
+      .setFooter({ text: `${client.user.username}`, iconURL: client.user.displayAvatarURL() })
+      .setThumbnail(client.user.displayAvatarURL())
 
     let helpMenu = new ActionRowBuilder().addComponents(
 

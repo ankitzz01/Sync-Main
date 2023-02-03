@@ -1,9 +1,10 @@
-const { Client, ChatInputCommandInteraction } = require("discord.js")
+const { Client, ChatInputCommandInteraction, SlashCommandBuilder } = require("discord.js")
 const Reply = require("../../Systems/Reply")
 
 module.exports = {
-    name: "ping",
-    description: "Shows my Ping",
+    data: new SlashCommandBuilder()
+        .setName("ping")
+        .setDescription("Shows my ping"),
     category: "General",
 
     /**

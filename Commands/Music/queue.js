@@ -1,10 +1,11 @@
-const { EmbedBuilder, Client } = require("discord.js")
+const { EmbedBuilder, Client, SlashCommandBuilder } = require("discord.js")
 const check = require("../../Functions/check")
 
 module.exports = {
 
-    name: "queue",
-    description: "View the queue",
+    data: new SlashCommandBuilder()
+        .setName('queue')
+        .setDescription('View the queue'),
     category: "Music",
 
     /**

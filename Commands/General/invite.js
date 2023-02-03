@@ -1,8 +1,9 @@
-const { Client, EmbedBuilder, ChatInputCommandInteraction, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
+const { Client, EmbedBuilder, ChatInputCommandInteraction, ActionRowBuilder, ButtonBuilder, ButtonStyle, SlashCommandBuilder } = require("discord.js");
 
 module.exports = {
-    name: "invite",
-    description: "Invite me to your Server",
+    data: new SlashCommandBuilder()
+        .setName("invite")
+        .setDescription("Invite me to your Server"),
     category: "General",
 
     /**

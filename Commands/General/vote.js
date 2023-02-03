@@ -1,7 +1,8 @@
-const { Client, ChatInputCommandInteraction, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } = require("discord.js")
+const { Client, ChatInputCommandInteraction, EmbedBuilder, ButtonBuilder, SlashCommandBuilder, ButtonStyle, ActionRowBuilder } = require("discord.js")
 module.exports = {
-    name: "vote",
-    description: "Vote me on top.gg",
+    data: new SlashCommandBuilder()
+        .setName("vote")
+        .setDescription("Vote me on top.gg"),
     category: "General",
 
     /**

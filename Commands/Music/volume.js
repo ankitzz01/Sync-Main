@@ -1,19 +1,17 @@
-const { Client, ChatInputCommandInteraction, ApplicationCommandOptionType, EmbedBuilder } = require("discord.js")
+const { Client, ChatInputCommandInteraction, ApplicationCommandOptionType, EmbedBuilder, SlashCommandBuilder } = require("discord.js")
 const check = require("../../Functions/check")
 
 module.exports = {
-    name: "volume",
-    description: "Change the volume of the player",
-    options: [
-        {
-            name: "volume",
-            description: "Enter the volume (Ex: 80)",
-            type: ApplicationCommandOptionType.Integer,
-            minValue: 1,
-            maxValue: 100,
-            required: true
-        }
-    ],
+    data: new SlashCommandBuilder()
+        .setName('volume')
+        .setDescription('Change the volume of the player')
+        .addIntegerOption(opt => {
+            opt.setName('volume')
+                .setDescription('Enter the volume to set (Ex: 80)')
+                .setRequired(true)
+                .setMinValue(1)
+                .setMaxValue(100)
+        }),
     category: "Music",
     /**
      * @param {Client} client

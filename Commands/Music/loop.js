@@ -1,32 +1,28 @@
-const { EmbedBuilder, Client, ChatInputCommandInteraction } = require("discord.js")
+const { EmbedBuilder, Client, ChatInputCommandInteraction, SlashCommandBuilder } = require("discord.js")
 const check = require("../../Functions/check")
 
 module.exports = {
-    name: 'loop',
-    description: 'Loop the current song or queue',
-    category: "Music",
-    options: [
-        {
-            name: "mode",
-            description: "Configure the loop settings",
-            type: 3,
-            required: true,
-            choices: [
-                {
+    data: new SlashCommandBuilder()
+        .setName('loop')
+        .setDescription('Loop the current song or queue')
+        .addStringOption(opt => {
+            opt.setName('mode')
+                .setDescription('Configure the loop settings')
+                .setRequired(true)
+                .addChoices({
                     name: "Track",
                     value: "song"
                 },
-                {
-                    name: "Queue",
-                    value: "playlist"
-                },
-                {
-                    name: "Disable",
-                    value: "off"
-                },
-            ]
-        }
-    ],
+                    {
+                        name: "Queue",
+                        value: "playlist"
+                    },
+                    {
+                        name: "Disable",
+                        value: "off"
+                    })
+        }),
+    category: "Music",
     /**
      * @param {Client} client
      * @param {ChatInputCommandInteraction} interaction

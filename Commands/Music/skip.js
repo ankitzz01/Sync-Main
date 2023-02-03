@@ -1,11 +1,12 @@
-const { Client, ChatInputCommandInteraction, EmbedBuilder } = require("discord.js")
+const { Client, ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } = require("discord.js")
 const check = require("../../Functions/check")
 
 module.exports = {
-    name: "skip",
-    description: "Skip the current track",
+    data: new SlashCommandBuilder()
+        .setName('skip')
+        .setDescription('Skip the current track'),
     category: "Music",
-    
+
     /**
      * @param {Client} client
      * @param {ChatInputCommandInteraction} interaction

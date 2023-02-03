@@ -1,10 +1,11 @@
-const { EmbedBuilder, Client, ChatInputCommandInteraction } = require("discord.js")
+const { EmbedBuilder, Client, ChatInputCommandInteraction, SlashCommandBuilder } = require("discord.js")
 const convert = require("youtube-timestamp")
 const check = require("../../Functions/check")
 
 module.exports = {
-    name: "grab",
-    description: "Sends the current playing song to your DM",
+    data: new SlashCommandBuilder()
+        .setName('grab')
+        .setDescription('Sends the current playing song to your DM'),
     category: "Music",
 
     /**
@@ -53,11 +54,13 @@ module.exports = {
             .setFooter({ text: `${interaction.guild.name}`, iconURL: interaction.guild.iconURL() })
             .setTimestamp()
 
-        await interaction.member.send({ embeds: [Embed] }).catch(err => {
+        try {
+            await interaction.member.send({ embeds: [Embed] })
+        } catch (error) {
 
             return interaction.editReply({ embeds: [new EmbedBuilder().setColor("DarkRed").setDescription("Unable to send the song. Check if you have your DM open")] })
 
-        })
+        }
 
         return interaction.editReply({ embeds: [new EmbedBuilder().setColor(client.color).setDescription("The Song has been sent in your DM!")] })
     }

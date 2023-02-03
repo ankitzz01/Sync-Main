@@ -1,12 +1,13 @@
-const { Client, ChatInputCommandInteraction, EmbedBuilder, AttachmentBuilder } = require("discord.js")
+const { Client, ChatInputCommandInteraction, EmbedBuilder, AttachmentBuilder, SlashCommandBuilder } = require("discord.js")
 const db = require("../../Schema/playedDB")
 const { profileImage } = require("discord-arts")
 
 const pms = require("pretty-ms")
 
 module.exports = {
-    name: "profile",
-    description: "Check your Sync profile",
+    data: new SlashCommandBuilder()
+        .setName("profile")
+        .setDescription("Check your Sync profile"),
     category: "Others",
 
     /**
@@ -24,7 +25,7 @@ module.exports = {
         const data = await db.findOne({ User: user.id })
 
         if (!data) { songplayed = 0, timeListened = "0" }
-        else { songplayed = data.Played, timeListened = pms(data.Time, {verbose: true}) }
+        else { songplayed = data.Played, timeListened = pms(data.Time, { verbose: true }) }
 
         const buffer = await profileImage(user.id, {
             customTag: 'Keep Syncing',

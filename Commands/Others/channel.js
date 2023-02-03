@@ -1,36 +1,12 @@
-const { Client, ChatInputCommandInteraction, ApplicationCommandOptionType, EmbedBuilder, ChannelType } = require("discord.js")
+const { Client, ChatInputCommandInteraction, ApplicationCommandOptionType, SlashCommandBuilder, EmbedBuilder, ChannelType, PermissionFlagsBits } = require("discord.js")
 const DB = require("../../Schema/musicChannel")
 
 module.exports = {
-    name: "channel",
-    description: "Setup the music requesting channel",
     category: "Others",
-    UserPerms: ["ManageGuild"],
-    options: [
-        {
-            name: "options",
-            description: "Enable or disable the channel",
-            type: ApplicationCommandOptionType.String,
-            required: true,
-            choices: [
-                {
-                    name: "Enable",
-                    value: "yes"
-                },
-                {
-                    name: "Disable",
-                    value: "no"
-                }
-            ]
-        },
-        {
-            name: "channel",
-            description: "Select the channel",
-            type: ApplicationCommandOptionType.Channel,
-            channelTypes: [ChannelType.GuildText],
-            required: false
-        }
-    ],
+    data: new SlashCommandBuilder()
+        .setName("channel")
+        .setDescription("Setup the sync music requesting channel")
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild),
 
     /**
      * @param {Client} client

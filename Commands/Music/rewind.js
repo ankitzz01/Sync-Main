@@ -1,17 +1,16 @@
-const { EmbedBuilder, Client, ChatInputCommandInteraction, ApplicationCommandOptionType } = require("discord.js")
+const { EmbedBuilder, Client, ChatInputCommandInteraction, ApplicationCommandOptionType, SlashCommandBuilder } = require("discord.js")
 const check = require("../../Functions/check")
 
 module.exports = {
-    name: "rewind",
-    description: "Rewind a certain amount of seconds backwards",
-    options: [
-        {
-            name: "seconds",
-            description: "Enter the amount of seconds to rewind",
-            type: ApplicationCommandOptionType.Integer,
-            required: true
-        }
-    ],
+    data: new SlashCommandBuilder()
+        .setName('rewind')
+        .setDescription('Rewind a certain amount of seconds backwards')
+        .addIntegerOption(opt => {
+            opt.setName('seconds')
+            .setDescription('Enter the amount of seconds to rewind')
+            .setRequired(true)
+            .setMinValue(1).setMaxValue(60)
+        }),
 
     /**
      * @param {ChatInputCommandInteraction} interaction 
@@ -35,7 +34,7 @@ module.exports = {
             ], ephemeral: true
         })
 
-        if(!player.queue.current) return interaction.reply({
+        if (!player.queue.current) return interaction.reply({
             embeds: [new EmbedBuilder()
                 .setColor("DarkRed")
                 .setDescription("No song was found playing")
@@ -60,7 +59,7 @@ module.exports = {
         const Embed = new EmbedBuilder()
             .setColor(client.color)
             .setDescription(`⏪ | Rewinded **${rewindAmount}** seconds backward`)
-            
+
         return interaction.editReply({ embeds: [Embed] })
     },
 }

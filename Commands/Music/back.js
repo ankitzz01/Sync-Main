@@ -1,10 +1,11 @@
-const { EmbedBuilder, Client, ChatInputCommandInteraction } = require("discord.js");
+const { EmbedBuilder, Client, ChatInputCommandInteraction, SlashCommandBuilder } = require("discord.js");
 const check = require("../../Functions/check");
 
 module.exports = {
 
-    name: "back",
-    description: "Plays the previous song",
+    data: new SlashCommandBuilder()
+        .setName('back')
+        .setDescription('Plays the previous song'),
     category: "Music",
 
     /**

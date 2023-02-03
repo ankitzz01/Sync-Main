@@ -1,10 +1,11 @@
-const { EmbedBuilder } = require("discord.js")
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js")
 const check = require("../../Functions/check")
 
 module.exports = {
 
-    name: "replay",
-    description: "Replay the current song",
+    data: new SlashCommandBuilder()
+        .setName('replay')
+        .setDescription('Replay the current song'),
     category: "Music",
 
     async execute(interaction, client) {

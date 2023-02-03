@@ -1,11 +1,12 @@
-const { Client, ChatInputCommandInteraction, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js")
+const { Client, ChatInputCommandInteraction, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, SlashCommandBuilder } = require("discord.js")
 const check = require("../../Functions/check")
 const buttonDB = require("../../Schema/buttonRemove")
 const emoji = require("../../emojis.json")
 
 module.exports = {
-    name: "stop",
-    description: "Stop the current track",
+    data: new SlashCommandBuilder()
+        .setName('stop')
+        .setDescription('Stop the current track'),
     category: "Music",
     /**
      * @param {Client} client

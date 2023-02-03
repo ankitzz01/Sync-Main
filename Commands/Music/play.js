@@ -1,20 +1,18 @@
-const { Client, ChatInputCommandInteraction, ApplicationCommandOptionType, EmbedBuilder } = require("discord.js")
+const { Client, ChatInputCommandInteraction, ApplicationCommandOptionType, SlashCommandBuilder } = require("discord.js")
 const check = require("../../Functions/check")
 const { playSong } = require("../../Functions/playSong")
 
 module.exports = {
-    name: "play",
-    description: "Play a song",
+    data: new SlashCommandBuilder()
+        .setName('play')
+        .setDescription('Play a song')
+        .addStringOption(opt => {
+            opt.setName('query')
+                .setDescription('Enter a song name to play')
+                .setRequired(true)
+                .setAutocomplete(true)
+        }),
     category: "Music",
-    options: [
-        {
-            name: "query",
-            description: "Provide the song name or URL",
-            type: ApplicationCommandOptionType.String,
-            required: true,
-            autocomplete: true
-        }
-    ],
     /**
      * @param {Client} client
      * @param {ChatInputCommandInteraction} interaction
@@ -41,6 +39,6 @@ module.exports = {
         await interaction.deferReply()
 
         playSong(interaction, client, player, query, user)
-        
+
     }
 }

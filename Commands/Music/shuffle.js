@@ -1,9 +1,10 @@
-const { EmbedBuilder, Client, ChatInputCommandInteraction } = require("discord.js")
+const { EmbedBuilder, Client, ChatInputCommandInteraction, SlashCommandBuilder } = require("discord.js")
 const check = require("../../Functions/check")
 
 module.exports = {
-    name: "shuffle",
-    description: "Shuffle the queue",
+    data: new SlashCommandBuilder()
+        .setName('shuffle')
+        .setDescription('Shuffle the queue'),
     category: "Music",
 
     /**
@@ -33,7 +34,7 @@ module.exports = {
                 .setDescription("⚠ | There is nothing in the queue")
             ], ephemeral: true
         })
-        
+
         await interaction.deferReply()
 
         player.queue.shuffle()

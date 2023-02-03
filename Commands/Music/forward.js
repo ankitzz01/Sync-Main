@@ -1,19 +1,18 @@
-const { EmbedBuilder, ApplicationCommandOptionType, ChatInputCommandInteraction } = require("discord.js")
+const { EmbedBuilder, ApplicationCommandOptionType, ChatInputCommandInteraction, SlashCommandBuilder } = require("discord.js")
 const check = require("../../Functions/check")
 
 module.exports = {
 
-    name: 'forward',
-    description: 'Skip a certain amount of seconds forward',
+    data: new SlashCommandBuilder()
+        .setName('forward')
+        .setDescription('Skip a certain amount of seconds forward')
+        .addIntegerOption(opt => {
+            opt.setName('seconds')
+            .setDescription('Enter the amount of seconds to seek forward')
+            .setRequired(true)
+            .setMinValue(1).setMaxValue(60)
+        }),
     category: "Music",
-    options: [
-        {
-            name: "seconds",
-            description: "Enter the amount of seconds to seek",
-            type: ApplicationCommandOptionType.Integer,
-            required: true
-        }
-    ],
     /**
      * @param {ChatInputCommandInteraction} interaction 
      * @param {Client} client 
@@ -36,7 +35,7 @@ module.exports = {
             ], ephemeral: true
         })
 
-        if(!player.playing || !player.queue.current) return interaction.reply({
+        if (!player.playing || !player.queue.current) return interaction.reply({
             embeds: [new EmbedBuilder()
                 .setColor("DarkRed")
                 .setDescription("No song was found playing")

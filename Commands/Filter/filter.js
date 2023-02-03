@@ -3,68 +3,42 @@ const check = require("../../Functions/check")
 
 module.exports = {
     data: new SlashCommandBuilder()
-    .setName("filter")
-    .setDescription("filter"),
-    name: "filter",
-    description: "Filter",
+        .setName("filter")
+        .setDescription("filter")
+        .addSubcommand(sub =>
+            sub.setName('nightcore')
+                .setDescription('Applies a nightcore filter'))
+        .addSubcommand(sub =>
+            sub.setName('vaporwave')
+                .setDescription('Applies a vaporwave filter'))
+        .addSubcommand(sub =>
+            sub.setName('bassboost')
+                .setDescription('Applies a bassboost filter'))
+        .addSubcommand(sub =>
+            sub.setName('pop')
+                .setDescription('Applies a pop filter'))
+        .addSubcommand(sub =>
+            sub.setName('soft')
+                .setDescription('Applies a soft filter'))
+        .addSubcommand(sub =>
+            sub.setName('treblebass')
+                .setDescription('Applies a treblebass filter'))
+        .addSubcommand(sub =>
+            sub.setName('8d')
+                .setDescription('Applies a 8D filter'))
+        .addSubcommand(sub =>
+            sub.setName('karaoke')
+                .setDescription('Applies a karaoke filter'))
+        .addSubcommand(sub =>
+            sub.setName('vibrato')
+                .setDescription('Applies a vibrato filter'))
+        .addSubcommand(sub =>
+            sub.setName('tremolo')
+                .setDescription('Applies a tremolo filter'))
+        .addSubcommand(sub =>
+            sub.setName('clear')
+                .setDescription('Clears the applied filter')),
     category: "Filter",
-    options: [
-        {
-            name: "nightcore",
-            description: "Applies a nightcore filter",
-            type: 1,
-        },
-        {
-            name: "vaporwave",
-            description: "Applies a vaporwave filter",
-            type: 1,
-        },
-        {
-            name: "bassboost",
-            description: "Applies a bassboost filter",
-            type: 1,
-        },
-        {
-            name: "pop",
-            description: "Applies a pop filter",
-            type: 1,
-        },
-        {
-            name: "soft",
-            description: "Applies a soft filter",
-            type: 1,
-        },
-        {
-            name: "treblebass",
-            description: "Applies a treblebass filter",
-            type: 1,
-        },
-        {
-            name: "8d",
-            description: "Applies a 8D filter",
-            type: 1,
-        },
-        {
-            name: "karaoke",
-            description: "Applies a karaoke filter",
-            type: 1,
-        },
-        {
-            name: "vibrato",
-            description: "Applies a vibrato filter",
-            type: 1,
-        },
-        {
-            name: "tremolo",
-            description: "Applies a tremolo filter",
-            type: 1,
-        },
-        {
-            name: "clear",
-            description: "Clears the applied filter",
-            type: 1,
-        },
-    ],
 
     /**
      * @param {Client} client
@@ -99,7 +73,7 @@ module.exports = {
         await interaction.deferReply()
 
         const Embed = new EmbedBuilder()
-        .setColor(client.color)
+            .setColor(client.color)
 
         switch (Sub) {
 
@@ -107,7 +81,7 @@ module.exports = {
 
                 player.nightcore = true
 
-                interaction.editReply({embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)]})
+                interaction.editReply({ embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)] })
 
             }
                 break;
@@ -115,7 +89,7 @@ module.exports = {
 
                 player.vaporwave = true
 
-                interaction.editReply({embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)]})
+                interaction.editReply({ embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)] })
 
             }
                 break;
@@ -123,7 +97,7 @@ module.exports = {
 
                 player.bassboost = true
 
-                interaction.editReply({embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)]})
+                interaction.editReply({ embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)] })
 
             }
                 break;
@@ -131,7 +105,7 @@ module.exports = {
 
                 player.pop = true
 
-                interaction.editReply({embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)]})
+                interaction.editReply({ embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)] })
 
             }
                 break;
@@ -139,7 +113,7 @@ module.exports = {
 
                 player.soft = true
 
-                interaction.editReply({embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)]})
+                interaction.editReply({ embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)] })
 
             }
                 break;
@@ -147,7 +121,7 @@ module.exports = {
 
                 player.treblebass = true
 
-                interaction.editReply({embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)]})
+                interaction.editReply({ embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)] })
 
             }
                 break;
@@ -155,7 +129,7 @@ module.exports = {
 
                 player.eightD = true
 
-                interaction.editReply({embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)]})
+                interaction.editReply({ embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)] })
 
             }
                 break;
@@ -163,7 +137,7 @@ module.exports = {
 
                 player.karaoke = true
 
-                interaction.editReply({embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)]})
+                interaction.editReply({ embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)] })
 
             }
                 break;
@@ -171,7 +145,7 @@ module.exports = {
 
                 player.vibrato = true
 
-                interaction.editReply({embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)]})
+                interaction.editReply({ embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)] })
 
             }
                 break;
@@ -179,7 +153,7 @@ module.exports = {
 
                 player.tremolo = true
 
-                interaction.editReply({embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)]})
+                interaction.editReply({ embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)] })
 
             }
                 break;
@@ -188,7 +162,7 @@ module.exports = {
 
                 await player.reset()
 
-                interaction.editReply({embeds: [Embed.setDescription(`Successfully cleared the filters`)]})
+                interaction.editReply({ embeds: [Embed.setDescription(`Successfully cleared the filters`)] })
 
             }
                 break;

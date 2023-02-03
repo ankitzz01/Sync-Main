@@ -1,10 +1,11 @@
-const { EmbedBuilder, Client, ChatInputCommandInteraction } = require("discord.js")
+const { EmbedBuilder, Client, ChatInputCommandInteraction, SlashCommandBuilder } = require("discord.js")
 const convert = require("youtube-timestamp")
 const check = require("../../Functions/check")
 
 module.exports = {
-    name: "now-playing",
-    description: "See the current playing song",
+    data: new SlashCommandBuilder()
+        .setName('now-playing')
+        .setDescription('See the current playing song'),
     category: "Music",
 
     /**
