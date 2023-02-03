@@ -19,10 +19,10 @@ async function loadCommands(client) {
     files.forEach(file => {
 
         const command = require(file)
-        if (!command.name) return Failed++
+        if (!command.data.name) return Failed++
 
-        commands.set(command.name, command)
-        CommandsArray.push(command)
+        commands.set(command.data.name, command)
+        CommandsArray.push(command.data.toJSON())
 
         Loaded++
 
