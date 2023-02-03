@@ -1,4 +1,4 @@
-const { Client, EmbedBuilder, AutocompleteInteraction } = require("discord.js")
+const { Client, AutocompleteInteraction } = require("discord.js")
 const yt = require("youtube-sr").default
 
 module.exports = {

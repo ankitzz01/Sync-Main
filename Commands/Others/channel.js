@@ -1,5 +1,5 @@
 const { Client, ChatInputCommandInteraction, ApplicationCommandOptionType, EmbedBuilder, ChannelType } = require("discord.js")
-const DB = require("../../Structures/Schema/musicChannel")
+const DB = require("../../Schema/musicChannel")
 
 module.exports = {
     name: "channel",

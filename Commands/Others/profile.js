@@ -1,5 +1,5 @@
 const { Client, ChatInputCommandInteraction, EmbedBuilder, AttachmentBuilder } = require("discord.js")
-const db = require("../../Structures/Schema/playedDB")
+const db = require("../../Schema/playedDB")
 const { profileImage } = require("discord-arts")
 
 const pms = require("pretty-ms")

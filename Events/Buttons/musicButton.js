@@ -1,7 +1,7 @@
 const { ButtonInteraction, Client, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js")
 const check = require("../../Functions/check")
 const wait = require("node:timers/promises").setTimeout
-const buttonDB = require("../../Structures/Schema/buttonRemove")
+const buttonDB = require("../../Schema/buttonRemove")
 const emoji = require("../../emojis.json")
 
 module.exports = {

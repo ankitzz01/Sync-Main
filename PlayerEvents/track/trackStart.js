@@ -1,9 +1,9 @@
 const { Client, ChannelType, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } = require("discord.js")
 const { Player } = require("erela.js")
 const msToTimestamp = require("youtube-timestamp")
-const buttonDB = require("../Structures/Schema/buttonRemove")
+const buttonDB = require("../../Schema/buttonRemove")
 const wait = require("node:timers/promises").setTimeout
-const emoji = require("../emojis.json")
+const emoji = require("../../emojis.json")
 
 module.exports = {
     name: "trackStart",

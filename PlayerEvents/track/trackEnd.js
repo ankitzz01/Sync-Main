@@ -1,8 +1,8 @@
 const { Client, ChannelType, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } = require("discord.js")
 const { Player } = require("erela.js")
-const db = require("../Structures/Schema/playedDB")
-const buttonDB = require("../Structures/Schema/buttonRemove")
-const emoji = require("../emojis.json")
+const db = require("../../Schema/playedDB")
+const buttonDB = require("../../Schema/buttonRemove")
+const emoji = require("../../emojis.json")
 
 module.exports = {
     name: "trackEnd",

@@ -1,6 +1,6 @@
 {
   "name": "sync-music",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "",
   "main": "./index.js",
   "scripts": {
@@ -19,7 +19,7 @@
     "erela.js-facebook": "^1.0.4",
     "erela.js-filters": "^1.2.7",
     "erela.js-spotify": "^1.2.0",
-    "glob": "^7.2.0",
+    "glob": "^8.1.0",
     "mongoose": "^6.8.0",
     "parse-ms": "^3.0.0",
     "pretty-ms": "^7.0.1",

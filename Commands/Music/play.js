@@ -6,7 +6,6 @@ module.exports = {
     name: "play",
     description: "Play a song",
     category: "Music",
-    BotPerms: ["Connect", "Speak"],
     options: [
         {
             name: "query",

@@ -1,7 +1,7 @@
 const { Client, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require("discord.js")
 const { Player } = require("erela.js")
-const buttonDB = require("../Structures/Schema/buttonRemove")
-const emoji = require("../emojis.json")
+const buttonDB = require("../../Schema/buttonRemove")
+const emoji = require("../../emojis.json")
 
 module.exports = {
     name: "socketClosed",

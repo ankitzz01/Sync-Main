@@ -1,6 +1,6 @@
 const { Client, ChatInputCommandInteraction, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js")
 const check = require("../../Functions/check")
-const buttonDB = require("../../Structures/Schema/buttonRemove")
+const buttonDB = require("../../Schema/buttonRemove")
 const emoji = require("../../emojis.json")
 
 module.exports = {

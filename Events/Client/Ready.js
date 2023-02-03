@@ -12,7 +12,7 @@ module.exports = {
 
         const mongoURL = client.config.mongo
 
-        const { user, guilds, users } = client
+        const { user } = client
 
         client.player.init(user.id)
 

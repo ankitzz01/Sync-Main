@@ -1,5 +1,5 @@
 const { Client, Message, EmbedBuilder, PermissionFlagsBits, ChannelType } = require("discord.js")
-const db = require("../../Structures/Schema/musicChannel")
+const db = require("../../Schema/musicChannel")
 const convert = require("youtube-timestamp")
 const { log } = require("../../Functions/log")
 
