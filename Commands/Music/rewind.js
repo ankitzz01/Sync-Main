@@ -5,12 +5,12 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('rewind')
         .setDescription('Rewind a certain amount of seconds backwards')
-        .addIntegerOption(opt => {
+        .addIntegerOption(opt => 
             opt.setName('seconds')
             .setDescription('Enter the amount of seconds to rewind')
             .setRequired(true)
             .setMinValue(1).setMaxValue(60)
-        }),
+        ),
 
     /**
      * @param {ChatInputCommandInteraction} interaction 

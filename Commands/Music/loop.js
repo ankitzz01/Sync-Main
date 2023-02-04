@@ -5,7 +5,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('loop')
         .setDescription('Loop the current song or queue')
-        .addStringOption(opt => {
+        .addStringOption(opt => 
             opt.setName('mode')
                 .setDescription('Configure the loop settings')
                 .setRequired(true)
@@ -21,7 +21,7 @@ module.exports = {
                         name: "Disable",
                         value: "off"
                     })
-        }),
+        ),
     category: "Music",
     /**
      * @param {Client} client

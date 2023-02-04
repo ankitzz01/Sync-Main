@@ -10,8 +10,7 @@ module.exports = {
 
     async execute(interaction, client) {
 
-        const Manager = client.player
-        const player = Manager.players.get(interaction.guild.id)
+        const player = client.player.players.get(interaction.guild.id)
 
         if (await check.botVC(interaction)) return
         if (await check.memberVoice(interaction)) return

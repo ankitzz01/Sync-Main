@@ -5,13 +5,13 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('volume')
         .setDescription('Change the volume of the player')
-        .addIntegerOption(opt => {
+        .addIntegerOption(opt => 
             opt.setName('volume')
                 .setDescription('Enter the volume to set (Ex: 80)')
                 .setRequired(true)
                 .setMinValue(1)
                 .setMaxValue(100)
-        }),
+        ),
     category: "Music",
     /**
      * @param {Client} client

@@ -6,12 +6,12 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('forward')
         .setDescription('Skip a certain amount of seconds forward')
-        .addIntegerOption(opt => {
+        .addIntegerOption(opt => 
             opt.setName('seconds')
             .setDescription('Enter the amount of seconds to seek forward')
             .setRequired(true)
             .setMinValue(1).setMaxValue(60)
-        }),
+        ),
     category: "Music",
     /**
      * @param {ChatInputCommandInteraction} interaction 

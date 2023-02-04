@@ -6,12 +6,12 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('play')
         .setDescription('Play a song')
-        .addStringOption(opt => {
+        .addStringOption(opt => 
             opt.setName('query')
                 .setDescription('Enter a song name to play')
                 .setRequired(true)
                 .setAutocomplete(true)
-        }),
+        ),
     category: "Music",
     /**
      * @param {Client} client
