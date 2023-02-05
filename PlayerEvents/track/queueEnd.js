@@ -2,6 +2,8 @@ const { Client, ChannelType, EmbedBuilder, ActionRowBuilder, ButtonBuilder, Butt
 const { Player } = require("erela.js")
 const buttonDB = require("../../Schema/buttonRemove")
 const emoji = require("../../emojis.json")
+const setupDB = require("../../Schema/musicChannel")
+const { musicSetupUpdate } = require("../../Functions/musicSetupUpdate")
 
 module.exports = {
   name: "queueEnd",
@@ -85,6 +87,16 @@ module.exports = {
     })
 
     player.disconnect()
+
+    const setupUpdateEmbed = new EmbedBuilder()
+      .setColor(client.color)
+      .setTitle(`No song playing currently`)
+      .setImage(client.config.panelImage)
+      .setDescription(
+        `**[Invite Me](${client.config.invite})  :  [Support Server](${client.config.support})  :  [Vote Me](${client.config.topgg})**`
+      )
+
+    await musicSetupUpdate(player, setupDB, setupUpdateEmbed)
 
   }
 }

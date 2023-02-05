@@ -192,22 +192,52 @@ module.exports = {
         switch (sub) {
             case "create": {
 
-                if (data) {
+                if (data) { //if there is data which means already used /setup create
+
                     const channel = guild.channels.cache.get(data.Channel)
 
-                    if (!channel) {
-                        await data.delete()
+                    if (channel) { //if there is data as well as the channel
 
-                        setupCreate(data, guild, client, interaction)
+                        await interaction.deferReply({ ephemeral: true })
+
+                        return interaction.editReply({
+                            embeds: [errEmbed.setDescription(`The music channel is already set on <#${channel.id}>`)], ephemeral: true
+                        })
+
                     }
 
-                    else return interaction.reply({
-                        embeds: [errEmbed.setDescription(`The music channel is already set on <#${channel.id}>`)], ephemeral: true
+                    else { //if there is data but not the channel
+
+                        await interaction.deferReply()
+
+                        await data.delete()
+
+                        await setupCreate(data, guild, client, interaction)
+
+                        return interaction.editReply({
+                            embeds: [new EmbedBuilder()
+                                .setColor(client.color)
+                                .setDescription(`Successfully created the music setup in <#${data.Channel}>`)
+                            ]
+                        })
+
+                    }
+
+                } else { // if there is no data i.e no setup created
+
+                    await interaction.deferReply()
+
+                    await setupCreate(data, guild, client, interaction)
+
+                    let v = await DB.findOne({ Guild: interaction.guild.id })
+                    let c = v.Channel
+
+                    interaction.editReply({
+                        embeds: [new EmbedBuilder()
+                            .setColor(client.color)
+                            .setDescription(`Successfully created the music setup in <#${c}>`)
+                        ]
                     })
-
-                } else {
-
-                    setupCreate(data, guild, client, interaction)
 
                 }
 
@@ -217,36 +247,79 @@ module.exports = {
 
             case "delete": {
 
-                if (!data) return interaction.reply({
-                    embeds: [errEmbed.setDescription(`No music setup found for this server`)], ephemeral: true
+                if (!data) { // if there is no data to delete
+
+                    await interaction.deferReply({ ephemeral: true })
+
+                    return interaction.editReply({
+                        embeds: [errEmbed.setDescription(`No music setup found for this server`)]
+
+                    })
+                } else { // if data found to be deleted
+
+                    await interaction.deferReply()
+
+                    try { // tries to delete those channels
+                        const channel = guild.channels.cache.get(data.Channel)
+                        const vc = guild.channels.cache.get(data.VoiceChannel)
+
+                        if (!channel && !vc) return
+
+                        let parent
+
+                        if (channel && !vc) parent = channel.parent
+                        else if (vc && !channel) parent = vc.parent
+                        else parent = channel.parent
+
+                        if (channel.deletable) await channel.delete()
+                        if (vc.deletable) await vc.delete()
+                        if (parent.deletable) await parent.delete()
+
+                    } catch (error) { }
+
+                    await data.delete()
+
+                    interaction.editReply({
+                        embeds: [new EmbedBuilder()
+                            .setColor(client.color)
+                            .setDescription(`Successfully deleted the music setup for this server`)
+                        ]
+                    })
+
+                }
+
+            }
+                break;
+
+            case "info": {
+
+                await interaction.deferReply()
+
+                let status
+                let vcStatus
+
+                if (data && guild.channels.cache.get(data?.Channel)) status = 'Enabled'
+                else status = 'Disabled'
+
+                if (data && guild.channels.cache.get(data?.VoiceChannel)) vcStatus = 'Enabled'
+                else vcStatus = 'Disabled'
+
+                let details = `
+                    **Current Status**: ${status}\
+                    \n\n**Music Channel**: ${status === 'Enabled' ? `<#${data.Channel}>` : 'No Channel'}\
+                    \n\n**Voice Channel**: ${vcStatus === 'Enabled' ? `<#${data.VoiceChannel}>` : 'No Channel'}\
+                `
+
+                const Embed = new EmbedBuilder()
+                    .setColor(status === 'Enabled' ? 'Green' : 'DarkRed')
+                    .setDescription(details)
+                    .setThumbnail(guild.iconURL())
+                    .setTimestamp()
+                    .setFooter({ text: `${status}` })
+
+                return interaction.editReply({
+                    embeds: [Embed]
                 })
-
-                await data.delete()
-
-                interaction.reply({
-                    embeds: [new EmbedBuilder()
-                        .setColor(client.color)
-                        .setDescription(`Successfully deleted the music setup from this server`)
-                    ]
-                })
-
-                try {
-                    const channel = guild.channels.cache.get(data.Channel)
-                    const vc = guild.channels.cache.get(data.VoiceChannel)
-
-                    if (!channel && !vc) return
-
-                    let parent
-
-                    if (channel && !vc) parent = channel.parent
-                    else if (vc && !channel) parent = vc.parent
-                    else parent = channel.parent
-
-                    if (channel.deletable) await channel.delete()
-                    if (vc.deletable) await vc.delete()
-                    if (parent.deletable) await parent.delete()
-
-                } catch (error) { }
 
             }
                 break;

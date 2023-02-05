@@ -4,6 +4,8 @@ const msToTimestamp = require("youtube-timestamp")
 const buttonDB = require("../../Schema/buttonRemove")
 const wait = require("node:timers/promises").setTimeout
 const emoji = require("../../emojis.json")
+const setupDB = require("../../Schema/musicChannel")
+const { musicSetupUpdate } = require("../../Functions/musicSetupUpdate")
 
 module.exports = {
     name: "trackStart",
@@ -64,6 +66,19 @@ module.exports = {
             embeds: [Embed],
             components: [settings]
         })
+
+        const setupUpdateEmbed = new EmbedBuilder()
+            .setColor(client.color)
+            .setAuthor({ name: "NOW PLAYING", iconURL: track.requester.displayAvatarURL() })
+            .setDescription(`[\`\`${track.title}\`\`](${link})`)
+            .addFields(
+                { name: 'Requested by', value: `<@${track.requester.id}>`, inline: true },
+                { name: 'Song by', value: `\`${track.author}\``, inline: true },
+                { name: 'Duration', value: `\`❯ ${convert(track.duration)}\``, inline: true },
+            )
+            .setImage(`${track.displayThumbnail("maxresdefault")}`)
+
+        await musicSetupUpdate(player, setupDB, setupUpdateEmbed)
 
         const buttonData = new buttonDB({
             Guild: player.guild,
