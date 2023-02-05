@@ -2,6 +2,8 @@ const { Client, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require("discor
 const { Player } = require("erela.js")
 const buttonDB = require("../../Schema/buttonRemove")
 const emoji = require("../../emojis.json")
+const setupDB = require("../../Schema/musicChannel")
+const { musicSetupUpdate } = require("../../Functions/musicSetupUpdate")
 
 module.exports = {
     name: "socketClosed",
@@ -58,6 +60,18 @@ module.exports = {
 
             await data[i].delete()
         }
+
+        const setupUpdateEmbed = new EmbedBuilder()
+            .setColor(client.color)
+            .setTitle(`No song playing currently`)
+            .setImage(client.config.panelImage)
+            .setDescription(
+                `**[Invite Me](${client.config.invite})  :  [Support Server](${client.config.support})  :  [Vote Me](${client.config.topgg})**`
+            )
+
+        await musicSetupUpdate(client, player, setupDB, setupUpdateEmbed)
+
+
 
         player.destroy()
 

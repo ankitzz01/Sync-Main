@@ -2,6 +2,8 @@ const { Client, ChatInputCommandInteraction, EmbedBuilder, ActionRowBuilder, But
 const check = require("../../Functions/check")
 const buttonDB = require("../../Schema/buttonRemove")
 const emoji = require("../../emojis.json")
+const setupDB = require("../../Schema/musicChannel")
+const { musicSetupUpdate } = require("../../Functions/musicSetupUpdate")
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -80,6 +82,16 @@ module.exports = {
 
         await player.disconnect()
         await player.destroy()
+
+        const setupUpdateEmbed = new EmbedBuilder()
+            .setColor(client.color)
+            .setTitle(`No song playing currently`)
+            .setImage(client.config.panelImage)
+            .setDescription(
+                `**[Invite Me](${client.config.invite})  :  [Support Server](${client.config.support})  :  [Vote Me](${client.config.topgg})**`
+            )
+
+        await musicSetupUpdate(client, player, setupDB, setupUpdateEmbed)
 
         return interaction.editReply({
             embeds: [new EmbedBuilder()

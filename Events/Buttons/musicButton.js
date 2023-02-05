@@ -3,6 +3,8 @@ const check = require("../../Functions/check")
 const wait = require("node:timers/promises").setTimeout
 const buttonDB = require("../../Schema/buttonRemove")
 const emoji = require("../../emojis.json")
+const setupDB = require("../../Schema/musicChannel")
+const { musicSetupUpdate } = require("../../Functions/musicSetupUpdate")
 
 module.exports = {
     name: "interactionCreate",
@@ -178,7 +180,9 @@ module.exports = {
 
                 )
 
-                if (interaction.message.editable) interaction.message.edit({ components: [disable] })
+                const setupmessagedata = setupDB.findOne({ Guild: interaction.guild.id, Message: interaction.message.id })
+
+                if (interaction.message.editable && !setupmessagedata) interaction.message.edit({ components: [disable] })
 
                 const data = await buttonDB.find({ Guild: player.guild })
 
@@ -186,6 +190,16 @@ module.exports = {
 
                 await player.disconnect()
                 await player.destroy()
+
+                const setupUpdateEmbed = new EmbedBuilder()
+                    .setColor(client.color)
+                    .setTitle(`No song playing currently`)
+                    .setImage(client.config.panelImage)
+                    .setDescription(
+                        `**[Invite Me](${client.config.invite})  :  [Support Server](${client.config.support})  :  [Vote Me](${client.config.topgg})**`
+                    )
+
+                await musicSetupUpdate(client, player, setupDB, setupUpdateEmbed)
 
                 interaction.editReply({
                     embeds: [new EmbedBuilder()

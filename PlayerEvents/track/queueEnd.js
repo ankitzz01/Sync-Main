@@ -96,7 +96,7 @@ module.exports = {
         `**[Invite Me](${client.config.invite})  :  [Support Server](${client.config.support})  :  [Vote Me](${client.config.topgg})**`
       )
 
-    await musicSetupUpdate(player, setupDB, setupUpdateEmbed)
+    await musicSetupUpdate(client, player, setupDB, setupUpdateEmbed)
 
   }
 }

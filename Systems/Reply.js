@@ -8,7 +8,7 @@ function Reply(interaction ,emoji ,description ,type, color){
         embeds: [
             new EmbedBuilder()
             
-            .setDescription(`${emoji} | ${description}`)
+            .setDescription(`\`${emoji}\` | ${description}`)
             .setColor(COLOR)
         ],
         ephemeral: type

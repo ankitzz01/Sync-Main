@@ -74,11 +74,11 @@ module.exports = {
             .addFields(
                 { name: 'Requested by', value: `<@${track.requester.id}>`, inline: true },
                 { name: 'Song by', value: `\`${track.author}\``, inline: true },
-                { name: 'Duration', value: `\`❯ ${convert(track.duration)}\``, inline: true },
+                { name: 'Duration', value: `\`❯ ${msToTimestamp(track.duration)}\``, inline: true },
             )
             .setImage(`${track.displayThumbnail("maxresdefault")}`)
 
-        await musicSetupUpdate(player, setupDB, setupUpdateEmbed)
+        await musicSetupUpdate(client, player, setupDB, setupUpdateEmbed)
 
         const buttonData = new buttonDB({
             Guild: player.guild,

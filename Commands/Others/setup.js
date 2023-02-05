@@ -305,19 +305,20 @@ module.exports = {
                 else vcStatus = 'Disabled'
 
                 let details = `
-                    **Current Status**: ${status}\
-                    \n\n**Music Channel**: ${status === 'Enabled' ? `<#${data.Channel}>` : 'No Channel'}\
-                    \n\n**Voice Channel**: ${vcStatus === 'Enabled' ? `<#${data.VoiceChannel}>` : 'No Channel'}\
+                    **Current Status**: \`${status}\`\
+                    \n\n**Music Channel**: ${status === 'Enabled' ? `<#${data.Channel}>` : '\`No Channel\`'}\
+                    \n\n**Voice Channel**: ${vcStatus === 'Enabled' ? `<#${data.VoiceChannel}>` : '\`No Channel\`'}\
                 `
 
                 const Embed = new EmbedBuilder()
                     .setColor(status === 'Enabled' ? 'Green' : 'DarkRed')
                     .setDescription(details)
+                    .setTitle(`Sync Status`)
                     .setThumbnail(guild.iconURL())
                     .setTimestamp()
                     .setFooter({ text: `${status}` })
 
-                return interaction.editReply({
+                interaction.editReply({
                     embeds: [Embed]
                 })
 
