@@ -313,7 +313,7 @@ module.exports = {
                 const Embed = new EmbedBuilder()
                     .setColor(status === 'Enabled' ? 'Green' : 'DarkRed')
                     .setDescription(details)
-                    .setTitle(`Sync Status`)
+                    .setTitle(`__Music Setup Status__`)
                     .setThumbnail(guild.iconURL())
                     .setTimestamp()
                     .setFooter({ text: `${status}` })

@@ -5,7 +5,7 @@
     "commandLog": "1058609989389910076",
     "guildLog": "1066581467393704017",
     "errorLog": "1066581621907652738",
-    "invite": "https://discord.com/oauth2/authorize?client_id=1050725403276353557&permissions=274914928704&scope=bot%20applications.commands",
+    "invite": "https://discord.com/api/oauth2/authorize?client_id=1050725403276353557&permissions=274914896912&scope=bot%20applications.commands",
     "support": "https://discord.gg/eYhxDZsUfB",
     "spotifyId": "fbfe2852893e4abca304ad59902430f2",
     "spotifySecret": "96ca43c676a047e188e7ff1a856859a0",

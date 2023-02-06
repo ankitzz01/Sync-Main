@@ -4,6 +4,7 @@ const buttonDB = require("../../Schema/buttonRemove")
 const emoji = require("../../emojis.json")
 const setupDB = require("../../Schema/musicChannel")
 const { musicSetupUpdate } = require("../../Functions/musicSetupUpdate")
+const emoji = require("../../emojis.json")
 
 module.exports = {
   name: "queueEnd",
@@ -72,11 +73,13 @@ module.exports = {
       new ButtonBuilder()
         .setLabel("Invite Me")
         .setURL(client.config.invite)
+        .setEmoji(emoji.link)
         .setStyle(ButtonStyle.Link),
 
       new ButtonBuilder()
         .setLabel("Vote Me")
         .setURL(client.config.topgg)
+        .setEmoji(emoji.topgg)
         .setStyle(ButtonStyle.Link),
 
     )

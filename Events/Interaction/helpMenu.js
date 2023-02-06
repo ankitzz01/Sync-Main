@@ -57,7 +57,7 @@ module.exports = {
         } else {
 
             const Sorted = client.commands.filter(v => v.category === `${selection}`)
-            const MappedData = Sorted.map(value => `\`${value.name}\`\n${value.description}`).join("\n\n")
+            const MappedData = Sorted.map(value => `\`${value.data.name}\`\n${value.data.description}`).join("\n\n")
 
             var embed = new EmbedBuilder()
                 .setTitle(`${selection} Commands`)
