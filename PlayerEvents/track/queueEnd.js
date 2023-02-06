@@ -84,12 +84,16 @@ module.exports = {
 
     )
 
-    await Channel.send({
+    const cdata = await setupDB.findOne({ Guild: player.guild, Channel: player.textChannel })
+
+
+    if (!cdata) await Channel.send({
       embeds: [leaveEmbed],
       components: [settings]
     })
 
     player.disconnect()
+    player.destroy()
 
     const setupUpdateEmbed = new EmbedBuilder()
       .setColor(client.color)
