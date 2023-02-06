@@ -17,7 +17,6 @@ module.exports = {
 
         if (!guild || author.bot) return
         const data = await db.findOne({ Guild: guild.id, Channel: channel.id }).catch(err => { })
-        //console.log(data)
         if (!data) return
 
         const Channel = guild.channels.cache.get(data.Channel)
@@ -25,28 +24,28 @@ module.exports = {
 
         if (!channel.permissionsFor(guild.members.me).has(PermissionFlagsBits.SendMessages)) return
 
-        if (!member.voice.channel) return channel.send({
+        if (!member.voice.channel) return message.reply({
             embeds: [new EmbedBuilder()
                 .setColor("DarkRed")
                 .setDescription("You need to join a voice channel")
             ]
         })
 
-        if (!member.voice.channel.joinable) return channel.send({
+        if (!member.voice.channel.joinable) return message.reply({
             embeds: [new EmbedBuilder()
                 .setColor("DarkRed")
                 .setDescription("I do not have permission to join your voice channel!")
             ]
         })
 
-        if (member.voice.channel.type == ChannelType.GuildStageVoice) return channel.send({
+        if (member.voice.channel.type == ChannelType.GuildStageVoice) return message.reply({
             embeds: [new EmbedBuilder()
                 .setColor("DarkRed")
                 .setDescription("Playing on Stage isn't supported yet")
             ]
         })
 
-        if (guild.members.me.voice.channel && member.voice.channel.id !== guild.members.me.voice.channelId) return channel.send({
+        if (guild.members.me.voice.channel && member.voice.channel.id !== guild.members.me.voice.channelId) return message.reply({
             embeds: [new EmbedBuilder()
                 .setColor("DarkRed")
                 .setDescription(`I am already playing music in <#${guild.members.me.voice.channelId}>`)
@@ -83,7 +82,7 @@ module.exports = {
             if (res.loadType === "LOAD_FAILED") {
 
                 if (!player.queue.current) player.destroy()
-                return channel.send({
+                return message.reply({
                     embeds: [new EmbedBuilder()
                         .setColor("DarkRed")
                         .setDescription(`An error has occured!`)
@@ -91,7 +90,7 @@ module.exports = {
                 })
             } else if (res.loadType === "NO_MATCHES") {
                 if (!player.queue.current) await player.destroy()
-                return channel.send({
+                return message.reply({
                     embeds: [new EmbedBuilder()
                         .setColor("DarkRed")
                         .setDescription(`No result found for the query`)
@@ -102,13 +101,13 @@ module.exports = {
                 player.queue.add(res.tracks)
                 if (!player.playing && !player.paused && !player.queue.size) await player.play()
 
-                channel.send({
+                /*message.reply({
                     embeds: [new EmbedBuilder()
                         .setColor(client.color)
                         .setAuthor({ name: "ADDED TO QUEUE", iconURL: author.displayAvatarURL(), url: client.config.invite })
                         .setDescription(`[\`\`${res.tracks[0].title}\`\`](${link})\n\nAdded by: ${author} | Duration: \`❯ ${convert(res.tracks[0].duration)}\``)
                     ]
-                })
+                })*/
 
                 return log(client, Embed, client.config.commandLog)
 
@@ -118,13 +117,13 @@ module.exports = {
                 player.queue.add(res.tracks[0])
                 if (!player.playing && !player.paused && !player.queue.size) await player.play()
 
-                channel.send({
+                /*message.reply({
                     embeds: [new EmbedBuilder()
                         .setColor(client.color)
                         .setAuthor({ name: "ADDED TO QUEUE", iconURL: author.displayAvatarURL(), url: client.config.invite })
                         .setDescription(`[\`\`${res.tracks[0].title}\`\`](${link})\n\n**Added by: ${author} | Duration: **\`\`❯ ${convert(res.tracks[0].duration)}\`\``)
                     ]
-                })
+                })*/
 
                 return log(client, Embed, client.config.commandLog)
 

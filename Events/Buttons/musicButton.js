@@ -180,13 +180,17 @@ module.exports = {
 
                 )
 
-                const setupmessagedata = setupDB.findOne({ Guild: interaction.guild.id, Message: interaction.message.id })
+                const data = await buttonDB.find({ Guild: player.guild, Channel: player.textChannel }).catch(err => { })
 
-                if (interaction.message.editable && !setupmessagedata) interaction.message.edit({ components: [disable] })
+                const Channel = client.channels.cache.get(player.textChannel)
 
-                const data = await buttonDB.find({ Guild: player.guild })
+                for (i = 0; i < data.length; i++) {
+                    const msg = Channel.messages.cache.get(data[i].MessageID)
 
-                for (i = 0; i < data.length; i++) await data[i].delete()
+                    if (msg && msg.editable) await msg.edit({ components: [disable] })
+
+                    await data[i].delete()
+                }
 
                 await player.disconnect()
                 await player.destroy()

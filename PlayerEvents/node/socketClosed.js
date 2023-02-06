@@ -1,4 +1,4 @@
-const { Client, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require("discord.js")
+const { Client, ButtonBuilder, ActionRowBuilder, ButtonStyle, EmbedBuilder } = require("discord.js")
 const { Player } = require("erela.js")
 const buttonDB = require("../../Schema/buttonRemove")
 const emoji = require("../../emojis.json")

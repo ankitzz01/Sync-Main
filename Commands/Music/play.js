@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, ApplicationCommandOptionType, SlashCommandBuilder } = require("discord.js")
+const { Client, ChatInputCommandInteraction, SlashCommandBuilder } = require("discord.js")
 const check = require("../../Functions/check")
 const { playSong } = require("../../Functions/playSong")
 
@@ -22,6 +22,8 @@ module.exports = {
 
         const { options, user, guild, member, channel } = interaction
 
+        await interaction.deferReply()
+
         if (await check.memberVoice(interaction)) return
         if (await check.joinable(interaction)) return
         if (await check.differentVoice(interaction)) return
@@ -35,8 +37,6 @@ module.exports = {
             textChannel: channel.id,
             selfDeafen: true
         })
-
-        await interaction.deferReply()
 
         playSong(interaction, client, player, query, user)
 

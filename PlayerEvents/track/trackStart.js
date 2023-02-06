@@ -53,19 +53,26 @@ module.exports = {
 
         let link = `https://www.google.com/search?q=${encodeURIComponent(track.title)}`
 
-        const Embed = new EmbedBuilder()
-            .setColor("Blue")
-            .setAuthor({ name: "NOW PLAYING", iconURL: track.requester.displayAvatarURL(), url: client.config.invite })
-            .setDescription(`[\`\`${track.title}\`\`](${link})`)
-            .addFields(
-                { name: 'Requested by', value: `\`${track.requester.username}\``, inline: true },
-                { name: 'Song by', value: `\`${track.author}\``, inline: true },
-                { name: 'Duration', value: `\`❯ ${msToTimestamp(songtime)}\``, inline: true })
+        const cdata = await setupDB.findOne({ Guild: player.guild, Channel: player.textChannel })
 
-        const msg = await Channel.send({
-            embeds: [Embed],
-            components: [settings]
-        })
+        let msg
+
+        if (!cdata) {
+
+            msg = await Channel.send({
+                
+                embeds: [new EmbedBuilder()
+                    .setColor("Blue")
+                    .setAuthor({ name: "NOW PLAYING", iconURL: track.requester.displayAvatarURL(), url: client.config.invite })
+                    .setDescription(`[\`\`${track.title}\`\`](${link})`)
+                    .addFields(
+                        { name: 'Requested by', value: `\`${track.requester.username}\``, inline: true },
+                        { name: 'Song by', value: `\`${track.author}\``, inline: true },
+                        { name: 'Duration', value: `\`❯ ${msToTimestamp(songtime)}\``, inline: true })],
+
+                components: [settings]
+            })
+        }
 
         const setupUpdateEmbed = new EmbedBuilder()
             .setColor(client.color)
@@ -80,14 +87,16 @@ module.exports = {
 
         await musicSetupUpdate(client, player, setupDB, setupUpdateEmbed)
 
-        const buttonData = new buttonDB({
-            Guild: player.guild,
-            Channel: player.textChannel,
-            MessageID: msg.id
-        })
-        await wait(2000)
+        if (!cdata) {
+            const buttonData = new buttonDB({
+                Guild: player.guild,
+                Channel: player.textChannel,
+                MessageID: msg.id
+            })
+            await wait(2000)
 
-        await buttonData.save()
+            await buttonData.save()
+        }
 
     }
 }
