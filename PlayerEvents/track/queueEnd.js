@@ -4,7 +4,7 @@ const buttonDB = require("../../Schema/buttonRemove")
 const emoji = require("../../emojis.json")
 const setupDB = require("../../Schema/musicChannel")
 const { musicSetupUpdate } = require("../../Functions/musicSetupUpdate")
-const emoji = require("../../emojis.json")
+const { buttonDisable } = require("../../Functions/buttonDisable")
 
 module.exports = {
   name: "queueEnd",
@@ -18,45 +18,12 @@ module.exports = {
     const Channel = client.channels.cache.get(player.textChannel)
     if (!Channel) return
 
-    const disable = new ActionRowBuilder().addComponents(
-      new ButtonBuilder()
-        .setCustomId("vol-down")
-        .setEmoji(emoji.button.voldown)
-        .setStyle(ButtonStyle.Secondary)
-        .setDisabled(true),
-
-      new ButtonBuilder()
-        .setCustomId("pause-resume-song")
-        .setEmoji(emoji.button.pauseresume)
-        .setStyle(ButtonStyle.Secondary)
-        .setDisabled(true),
-
-      new ButtonBuilder()
-        .setCustomId("stop-song")
-        .setEmoji(emoji.button.stop)
-        .setStyle(ButtonStyle.Secondary)
-        .setDisabled(true),
-
-      new ButtonBuilder()
-        .setCustomId("skip-song")
-        .setEmoji(emoji.button.skip)
-        .setStyle(ButtonStyle.Secondary)
-        .setDisabled(true),
-
-      new ButtonBuilder()
-        .setCustomId("vol-up")
-        .setEmoji(emoji.button.volup)
-        .setStyle(ButtonStyle.Secondary)
-        .setDisabled(true),
-
-    )
-
-    const data = await buttonDB.find({ Guild: player.guild, Channel: player.textChannel })
+    const data = await buttonDB.find({ Guild: player.guild, Channel: player.textChannel }).catch(err => { })
 
     for (i = 0; i < data.length; i++) {
       const msg = Channel.messages.cache.get(data[i].MessageID)
 
-      if (msg && msg.editable) await msg.edit({ components: [disable] })
+      if (msg && msg.editable) await msg.edit({ components: [buttonDisable] })
 
       await data[i].delete()
     }
@@ -85,7 +52,6 @@ module.exports = {
     )
 
     const cdata = await setupDB.findOne({ Guild: player.guild, Channel: player.textChannel })
-
 
     if (!cdata) await Channel.send({
       embeds: [leaveEmbed],

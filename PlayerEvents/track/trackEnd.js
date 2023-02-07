@@ -2,7 +2,7 @@ const { Client, ChannelType, EmbedBuilder, ActionRowBuilder, ButtonBuilder, Butt
 const { Player } = require("erela.js")
 const db = require("../../Schema/playedDB")
 const buttonDB = require("../../Schema/buttonRemove")
-const emoji = require("../../emojis.json")
+const { buttonDisable } = require("../../Functions/buttonDisable")
 
 module.exports = {
     name: "trackEnd",
@@ -36,45 +36,12 @@ module.exports = {
         if (!Channel) return
         if (Channel.type !== ChannelType.GuildText) return
 
-        const settings = new ActionRowBuilder().addComponents(
-            new ButtonBuilder()
-                .setCustomId("vol-down")
-                .setEmoji(emoji.button.voldown)
-                .setStyle(ButtonStyle.Secondary)
-                .setDisabled(true),
-
-            new ButtonBuilder()
-                .setCustomId("pause-resume-song")
-                .setEmoji(emoji.button.pauseresume)
-                .setStyle(ButtonStyle.Secondary)
-                .setDisabled(true),
-
-            new ButtonBuilder()
-                .setCustomId("stop-song")
-                .setEmoji(emoji.button.stop)
-                .setStyle(ButtonStyle.Secondary)
-                .setDisabled(true),
-
-            new ButtonBuilder()
-                .setCustomId("skip-song")
-                .setEmoji(emoji.button.skip)
-                .setStyle(ButtonStyle.Secondary)
-                .setDisabled(true),
-
-            new ButtonBuilder()
-                .setCustomId("vol-up")
-                .setEmoji(emoji.button.volup)
-                .setStyle(ButtonStyle.Secondary)
-                .setDisabled(true),
-
-        )
-
         const bdata = await buttonDB.find({ Guild: player.guild, Channel: player.textChannel })
 
         for (i = 0; i < bdata.length; i++) {
             const msg = Channel.messages.cache.get(bdata[i].MessageID)
 
-            if (msg && msg.editable) await msg.edit({ components: [settings] })
+            if (msg && msg.editable) await msg.edit({ components: [buttonDisable] })
 
             await bdata[i].delete()
         }

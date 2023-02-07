@@ -88,11 +88,13 @@ module.exports = {
         await musicSetupUpdate(client, player, setupDB, setupUpdateEmbed)
 
         if (!cdata) {
+
             const buttonData = new buttonDB({
                 Guild: player.guild,
                 Channel: player.textChannel,
                 MessageID: msg.id
             })
+            
             await wait(2000)
 
             await buttonData.save()

@@ -32,7 +32,7 @@ async function setupCreate(data, guild, client, interaction) {
     })
 
     const textChannel = await interaction.guild.channels.create({
-        name: `🎶 | ${client.user.username}-song-requests`,
+        name: `music-request`,
         type: ChannelType.GuildText,
         parent: parent.id,
         permissionOverwrites: [
@@ -99,7 +99,7 @@ async function setupCreate(data, guild, client, interaction) {
 
     if (player && player.playing && player.queue.current) {
         title = player.queue.current.title
-        image = player.queue.current.displayThumbnail("maxresdefault")
+        image = player.queue.current.displayThumbnail("maxresdefault") || null
     } else {
         title = `No song playing currently`
         image = client.config.panelImage
@@ -229,13 +229,12 @@ module.exports = {
 
                     await setupCreate(data, guild, client, interaction)
 
-                    let v = await DB.findOne({ Guild: interaction.guild.id })
-                    let c = v.Channel
+                    let v = await DB.findOne({ Guild: interaction.guild.id }).catch(err => { })
 
                     interaction.editReply({
                         embeds: [new EmbedBuilder()
                             .setColor(client.color)
-                            .setDescription(`Successfully created the music setup in <#${c}>`)
+                            .setDescription(`Successfully created the music setup in <#${v.Channel}>`)
                         ]
                     })
 
