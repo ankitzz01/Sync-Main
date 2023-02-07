@@ -1,10 +1,10 @@
-const { Client, CommandInteraction, InteractionType, EmbedBuilder } = require("discord.js")
+const { Client, CommandInteraction, InteractionType, EmbedBuilder, Events } = require("discord.js")
 const { ApplicationCommand } = InteractionType
 const Reply = require("../../Systems/Reply")
 const { log } = require("../../Functions/log")
 
 module.exports = {
-    name: "interactionCreate",
+    name: Events.InteractionCreate,
 
     /**
      * @param {CommandInteraction} interaction

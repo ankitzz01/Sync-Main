@@ -1,8 +1,8 @@
-const { Client, EmbedBuilder, StringSelectMenuInteraction } = require("discord.js");
+const { Client, EmbedBuilder, StringSelectMenuInteraction, Events } = require("discord.js");
 const emojis = require("../../emojis.json")
 
 module.exports = {
-    name: "interactionCreate",
+    name: Events.InteractionCreate,
     /**
      * @param {StringSelectMenuInteraction} interaction
      * @param {Client} client

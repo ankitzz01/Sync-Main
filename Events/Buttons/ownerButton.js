@@ -1,8 +1,8 @@
-const { ButtonInteraction, Client, EmbedBuilder, ActionRowBuilder, ButtonBuilder,TextInputBuilder, TextInputStyle, ModalBuilder} = require("discord.js")
+const { ButtonInteraction, Client, EmbedBuilder, Events, ActionRowBuilder, TextInputBuilder, TextInputStyle, ModalBuilder} = require("discord.js")
 const Pagination = require("../../Systems/Pagination")
 
 module.exports = {
-    name: "interactionCreate",
+    name: Events.InteractionCreate,
 
     /**
      * @param {ButtonInteraction} interaction

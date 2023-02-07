@@ -3,11 +3,11 @@ const EditReply = require("../../Systems/EditReply")
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("bug")
-        .setDescription("Report any bug you are facing with the bot")
+        .setName("report")
+        .setDescription("Report any issues you are facing with the bot")
         .addStringOption(opt =>
             opt.setName('description')
-                .setDescription('Explain in few words about the bug')
+                .setDescription('Explain in few words about your report')
                 .setRequired(true)
         ),
     category: "General",

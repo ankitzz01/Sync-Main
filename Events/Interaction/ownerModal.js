@@ -1,7 +1,7 @@
-const { Client, ModalSubmitInteraction, InteractionType, EmbedBuilder } = require("discord.js")
+const { Client, ModalSubmitInteraction, Events, InteractionType, EmbedBuilder } = require("discord.js")
 
 module.exports = {
-    name: "interactionCreate",
+    name: Events.InteractionCreate,
 
     /**
      * @param {ModalSubmitInteraction} interaction

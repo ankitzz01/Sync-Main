@@ -1,4 +1,4 @@
-const { ButtonInteraction, Client, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js")
+const { ButtonInteraction, Client, EmbedBuilder, Events } = require("discord.js")
 const check = require("../../Functions/check")
 const wait = require("node:timers/promises").setTimeout
 const buttonDB = require("../../Schema/buttonRemove")
@@ -7,7 +7,7 @@ const { musicSetupUpdate } = require("../../Functions/musicSetupUpdate")
 const { buttonDisable } = require("../../Functions/buttonTemplate")
 
 module.exports = {
-    name: "interactionCreate",
+    name: Events.InteractionCreate,
 
     /**
      * @param {ButtonInteraction} interaction

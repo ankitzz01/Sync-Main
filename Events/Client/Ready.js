@@ -1,9 +1,9 @@
-const { Client, ActivityType } = require("discord.js")
+const { Client, ActivityType, Events } = require("discord.js")
 const mongoose = require("mongoose")
 const c = require("colors")
 
 module.exports = {
-    name: "ready",
+    name: Events.ClientReady,
 
     /**
     * @param {Client} client

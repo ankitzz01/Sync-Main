@@ -1,8 +1,8 @@
-const { Client, AutocompleteInteraction } = require("discord.js")
+const { Client, AutocompleteInteraction, Events } = require("discord.js")
 const yt = require("youtube-sr").default
 
 module.exports = {
-    name: "interactionCreate",
+    name: Events.InteractionCreate,
     /**
      * @param {AutocompleteInteraction} interaction
      * @param {Client} client

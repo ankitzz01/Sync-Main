@@ -1,6 +1,6 @@
-const {EmbedBuilder} = require("discord.js")
+const { EmbedBuilder } = require("discord.js")
 
-function EditReply(interaction ,emoji ,description, type, color){
+function EditReply(interaction, emoji, description, type, color) {
 
     const COLOR = color || "Blue"
 
@@ -8,8 +8,8 @@ function EditReply(interaction ,emoji ,description, type, color){
         embeds: [
             new EmbedBuilder()
 
-            .setDescription(`\`${emoji}\` | ${description}`)
-            .setColor(COLOR)
+                .setDescription(`\`${emoji}\` | ${description}`)
+                .setColor(COLOR)
 
         ],
     })

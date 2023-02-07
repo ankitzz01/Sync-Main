@@ -2,6 +2,7 @@ const { Client, Message, EmbedBuilder, PermissionFlagsBits, ChannelType } = requ
 const db = require("../../Schema/musicChannel")
 const convert = require("youtube-timestamp")
 const { log } = require("../../Functions/log")
+const wait = require("node:timers/promises").setTimeout
 
 module.exports = {
     name: "messageCreate",
@@ -24,33 +25,75 @@ module.exports = {
 
         if (!channel.permissionsFor(guild.members.me).has(PermissionFlagsBits.SendMessages)) return
 
-        if (!member.voice.channel) return message.reply({
-            embeds: [new EmbedBuilder()
-                .setColor("DarkRed")
-                .setDescription("You need to join a voice channel")
-            ]
-        })
+        if (!member.voice.channel) {
 
-        if (!member.voice.channel.joinable) return message.reply({
-            embeds: [new EmbedBuilder()
-                .setColor("DarkRed")
-                .setDescription("I do not have permission to join your voice channel!")
-            ]
-        })
+            const m = await message.reply({
+                embeds: [new EmbedBuilder()
+                    .setColor("DarkRed")
+                    .setDescription("You need to join a voice channel")
+                ]
+            })
 
-        if (member.voice.channel.type == ChannelType.GuildStageVoice) return message.reply({
-            embeds: [new EmbedBuilder()
-                .setColor("DarkRed")
-                .setDescription("Playing on Stage isn't supported yet")
-            ]
-        })
+            await wait(2000)
 
-        if (guild.members.me.voice.channel && member.voice.channel.id !== guild.members.me.voice.channelId) return message.reply({
-            embeds: [new EmbedBuilder()
-                .setColor("DarkRed")
-                .setDescription(`I am already playing music in <#${guild.members.me.voice.channelId}>`)
-            ]
-        })
+            if (m.deletable) await m.delete()
+            if (message.deletable) await message.delete()
+
+            return;
+        }
+
+        if (!member.voice.channel.joinable) {
+
+            const m = await message.reply({
+                embeds: [new EmbedBuilder()
+                    .setColor("DarkRed")
+                    .setDescription("I do not have permission to join your voice channel!")
+                ]
+            })
+
+            await wait(2000)
+
+            if (m.deletable) await m.delete()
+            if (message.deletable) await message.delete()
+
+            return;
+        }
+
+        if (member.voice.channel.type == ChannelType.GuildStageVoice) {
+
+            const m = await message.reply({
+                embeds: [new EmbedBuilder()
+                    .setColor("DarkRed")
+                    .setDescription("Playing on Stage isn't supported yet")
+                ]
+            })
+
+            await wait(2000)
+
+            if (m.deletable) await m.delete()
+            if (message.deletable) await message.delete()
+
+            return;
+
+        }
+
+        if (guild.members.me.voice.channel && member.voice.channel.id !== guild.members.me.voice.channelId) {
+
+            const m = await message.reply({
+                embeds: [new EmbedBuilder()
+                    .setColor("DarkRed")
+                    .setDescription(`I am already playing music in <#${guild.members.me.voice.channelId}>`)
+                ]
+            })
+
+            await wait(2000)
+
+            if (m.deletable) await m.delete()
+            if (message.deletable) await message.delete()
+
+            return;
+
+        }
 
         const query = content
         let res

@@ -1,8 +1,8 @@
-const { Client, Guild, EmbedBuilder } = require("discord.js")
+const { Client, Guild, EmbedBuilder, Events } = require("discord.js")
 const { log } = require("../../Functions/log")
 
 module.exports = {
-    name: "guildCreate",
+    name: Events.GuildCreate,
 
     /**
      * @param {Guild} guild
