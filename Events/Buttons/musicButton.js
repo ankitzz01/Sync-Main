@@ -4,7 +4,7 @@ const wait = require("node:timers/promises").setTimeout
 const buttonDB = require("../../Schema/buttonRemove")
 const setupDB = require("../../Schema/musicChannel")
 const { musicSetupUpdate } = require("../../Functions/musicSetupUpdate")
-const { buttonDisable } = require("../../Functions/buttonDisable")
+const { buttonDisable } = require("../../Functions/buttonTemplate")
 
 module.exports = {
     name: "interactionCreate",

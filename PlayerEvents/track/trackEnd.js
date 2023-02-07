@@ -2,7 +2,7 @@ const { Client, ChannelType, EmbedBuilder, ActionRowBuilder, ButtonBuilder, Butt
 const { Player } = require("erela.js")
 const db = require("../../Schema/playedDB")
 const buttonDB = require("../../Schema/buttonRemove")
-const { buttonDisable } = require("../../Functions/buttonDisable")
+const { buttonDisable } = require("../../Functions/buttonTemplate")
 
 module.exports = {
     name: "trackEnd",

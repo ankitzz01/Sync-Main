@@ -4,7 +4,7 @@ const buttonDB = require("../../Schema/buttonRemove")
 const emoji = require("../../emojis.json")
 const setupDB = require("../../Schema/musicChannel")
 const { musicSetupUpdate } = require("../../Functions/musicSetupUpdate")
-const { buttonDisable } = require("../../Functions/buttonDisable")
+const { buttonDisable } = require("../../Functions/buttonTemplate")
 
 module.exports = {
   name: "queueEnd",

@@ -1,6 +1,6 @@
-const { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, ChannelType, PermissionFlagsBits, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require("discord.js")
+const { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, ChannelType, PermissionFlagsBits } = require("discord.js")
 const DB = require("../../Schema/musicChannel")
-const emoji = require("../../emojis.json")
+const { buttonEnable } = require("../../Functions/buttonTemplate")
 
 async function setupCreate(data, guild, client, interaction) {
 
@@ -113,35 +113,9 @@ async function setupCreate(data, guild, client, interaction) {
             `**[Invite Me](${client.config.invite})  :  [Support Server](${client.config.support})  :  [Vote Me](${client.config.topgg})**`
         )
 
-    let mainComponents = new ActionRowBuilder().addComponents(
-        new ButtonBuilder()
-            .setCustomId("vol-down")
-            .setEmoji(emoji.button.voldown)
-            .setStyle(ButtonStyle.Secondary),
-
-        new ButtonBuilder()
-            .setCustomId("pause-resume-song")
-            .setEmoji(emoji.button.pauseresume)
-            .setStyle(ButtonStyle.Secondary),
-
-        new ButtonBuilder()
-            .setCustomId("stop-song")
-            .setEmoji(emoji.button.stop)
-            .setStyle(ButtonStyle.Secondary),
-
-        new ButtonBuilder()
-            .setCustomId("skip-song")
-            .setEmoji(emoji.button.skip)
-            .setStyle(ButtonStyle.Secondary),
-
-        new ButtonBuilder()
-            .setCustomId("vol-up")
-            .setEmoji(emoji.button.volup)
-            .setStyle(ButtonStyle.Secondary),)
-
     const panel = await textChannel.send({
         embeds: [mainEmbed],
-        components: [mainComponents]
+        components: [buttonEnable]
     })
 
     data = new DB({

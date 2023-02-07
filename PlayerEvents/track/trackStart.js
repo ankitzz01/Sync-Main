@@ -1,11 +1,11 @@
-const { Client, ChannelType, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } = require("discord.js")
+const { Client, ChannelType, EmbedBuilder, PermissionFlagsBits } = require("discord.js")
 const { Player } = require("erela.js")
 const msToTimestamp = require("youtube-timestamp")
 const buttonDB = require("../../Schema/buttonRemove")
 const wait = require("node:timers/promises").setTimeout
-const emoji = require("../../emojis.json")
 const setupDB = require("../../Schema/musicChannel")
 const { musicSetupUpdate } = require("../../Functions/musicSetupUpdate")
+const { buttonEnable } = require("../../Functions/buttonTemplate")
 
 module.exports = {
     name: "trackStart",
@@ -22,34 +22,6 @@ module.exports = {
         if (!Channel.guild.members.me.permissionsIn(Channel).has(PermissionFlagsBits.SendMessages)) return
 
         const songtime = track.duration
-
-        const settings = new ActionRowBuilder().addComponents(
-            new ButtonBuilder()
-                .setCustomId("vol-down")
-                .setEmoji(emoji.button.voldown)
-                .setStyle(ButtonStyle.Secondary),
-
-            new ButtonBuilder()
-                .setCustomId("pause-resume-song")
-                .setEmoji(emoji.button.pauseresume)
-                .setStyle(ButtonStyle.Secondary),
-
-            new ButtonBuilder()
-                .setCustomId("stop-song")
-                .setEmoji(emoji.button.stop)
-                .setStyle(ButtonStyle.Secondary),
-
-            new ButtonBuilder()
-                .setCustomId("skip-song")
-                .setEmoji(emoji.button.skip)
-                .setStyle(ButtonStyle.Secondary),
-
-            new ButtonBuilder()
-                .setCustomId("vol-up")
-                .setEmoji(emoji.button.volup)
-                .setStyle(ButtonStyle.Secondary),
-
-        )
 
         let link = `https://www.google.com/search?q=${encodeURIComponent(track.title)}`
 
@@ -70,7 +42,7 @@ module.exports = {
                         { name: 'Song by', value: `\`${track.author}\``, inline: true },
                         { name: 'Duration', value: `\`❯ ${msToTimestamp(songtime)}\``, inline: true })],
 
-                components: [settings]
+                components: [buttonEnable]
             })
         }
 
