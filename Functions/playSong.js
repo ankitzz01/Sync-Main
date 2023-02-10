@@ -61,6 +61,13 @@ async function playSong(interaction, client, player, query, user) {
         }
 
     } catch (error) {
+        interaction.editReply({
+            embeds: [new EmbedBuilder()
+                .setColor("DarkRed")
+                .setDescription(`An error has occured!`)
+            ]
+        })
+        
         console.log(error)
     }
 }

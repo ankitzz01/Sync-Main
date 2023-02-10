@@ -99,7 +99,7 @@ async function setupCreate(data, guild, client, interaction) {
 
     if (player && player.playing && player.queue.current) {
         title = player.queue.current.title
-        image = player.queue.current.displayThumbnail("maxresdefault") || null
+        image = player.queue.current.displayThumbnail("maxresdefault") || client.config.panelImage
     } else {
         title = `No song playing currently`
         image = client.config.panelImage

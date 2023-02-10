@@ -32,8 +32,7 @@ module.exports = {
 
         const { options } = interaction
 
-        const Manager = client.player
-        const player = Manager.players.get(interaction.guild.id)
+        const player = client.player.players.get(interaction.guild.id)
 
         if (await check.memberVoice(interaction)) return
         if (await check.botVC(interaction)) return

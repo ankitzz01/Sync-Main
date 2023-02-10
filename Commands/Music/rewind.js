@@ -9,7 +9,7 @@ module.exports = {
             opt.setName('seconds')
             .setDescription('Enter the amount of seconds to rewind')
             .setRequired(true)
-            .setMinValue(1).setMaxValue(60)
+            .setMinValue(1).setMaxValue(360)
         ),
 
     /**

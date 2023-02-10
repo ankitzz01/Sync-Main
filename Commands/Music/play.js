@@ -22,12 +22,12 @@ module.exports = {
 
         const { options, user, guild, member, channel } = interaction
 
-        await interaction.deferReply()
-
         if (await check.memberVoice(interaction)) return
         if (await check.joinable(interaction)) return
         if (await check.differentVoice(interaction)) return
         if (await check.stageCheck(interaction)) return
+
+        await interaction.deferReply()
 
         const query = options.getString("query")
 

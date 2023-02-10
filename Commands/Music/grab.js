@@ -50,7 +50,7 @@ module.exports = {
                 { name: 'Song by', value: `\`${track.author}\``, inline: true },
                 { name: 'Duration', value: `\`❯ ${convert(track.duration)}\``, inline: true },
             )
-            .setImage(`${track.displayThumbnail("maxresdefault")}`)
+            .setImage(`${track.displayThumbnail("maxresdefault")}` || client.config.panelImage)
             .setFooter({ text: `${interaction.guild.name}`, iconURL: interaction.guild.iconURL() })
             .setTimestamp()
 

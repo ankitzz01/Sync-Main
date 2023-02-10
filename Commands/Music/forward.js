@@ -10,7 +10,7 @@ module.exports = {
             opt.setName('seconds')
             .setDescription('Enter the amount of seconds to seek forward')
             .setRequired(true)
-            .setMinValue(1).setMaxValue(60)
+            .setMinValue(1).setMaxValue(360)
         ),
     category: "Music",
     /**

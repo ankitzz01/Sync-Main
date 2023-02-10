@@ -32,7 +32,7 @@ module.exports = {
         if (!cdata) {
 
             msg = await Channel.send({
-                
+
                 embeds: [new EmbedBuilder()
                     .setColor("Blue")
                     .setAuthor({ name: "NOW PLAYING", iconURL: track.requester.displayAvatarURL(), url: client.config.invite })
@@ -55,7 +55,7 @@ module.exports = {
                 { name: 'Song by', value: `\`${track.author}\``, inline: true },
                 { name: 'Duration', value: `\`❯ ${msToTimestamp(track.duration)}\``, inline: true },
             )
-            .setImage(`${track.displayThumbnail("maxresdefault")}`)
+            .setImage(`${track.displayThumbnail("maxresdefault")}` || client.config.panelImage)
 
         await musicSetupUpdate(client, player, setupDB, setupUpdateEmbed)
 
@@ -66,7 +66,7 @@ module.exports = {
                 Channel: player.textChannel,
                 MessageID: msg.id
             })
-            
+
             await wait(2000)
 
             await buttonData.save()
