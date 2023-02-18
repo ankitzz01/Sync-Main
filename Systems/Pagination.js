@@ -1,4 +1,4 @@
-const { ActionRowBuilder, ButtonBuilder, ComponentType, ButtonStyle } = require("discord.js")
+const { ActionRowBuilder, ButtonBuilder, ComponentType, ButtonStyle, EmbedBuilder } = require("discord.js")
 
 async function Pagination(interaction, embedpages, user) {
 

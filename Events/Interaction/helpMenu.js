@@ -40,7 +40,7 @@ module.exports = {
                 .setFooter({ text: `${client.user.username}`, iconURL: client.user.displayAvatarURL() })
                 .setTimestamp()
 
-        } else if (selection === "home") {
+        } else if (selection === "Home") {
 
             const Intro = `**Hey ${interaction.user.username}, it's me Sync Music.\nI offer non-stop playback of your favorite tunes with customizable filters to fit your taste.\nChoose me for all of your music needs.**\n\n`
             const Features = `**My Command Categories:\n\n${emojis.music} | Music Commands\n${emojis.info} | General Commands\n${emojis.filter} | Filter\n${emojis.settings} | Others\n\n**`
@@ -54,7 +54,28 @@ module.exports = {
                 .setFooter({ text: `${client.user.username}`, iconURL: client.user.displayAvatarURL() })
                 .setThumbnail(client.user.displayAvatarURL())
 
-        } else {
+        } else if(selection === "Playlist"){
+
+            const MappedData = `\`playlist create\`\nCreate a music playlist\
+            \n\n\`playlist delete\`\nDelete a playlist\
+            \n\n\`playlist info\`\nShows info about your playlist\
+            \n\n\`playlist list\`\nShows all of your created playlist\
+            \n\n\`playlist play\`\nPlay songs from your playlist\
+            \n\n\`playlist add\`\nAdd a song to your playlist\
+            \n\n\`playlist remove\`\nRemove a song from your playlist\
+            \n\n\`playlist current\`\nSave the current playing song to your playlist\
+            `
+
+            var embed = new EmbedBuilder()
+                .setTitle(`${selection} Commands`)
+                .setDescription(`${Sub}\n\n${MappedData}`)
+                .setColor(client.color)
+                .setThumbnail(client.user.displayAvatarURL())
+                .setFooter({ text: `${client.user.username}`, iconURL: client.user.displayAvatarURL() })
+                .setTimestamp()
+
+        }
+        else {
 
             const Sorted = client.commands.filter(v => v.category === `${selection}`)
             const MappedData = Sorted.map(value => `\`${value.data.name}\`\n${value.data.description}`).join("\n\n")
@@ -69,7 +90,7 @@ module.exports = {
 
         }
 
-        interaction.message.edit({ embeds: [embed] })
+        interaction.message.edit({ embeds: [embed] }).catch(err => { })
 
         await interaction.deferUpdate()
 

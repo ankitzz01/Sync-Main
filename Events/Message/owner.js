@@ -1,7 +1,7 @@
-const { Client, Message, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } = require("discord.js")
+const { Client, Message, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, Events } = require("discord.js")
 
 module.exports = {
-    name: "messageCreate",
+    name: Events.MessageCreate,
 
     /**
      * @param {Message} message 
@@ -13,8 +13,8 @@ module.exports = {
         const { author, guild, channel, content } = message
 
         if (!guild || author.bot) return
-        if (message.author.id !== "911300377301880862") return
-        if (content !== "!ownerpanel") return
+        if (message.author.id !== client.config.owner) return
+        if (!content.includes("!ownerpanel")) return
 
         const settings = new ActionRowBuilder().addComponents(
             new ButtonBuilder()

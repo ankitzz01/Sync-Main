@@ -1,6 +1,6 @@
 const { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, ChannelType, PermissionFlagsBits } = require("discord.js")
 const DB = require("../../Schema/musicChannel")
-const { buttonEnable } = require("../../Functions/buttonTemplate")
+const { panelbutton } = require("../../Functions/buttonTemplate")
 
 async function setupCreate(data, guild, client, interaction) {
 
@@ -115,7 +115,7 @@ async function setupCreate(data, guild, client, interaction) {
 
     const panel = await textChannel.send({
         embeds: [mainEmbed],
-        components: [buttonEnable]
+        components: [panelbutton]
     })
 
     data = new DB({

@@ -1,11 +1,11 @@
-const { Client, Message, EmbedBuilder, PermissionFlagsBits, ChannelType } = require("discord.js")
-const db = require("../../Schema/musicChannel")
+const { Client, Message, EmbedBuilder, PermissionFlagsBits, ChannelType, Events } = require("discord.js")
+const db = require("./Schema/musicChannel")
 const convert = require("youtube-timestamp")
-const { log } = require("../../Functions/log")
+const { log } = require("./Functions/log")
 const wait = require("node:timers/promises").setTimeout
 
 module.exports = {
-    name: "messageCreate",
+    name: Events.MessageCreate,
 
     /**
      * @param {Message} message 

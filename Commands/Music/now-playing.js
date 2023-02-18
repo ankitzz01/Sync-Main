@@ -51,7 +51,7 @@ module.exports = {
                 { name: 'Song by', value: `\`${track.author}\``, inline: true },
                 { name: 'Duration', value: `\`❯ ${convert(track.duration)}\``, inline: true },
             )
-            .setImage(`${track.displayThumbnail("maxresdefault")}` || client.config.panelImage)
+            .setImage(`${track.displayThumbnail("maxresdefault") || client.config.panelImage}`)
 
 
         return interaction.editReply({ embeds: [Embed] })

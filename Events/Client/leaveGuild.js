@@ -17,7 +17,7 @@ module.exports = {
             .setAuthor({ name: `Removed from - ${guild.name}`, iconURL: guildLogo })
             .setThumbnail(guildLogo)
             .setTimestamp()
-            .setColor("DarkBlue")
+            .setColor("DarkRed")
             .setDescription(`\`\`\`Name: ${guild.name}\
                     \nID: ${guild.id}\
                     \nMembers: ${guild.memberCount}\`\`\``)

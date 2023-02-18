@@ -10,19 +10,16 @@ module.exports = {
      */
     async execute(guild, client) {
 
-        const guildLogo = guild.iconURL()
-        if (!guild.iconURL) guildLogo = null
-
-        const owner = guild.members.cache.get(guild.ownerId)
+        const guildLogo = guild.iconURL() || null
 
         const embed = new EmbedBuilder()
             .setAuthor({ name: `New Server - ${guild.name}`, iconURL: guildLogo })
             .setThumbnail(guildLogo)
             .setTimestamp()
-            .setColor("DarkBlue")
+            .setColor("DarkGreen")
             .setDescription(`\`\`\`Name: ${guild.name}\
                     \nID: ${guild.id}\
-                    \nOwner: ${owner.displayName} (${guild.ownerId})\
+                    \nOwner: ${guild.ownerId}\
                     \nMembers: ${guild.memberCount}\`\`\``)
             .setFooter({ text: `Total - ${client.guilds.cache.size}` })
 

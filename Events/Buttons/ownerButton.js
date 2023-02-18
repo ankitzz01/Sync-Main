@@ -1,4 +1,4 @@
-const { ButtonInteraction, Client, EmbedBuilder, Events, ActionRowBuilder, TextInputBuilder, TextInputStyle, ModalBuilder} = require("discord.js")
+const { ButtonInteraction, Client, EmbedBuilder, Events, ActionRowBuilder, TextInputBuilder, TextInputStyle, ModalBuilder } = require("discord.js")
 const Pagination = require("../../Systems/Pagination")
 
 module.exports = {
@@ -23,18 +23,9 @@ module.exports = {
 
             case "owner-servers": {
 
-                await interaction.deferReply({ephemeral: true})
+                const func = serverEmbed(Array.from(client.guilds.cache), 10, client)
+                Pagination(interaction, func, interaction.user)
 
-                let servers = ""
-                client.guilds.cache.forEach((guild) => {
-                    servers += `Name: ${guild.name} | ID: ${guild.id}\n${guild.memberCount} Members | Owner: ${guild.ownerId}\n\n`
-                })
-
-                const LIST = new EmbedBuilder()
-                    .setAuthor({ name: `${client.user.username} is in ${client.guilds.cache.size} server`, iconURL: client.user.displayAvatarURL() })
-                    .setColor("DarkRed")
-                    .setDescription(`\`\`\`${servers}\`\`\``)
-                interaction.editReply({ embeds: [LIST] })
             }
                 break;
 
@@ -84,3 +75,34 @@ module.exports = {
         }
     },
 }
+
+function serverEmbed(pages, number, client) {
+
+    const Embeds = []
+    let k = number
+
+    for (let i = 0; i < pages.length; i += number) {
+
+        const current = pages.slice(i, k)
+
+        k += number
+
+        const MappedData = current.map(x => {
+
+            return `Name: ${x[1].name} | ID: ${x[1].id}\n${x[1].memberCount} Members | Owner: ${x[1].ownerId}`
+
+          }).join("\n\n")          
+
+        const LIST = new EmbedBuilder()
+            .setAuthor({ name: `${client.user.username} is in ${client.guilds.cache.size} server`, iconURL: client.user.displayAvatarURL() })
+            .setColor("DarkRed")
+            .setDescription(`\`\`\`${MappedData}\`\`\``)
+
+        Embeds.push(LIST)
+
+    }
+
+    return Embeds
+
+}
+

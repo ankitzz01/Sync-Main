@@ -16,11 +16,11 @@ module.exports = {
   async execute(interaction, client) {
 
     const Intro = `**Hey ${interaction.user.username}, it's me Sync Music.\nI offer non-stop playback of your favorite tunes with customizable filters to fit your taste.\nChoose me for all of your music needs.**\n\n`
-    const Features = `**My Command Categories:\n\n${emojis.music} | Music Commands\n${emojis.info} | General Commands\n${emojis.filter} | Filter\n${emojis.settings} | Others\n\n**`
+    const Features = `**My Command Categories:\n\n${emojis.music} | Music Commands\n${emojis.info} | General Commands\n${emojis.filter} | Filter\n${emojis.playlist} | Playlist\n${emojis.settings} | Others\n\n**`
     const Last = `\`Choose a category from below\``
     const Promo = `\n\n**[Invite Me](${client.config.invite})  :  [Support Server](${client.config.support})  :  [Vote Me](${client.config.topgg})**`
 
-    var embedMsg = new EmbedBuilder()
+    const embedMsg = new EmbedBuilder()
       .setAuthor({ name: `${client.user.username}`, iconURL: client.user.displayAvatarURL() })
       .setColor(client.color)
       .setDescription(`${Intro}${Features}${Last}${Promo}`)
@@ -41,7 +41,8 @@ module.exports = {
       General: emojis.info,
       Music: emojis.music,
       Filter: emojis.filter,
-      Others: emojis.settings
+      Others: emojis.settings,
+      Playlist: emojis.playlist
     }
 
     fs.readdirSync("./Commands").forEach((command) => {
@@ -59,7 +60,7 @@ module.exports = {
 
       label: "Home",
       description: "Go back to the home page",
-      value: "home",
+      value: "Home",
       emoji: emojis.home,
 
     })

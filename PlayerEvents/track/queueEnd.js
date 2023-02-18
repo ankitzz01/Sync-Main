@@ -19,6 +19,7 @@ module.exports = {
     if (!Channel) return
 
     const data = await buttonDB.find({ Guild: player.guild, Channel: player.textChannel }).catch(err => { })
+    if (!data) return
 
     for (i = 0; i < data.length; i++) {
       const msg = Channel.messages.cache.get(data[i].MessageID)

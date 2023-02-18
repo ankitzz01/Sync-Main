@@ -1,5 +1,6 @@
 const { Client, AutocompleteInteraction, Events } = require("discord.js")
 const yt = require("youtube-sr").default
+const DB = require("../../Schema/playlist")
 
 module.exports = {
     name: Events.InteractionCreate,
@@ -37,6 +38,31 @@ module.exports = {
                 })
 
                 await interaction.respond(choices)
+            }
+                break;
+
+            case "playlist": {
+
+                const playlist = interaction.options?.getString('playlist')
+                if (!playlist) return
+
+                const data = await DB.findOne({ User: interaction.user.id }).catch(err => { })
+
+                if(!data || !data.Playlist || data.Playlist.length === 0) return
+
+                let choices = []
+
+                const searched = data.Playlist
+
+                searched.forEach(x => {
+                    choices.push({
+                        name: x.name,
+                        value: x.name
+                    })
+                })
+
+                await interaction.respond(choices)
+
             }
                 break;
 

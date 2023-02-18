@@ -55,7 +55,7 @@ module.exports = {
                 { name: 'Song by', value: `\`${track.author}\``, inline: true },
                 { name: 'Duration', value: `\`❯ ${msToTimestamp(track.duration)}\``, inline: true },
             )
-            .setImage(`${track.displayThumbnail("maxresdefault")}` || client.config.panelImage)
+            .setImage(`${track.displayThumbnail("maxresdefault") || client.config.panelImage}`)
 
         await musicSetupUpdate(client, player, setupDB, setupUpdateEmbed)
 

@@ -8,6 +8,7 @@ module.exports = {
     /**
     * @param {Client} client
     */
+   
     async execute(client) {
 
         const mongoURL = client.config.mongo
@@ -18,20 +19,14 @@ module.exports = {
 
         console.log(`${user.tag} is now online!`.green)
 
-        user.setActivity({
-
-            name: `Music`,
-            type: ActivityType.Playing,
-
-        })
-
-        mongoose.set('strictQuery', true)
+        mongoose.set('strictQuery', false)
 
         if (!mongoURL) return
         mongoose.connect(mongoURL, {
 
             useNewUrlParser: true,
             useUnifiedTopology: true
+
         }).then(() => {
 
             console.log("Connected to the database".blue)

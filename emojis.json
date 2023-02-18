@@ -10,7 +10,8 @@
         "voldown": "<:musicvolumedown:1026518217801338900>",
         "pauseresume":"<:musicplaypause:1026518174881038437>",
         "skip": "<:musicnext:1026518134905110650>",
-        "stop": "<:musicstop:1026518215557394472>"
+        "stop": "<:musicstop:1026518215557394472>",
+        "play": "<:musicnote:1026499060191989853>"
     },
     "topgg": "<:vote:1066717577914613824>",
     "link": "<:link:1066304081104228444>"

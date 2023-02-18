@@ -1,4 +1,4 @@
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle} = require("discord.js")
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js")
 const emoji = require("../emojis.json")
 
 const buttonDisable = new ActionRowBuilder().addComponents(
@@ -62,4 +62,32 @@ const buttonEnable = new ActionRowBuilder().addComponents(
 
 )
 
-module.exports = { buttonDisable, buttonEnable }
+const panelbutton = new ActionRowBuilder().addComponents(
+    new ButtonBuilder()
+        .setCustomId("vol-down")
+        .setEmoji(emoji.button.voldown)
+        .setStyle(ButtonStyle.Secondary),
+
+    new ButtonBuilder()
+        .setCustomId("pause-resume-song")
+        .setEmoji(emoji.button.pauseresume)
+        .setStyle(ButtonStyle.Secondary),
+
+    new ButtonBuilder()
+        .setCustomId("search-song")
+        .setEmoji(emoji.button.play)
+        .setStyle(ButtonStyle.Secondary),
+
+    new ButtonBuilder()
+        .setCustomId("stop-song")
+        .setEmoji(emoji.button.stop)
+        .setStyle(ButtonStyle.Secondary),
+
+    new ButtonBuilder()
+        .setCustomId("vol-up")
+        .setEmoji(emoji.button.volup)
+        .setStyle(ButtonStyle.Secondary),
+
+)
+
+module.exports = { buttonDisable, buttonEnable, panelbutton }
