@@ -123,6 +123,8 @@ module.exports = {
      */
     async execute(interaction, client) {
 
+        return interaction.reply({ content: 'The playlist system is still under development!', ephemeral: true })
+
         let data = await DB.findOne({ User: interaction.user.id })
 
         const errEmbed = new EmbedBuilder()
@@ -147,7 +149,7 @@ module.exports = {
                         embeds: [errEmbed.setDescription(`\`❌\` | You can only create a maximum of 3 playlist`)]
                     }) //check if he has 3 playlist
 
-                    for (const playlist of data.Playlist){ // check if he has already created a playlist with that name
+                    for (const playlist of data.Playlist) { // check if he has already created a playlist with that name
 
                         if (playlist.name == name) {
 
@@ -332,7 +334,7 @@ module.exports = {
             }
                 break;
 
-            case "play": { 
+            case "play": {
 
                 if (await check.memberVoice(interaction)) return
                 if (await check.joinable(interaction)) return

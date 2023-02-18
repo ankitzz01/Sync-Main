@@ -22,10 +22,6 @@ module.exports = {
 
         if (!command) return Reply(interaction, "💢", `An error occurred!`, true) && client.commands.delete(commandName)
 
-        maintenance = false
-        
-        if (maintenance && user.id !== client.config.owner) return Reply(interaction, "❎", `The bot is under maintenance. Please hang tight while we push new updates!`, true)
-
         command.execute(interaction, client)
 
         const guildLogo = interaction.guild.iconURL()
