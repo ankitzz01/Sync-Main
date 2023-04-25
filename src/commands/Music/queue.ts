@@ -23,10 +23,10 @@ export default new SlashCommand({
             ], ephemeral: true
         })
 
-        if (!player.queue.length) return interaction.reply({
+        if (!player.queue?.length) return interaction.reply({
             embeds: [new EmbedBuilder()
                 .setColor(client.data.color)
-                .setDescription("⚠ | There is nothing in the queue")
+                .setDescription("❕ | There is nothing in the queue")
             ], ephemeral: true
         })
 
