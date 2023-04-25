@@ -3,8 +3,8 @@ import { CustomClient } from "../../classes/index.js";
 
 export interface BaseApplicationCommand {
     data: SharedNameAndDescription | SlashCommandBuilder
-    botOwnerOnly?: boolean;
     category: "Filter" | "General" | "Music" | "Others" | "Playlist";
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    botOwnerOnly?: boolean;
+    voteOnly?: boolean;
     execute: (interaction: ChatInputCommandInteraction, client: CustomClient) => any;
 }
