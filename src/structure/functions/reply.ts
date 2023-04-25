@@ -1,4 +1,4 @@
-import { AnySelectMenuInteraction, ButtonInteraction, ChatInputCommandInteraction, ColorResolvable, EmbedBuilder, ModalSubmitInteraction } from "discord.js";
+import { AnySelectMenuInteraction, ButtonInteraction, ChatInputCommandInteraction, Colors, EmbedBuilder, ModalSubmitInteraction } from "discord.js";
 import client from "../../index.js";
 
 export type ValidInteractionTypes =
@@ -7,11 +7,11 @@ export type ValidInteractionTypes =
     AnySelectMenuInteraction |
     ModalSubmitInteraction;
 
-export function reply(interaction: ValidInteractionTypes, emoji: string, description: string, ephemeral: boolean = true, color: string = client.color) {
+export function reply(interaction: ValidInteractionTypes, emoji: string, description: string, ephemeral: boolean = true) {
     interaction.reply({
         embeds: [
             new EmbedBuilder()
-                .setColor(color as ColorResolvable)
+                .setColor(emoji === "❌" ? Colors.DarkRed : client.data.color)
                 .setDescription(`\`${emoji}\` | ${description}`)
         ],
         ephemeral
