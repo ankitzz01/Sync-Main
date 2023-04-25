@@ -1,6 +1,7 @@
 import { ChatInputCommandInteraction, Events, InteractionType, EmbedBuilder } from "discord.js";
 import { Event, CustomClient, reply } from "../../structure/index.js";
 import { log } from "../../structure/index.js";
+import { Api } from '@top-gg/sdk'
 
 export default new Event({
     name: Events.InteractionCreate,
@@ -15,7 +16,14 @@ export default new Event({
             return client.commands.delete(interaction.commandName)
         }
 
-        if (command.botOwnerOnly && !client.data.developers.includes(interaction.user.id)) return reply(interaction, "❌", "This command is only available for bot developers");
+        if (command.botOwnerOnly && !client.data.developers.includes(interaction.user.id)) return reply(
+            interaction, "❌", "This command is only available for bot developers"
+        );
+
+        const topgg = new Api(client.data.topgg.token)
+        if (command.voteOnly && !(await topgg.hasVoted(interaction.user.id))) {
+            reply(interaction, "❌", `You must vote me on [top.gg](${client.data.topgg.vote}) before using this command`)
+        }
 
         command.execute(interaction, client)
 
