@@ -29,10 +29,13 @@ export default {
 
     },
     links: {
-        topgg: "https://top.gg/bot/1050725403276353557/vote",
         invite: "https://discord.com/api/oauth2/authorize?client_id=1050725403276353557&permissions=274914896912&scope=bot%20applications.commands",
         support: "https://discord.gg/eYhxDZsUfB",
         background: "https://i.imgur.com/t7cnKVq.jpg"
+    },
+    topgg: {
+        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwNTA3MjU0MDMyNzYzNTM1NTciLCJib3QiOnRydWUsImlhdCI6MTY4MjQzODczNH0.h-ZOM4QOi_-uaueVN9hHay9BAzqnu3CkWTrM36qnFdM",
+        vote: "https://top.gg/bot/1050725403276353557/vote"
     },
     spotify: {
         id: "fbfe2852893e4abca304ad59902430f2",

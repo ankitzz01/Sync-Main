@@ -17,7 +17,7 @@ exports.default = new index_js_1.SlashCommand({
         const Intro = `**Hey ${interaction.user.username}, it's me Sync Music.\nI offer non-stop playback of your favorite tunes with customizable filters to fit your taste.\nChoose me for all of your music needs.**\n\n`;
         const Features = `**My Command Categories:\n\n${emojis_1.default.music} | Music Commands\n${emojis_1.default.info} | General Commands\n${emojis_1.default.filter} | Filter\n${emojis_1.default.playlist} | Playlist\n${emojis_1.default.settings} | Others\n\n**`;
         const Last = `\`Choose a category from below\``;
-        const Promo = `\n\n**[Invite Me](${client.data.links.invite})  :  [Support Server](${client.data.links.support})  :  [Vote Me](${client.data.links.topgg})**`;
+        const Promo = `\n\n**[Invite Me](${client.data.links.invite})  :  [Support Server](${client.data.links.support})  :  [Vote Me](${client.data.topgg.vote})**`;
         const embedMsg = new discord_js_1.EmbedBuilder()
             .setAuthor({ name: `${client.user?.username}`, iconURL: client.user?.displayAvatarURL() })
             .setColor(client.data.color)

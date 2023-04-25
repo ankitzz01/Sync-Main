@@ -43,7 +43,7 @@ export default new PlayerEvent({
 
       new ButtonBuilder()
         .setLabel("Vote Me")
-        .setURL(client.data.links.topgg)
+        .setURL(client.data.topgg.vote)
         .setEmoji(emoji.topgg)
         .setStyle(ButtonStyle.Link),
 
@@ -64,7 +64,7 @@ export default new PlayerEvent({
       .setTitle(`No song playing currently`)
       .setImage(client.data.links.background)
       .setDescription(
-        `**[Invite Me](${client.data.links.invite})  :  [Support Server](${client.data.links.support})  :  [Vote Me](${client.data.links.topgg})**`
+        `**[Invite Me](${client.data.links.invite})  :  [Support Server](${client.data.links.support})  :  [Vote Me](${client.data.topgg.vote})**`
       )
 
     await musicSetupUpdate(client, player, setupDB, setupUpdateEmbed)

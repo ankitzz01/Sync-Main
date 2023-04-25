@@ -38,10 +38,10 @@ exports.default = new index_js_1.PlayerEvent({
             .setURL(client.data.links.invite)
             .setEmoji(emojis_js_1.default.link)
             .setStyle(discord_js_1.ButtonStyle.Link), new discord_js_1.ButtonBuilder()
-            .setLabel("Vote Me")
-            .setURL(client.data.links.topgg)
-            .setEmoji(emojis_js_1.default.topgg)
-            .setStyle(discord_js_1.ButtonStyle.Link));
+                .setLabel("Vote Me")
+                .setURL(client.data.topgg.vote)
+                .setEmoji(emojis_js_1.default.topgg)
+                .setStyle(discord_js_1.ButtonStyle.Link));
         const cdata = await musicchannel_js_1.default.findOne({ Guild: player.guild, Channel: player.textChannel });
         if (!cdata)
             await Channel.send({
@@ -54,7 +54,7 @@ exports.default = new index_js_1.PlayerEvent({
             .setColor(client.data.color)
             .setTitle(`No song playing currently`)
             .setImage(client.data.links.background)
-            .setDescription(`**[Invite Me](${client.data.links.invite})  :  [Support Server](${client.data.links.support})  :  [Vote Me](${client.data.links.topgg})**`);
+            .setDescription(`**[Invite Me](${client.data.links.invite})  :  [Support Server](${client.data.links.support})  :  [Vote Me](${client.data.topgg.vote})**`);
         await (0, index_js_1.musicSetupUpdate)(client, player, musicchannel_js_1.default, setupUpdateEmbed);
     }
 });

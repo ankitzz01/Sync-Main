@@ -8,7 +8,7 @@ exports.default = new index_js_1.SlashCommand({
         .setDescription("Vote me on top.gg"),
     category: "General",
     async execute(interaction, client) {
-        const topgg = client.data.links.topgg;
+        const topgg = client.data.topgg.vote;
         const Embed = new discord_js_1.EmbedBuilder()
             .setColor(client.data.color)
             .setTitle(`Vote Me`)
@@ -18,9 +18,9 @@ exports.default = new index_js_1.SlashCommand({
             .setLabel("Vote Me")
             .setStyle(discord_js_1.ButtonStyle.Link)
             .setURL(topgg), new discord_js_1.ButtonBuilder()
-            .setStyle(discord_js_1.ButtonStyle.Link)
-            .setURL(`${client.data.links.support}`)
-            .setLabel("Support Server"));
+                .setStyle(discord_js_1.ButtonStyle.Link)
+                .setURL(`${client.data.links.support}`)
+                .setLabel("Support Server"));
         return interaction.reply({ embeds: [Embed], components: [row] });
     }
 });

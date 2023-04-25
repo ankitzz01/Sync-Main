@@ -28,7 +28,7 @@ exports.default = new index_js_1.PlayerEvent({
             .setColor(client.color)
             .setTitle(`No song playing currently`)
             .setImage(client.data.links.background)
-            .setDescription(`**[Invite Me](${client.data.links.invite})  :  [Support Server](${client.data.links.support})  :  [Vote Me](${client.data.links.topgg})**`);
+            .setDescription(`**[Invite Me](${client.data.links.invite})  :  [Support Server](${client.data.links.support})  :  [Vote Me](${client.data.topgg.vote})**`);
         await (0, index_js_2.musicSetupUpdate)(client, player, musicchannel_js_1.default, setupUpdateEmbed);
         player.destroy();
     },

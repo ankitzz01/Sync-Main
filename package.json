@@ -12,6 +12,7 @@
     "author": "Ankitzz",
     "license": "ISC",
     "dependencies": {
+        "@top-gg/sdk": "^3.1.5",
         "better-erela.js-apple": "^1.0.5",
         "chalk": "^4.1.2",
         "discord-arts": "^0.3.6",

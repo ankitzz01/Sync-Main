@@ -8,7 +8,7 @@ export default new SlashCommand({
     category: "General",
     async execute(interaction: ChatInputCommandInteraction, client: CustomClient) {
 
-        const topgg = client.data.links.topgg
+        const topgg = client.data.topgg.vote
 
         const Embed = new EmbedBuilder()
             .setColor(client.data.color)

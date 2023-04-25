@@ -110,7 +110,7 @@ async function setupCreate(data: MusicChannelSchema, guild: Guild, client: Custo
         .setTitle(`${title}`)
         .setImage(`${image}`)
         .setDescription(
-            `**[Invite Me](${client.data.links.invite})  :  [Support Server](${client.data.links.support})  :  [Vote Me](${client.data.links.topgg})**`
+            `**[Invite Me](${client.data.links.invite})  :  [Support Server](${client.data.links.support})  :  [Vote Me](${client.data.topgg.vote})**`
         )
 
     const panel = await textChannel?.send({

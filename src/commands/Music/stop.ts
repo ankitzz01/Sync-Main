@@ -47,7 +47,7 @@ export default new SlashCommand({
             .setTitle(`No song playing currently`)
             .setImage(client.data.links.background)
             .setDescription(
-                `**[Invite Me](${client.data.links.invite})  :  [Support Server](${client.data.links.support})  :  [Vote Me](${client.data.links.topgg})**`
+                `**[Invite Me](${client.data.links.invite})  :  [Support Server](${client.data.links.support})  :  [Vote Me](${client.data.topgg.vote})**`
             )
 
         await musicSetupUpdate(client, player, setupDB, setupUpdateEmbed)

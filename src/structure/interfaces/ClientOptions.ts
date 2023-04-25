@@ -28,10 +28,13 @@ export interface ClientDataOptions {
         }
     }
     links: {
-        topgg: string;
         invite: string;
         support: string;
         background: string;
+    }
+    topgg: {
+        token: string;
+        vote: string
     }
     spotify: {
         secret: string;
