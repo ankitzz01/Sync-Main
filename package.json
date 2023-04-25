@@ -1,29 +1,32 @@
 {
-  "name": "sync-music",
-  "version": "1.0.7",
-  "description": "",
-  "main": "./index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "better-erela.js-apple": "^1.0.5",
-    "colors": "^1.4.0",
-    "discord-arts": "^0.3.6",
-    "discord.js": "^14.0.3",
-    "erela.js": "^2.4.0",
-    "erela.js-deezer": "^1.0.7",
-    "erela.js-facebook": "^1.0.4",
-    "erela.js-filters": "^1.2.7",
-    "erela.js-spotify": "^1.2.0",
-    "glob": "^8.1.0",
-    "mongoose": "^6.8.0",
-    "parse-ms": "^3.0.0",
-    "pretty-ms": "^7.0.1",
-    "youtube-sr": "^4.3.4",
-    "youtube-timestamp": "^1.0.1"
-  }
+    "name": "sync-music-ts",
+    "version": "1.0.11",
+    "description": "Sync Music",
+    "main": "./dist/index.js",
+    "scripts": {
+        "lint": "eslint . --ext .ts",
+        "fix": "eslint . --ext .ts --fix",
+        "start": "tsc && node ."
+    },
+    "keywords": [],
+    "author": "Ankitzz",
+    "license": "ISC",
+    "dependencies": {
+        "better-erela.js-apple": "^1.0.5",
+        "chalk": "^4.1.2",
+        "discord-arts": "^0.3.6",
+        "discord.js": "^14.8.0",
+        "erela.js": "^2.4.0",
+        "erela.js-deezer": "^1.0.7",
+        "erela.js-facebook": "^1.0.4",
+        "erela.js-filters": "^1.2.7",
+        "erela.js-spotify": "^1.2.0",
+        "mongoose": "^6.8.0",
+        "parse-ms": "^3.0.0",
+        "pretty-ms": "^7.0.1",
+        "youtube-sr": "^4.3.4"
+    },
+    "devDependencies": {
+        "typescript": "^4.9.5"
+    }
 }
