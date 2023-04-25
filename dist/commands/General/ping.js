@@ -8,6 +8,7 @@ exports.default = new index_js_1.SlashCommand({
         .setName("ping")
         .setDescription("Shows my ping"),
     category: "General",
+    voteOnly: true,
     async execute(interaction, client) {
         return (0, structure_1.reply)(interaction, "⌛", `Ping: **${client.ws.ping}** ms`, true);
     }

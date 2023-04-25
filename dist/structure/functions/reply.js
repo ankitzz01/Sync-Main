@@ -6,11 +6,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.reply = void 0;
 const discord_js_1 = require("discord.js");
 const index_js_1 = __importDefault(require("../../index.js"));
-function reply(interaction, emoji, description, ephemeral = true, color = index_js_1.default.color) {
+function reply(interaction, emoji, description, ephemeral = true) {
     interaction.reply({
         embeds: [
             new discord_js_1.EmbedBuilder()
-                .setColor(color)
+                .setColor(emoji === "❌" ? discord_js_1.Colors.DarkRed : index_js_1.default.data.color)
                 .setDescription(`\`${emoji}\` | ${description}`)
         ],
         ephemeral

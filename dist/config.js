@@ -5,7 +5,7 @@ exports.default = {
         id: "1074644311532122122",
         secret: "",
         token: "MTA3NDY0NDMxMTUzMjEyMjEyMg.GgQyt6.KaLKsOW-fAfgTRooa5Xe9RAUDQlYOSUG2T8-dU",
-        db: "",
+        db: "mongodb+srv://Ankit:ankit123@syncmusic.xtdd7nb.mongodb.net/test",
         log: {
             error: "1085926090435985468",
             guild: "1085926090435985468",

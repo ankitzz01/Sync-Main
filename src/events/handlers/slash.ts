@@ -21,9 +21,9 @@ export default new Event({
         );
 
         const topgg = new Api(client.data.topgg.token)
-        if (command.voteOnly && !(await topgg.hasVoted(interaction.user.id))) {
-            reply(interaction, "❌", `You must vote me on [top.gg](${client.data.topgg.vote}) before using this command`)
-        }
+        if (command.voteOnly && !(await topgg.hasVoted(interaction.user.id))) return reply(
+            interaction, "❌", `You must vote me on [top.gg](${client.data.topgg.vote}) before using this command`
+        )
 
         command.execute(interaction, client)
 
