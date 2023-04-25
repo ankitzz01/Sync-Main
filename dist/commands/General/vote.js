@@ -18,9 +18,9 @@ exports.default = new index_js_1.SlashCommand({
             .setLabel("Vote Me")
             .setStyle(discord_js_1.ButtonStyle.Link)
             .setURL(topgg), new discord_js_1.ButtonBuilder()
-                .setStyle(discord_js_1.ButtonStyle.Link)
-                .setURL(`${client.data.links.support}`)
-                .setLabel("Support Server"));
+            .setStyle(discord_js_1.ButtonStyle.Link)
+            .setURL(`${client.data.links.support}`)
+            .setLabel("Support Server"));
         return interaction.reply({ embeds: [Embed], components: [row] });
     }
 });

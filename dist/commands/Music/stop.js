@@ -24,8 +24,8 @@ exports.default = new structure_1.SlashCommand({
         if (!player)
             return interaction.reply({
                 embeds: [new discord_js_1.EmbedBuilder()
-                    .setColor("DarkRed")
-                    .setDescription("No song player was found")
+                        .setColor("DarkRed")
+                        .setDescription("No song player was found")
                 ], ephemeral: true
             });
         await interaction.deferReply();
@@ -49,8 +49,8 @@ exports.default = new structure_1.SlashCommand({
         await (0, structure_1.musicSetupUpdate)(client, player, musicchannel_1.default, setupUpdateEmbed);
         return interaction.editReply({
             embeds: [new discord_js_1.EmbedBuilder()
-                .setColor(client.data.color)
-                .setDescription(`⏹ | **Stopped** the player`)
+                    .setColor(client.data.color)
+                    .setDescription(`⏹ | **Stopped** the player`)
             ]
         });
     }

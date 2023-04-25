@@ -22,11 +22,11 @@ exports.default = new structure_1.SlashCommand({
                         .setDescription("No song player was found")
                 ], ephemeral: true
             });
-        if (!player.queue.length)
+        if (!player.queue?.length)
             return interaction.reply({
                 embeds: [new discord_js_1.EmbedBuilder()
                         .setColor(client.data.color)
-                        .setDescription("⚠ | There is nothing in the queue")
+                        .setDescription("❕ | There is nothing in the queue")
                 ], ephemeral: true
             });
         await interaction.deferReply();

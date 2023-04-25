@@ -153,8 +153,8 @@ exports.default = new structure_1.SlashCommand({
                             await setupCreate(data, guild, client, interaction);
                             return interaction.editReply({
                                 embeds: [new discord_js_1.EmbedBuilder()
-                                    .setColor(client.data.color)
-                                    .setDescription(`Successfully created the music setup in <#${data.Channel}>`)
+                                        .setColor(client.data.color)
+                                        .setDescription(`Successfully created the music setup in <#${data.Channel}>`)
                                 ]
                             });
                         }
@@ -164,16 +164,16 @@ exports.default = new structure_1.SlashCommand({
                         if (!data)
                             return interaction.editReply({
                                 embeds: [new discord_js_1.EmbedBuilder()
-                                    .setColor(client.data.color)
-                                    .setDescription(`Something went wrong!`)
+                                        .setColor(client.data.color)
+                                        .setDescription(`Something went wrong!`)
                                 ]
                             });
                         await setupCreate(data, guild, client, interaction);
                         let v = await musicchannel_1.default.findOne({ Guild: interaction.guild?.id }).catch(err => { });
                         interaction.editReply({
                             embeds: [new discord_js_1.EmbedBuilder()
-                                .setColor(client.data.color)
-                                .setDescription(`Successfully created the music setup in <#${v?.Channel}>`)
+                                    .setColor(client.data.color)
+                                    .setDescription(`Successfully created the music setup in <#${v?.Channel}>`)
                             ]
                         });
                     }
@@ -212,8 +212,8 @@ exports.default = new structure_1.SlashCommand({
                         await data.delete();
                         interaction.editReply({
                             embeds: [new discord_js_1.EmbedBuilder()
-                                .setColor(client.data.color)
-                                .setDescription(`Successfully deleted the music setup for this server`)
+                                    .setColor(client.data.color)
+                                    .setDescription(`Successfully deleted the music setup for this server`)
                             ]
                         });
                     }

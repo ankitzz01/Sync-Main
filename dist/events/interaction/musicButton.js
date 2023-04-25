@@ -30,8 +30,8 @@ exports.default = new index_js_1.Event({
         if (!player)
             return interaction.reply({
                 embeds: [new discord_js_1.EmbedBuilder()
-                    .setColor("DarkRed")
-                    .setDescription("No song player was found")
+                        .setColor("DarkRed")
+                        .setDescription("No song player was found")
                 ], ephemeral: true
             });
         switch (interaction.customId) {
@@ -41,16 +41,16 @@ exports.default = new index_js_1.Event({
                     if (vol > 100)
                         return interaction.reply({
                             embeds: [new discord_js_1.EmbedBuilder()
-                                .setColor(client.data.color)
-                                .setDescription(`The volume can't be increased further!`)
+                                    .setColor(client.data.color)
+                                    .setDescription(`The volume can't be increased further!`)
                             ], ephemeral: true
                         });
                     await interaction.deferReply();
                     player.setVolume(vol);
                     interaction.editReply({
                         embeds: [new discord_js_1.EmbedBuilder()
-                            .setColor(client.data.color)
-                            .setDescription(`🔊 | The volume has been set to **${player.volume}**`)
+                                .setColor(client.data.color)
+                                .setDescription(`🔊 | The volume has been set to **${player.volume}**`)
                         ]
                     });
                     await promises_1.default.setTimeout(1000);
@@ -63,16 +63,16 @@ exports.default = new index_js_1.Event({
                     if (vol < 0)
                         return interaction.reply({
                             embeds: [new discord_js_1.EmbedBuilder()
-                                .setColor(client.data.color)
-                                .setDescription(`The volume can't be decreased further!`)
+                                    .setColor(client.data.color)
+                                    .setDescription(`The volume can't be decreased further!`)
                             ], ephemeral: true
                         });
                     await interaction.deferReply();
                     player.setVolume(vol);
                     interaction.editReply({
                         embeds: [new discord_js_1.EmbedBuilder()
-                            .setColor(client.data.color)
-                            .setDescription(`🔉 | The volume has been set to **${player.volume}**`)
+                                .setColor(client.data.color)
+                                .setDescription(`🔉 | The volume has been set to **${player.volume}**`)
                         ]
                     });
                     await promises_1.default.setTimeout(1000);
@@ -86,8 +86,8 @@ exports.default = new index_js_1.Event({
                         player.pause(false);
                         interaction.editReply({
                             embeds: [new discord_js_1.EmbedBuilder()
-                                .setColor(client.data.color)
-                                .setDescription(`▶ | The player has been **resumed**`)
+                                    .setColor(client.data.color)
+                                    .setDescription(`▶ | The player has been **resumed**`)
                             ]
                         });
                         await promises_1.default.setTimeout(1000);
@@ -97,8 +97,8 @@ exports.default = new index_js_1.Event({
                         player.pause(true);
                         interaction.editReply({
                             embeds: [new discord_js_1.EmbedBuilder()
-                                .setColor(client.data.color)
-                                .setDescription(`⏸ | The player has been **paused**`)
+                                    .setColor(client.data.color)
+                                    .setDescription(`⏸ | The player has been **paused**`)
                             ]
                         });
                         await promises_1.default.setTimeout(1000);
@@ -112,8 +112,8 @@ exports.default = new index_js_1.Event({
                     player.stop();
                     interaction.editReply({
                         embeds: [new discord_js_1.EmbedBuilder()
-                            .setColor(client.data.color)
-                            .setDescription(`⏭ | The current track has been **skipped**`)
+                                .setColor(client.data.color)
+                                .setDescription(`⏭ | The current track has been **skipped**`)
                         ]
                     });
                     await promises_1.default.setTimeout(1000);
@@ -143,8 +143,8 @@ exports.default = new index_js_1.Event({
                     await (0, index_js_2.musicSetupUpdate)(client, player, musicchannel_js_1.default, setupUpdateEmbed);
                     interaction.editReply({
                         embeds: [new discord_js_1.EmbedBuilder()
-                            .setColor(client.data.color)
-                            .setDescription(`⏹ | The player has been **stopped**`)
+                                .setColor(client.data.color)
+                                .setDescription(`⏹ | The player has been **stopped**`)
                         ]
                     });
                     await promises_1.default.setTimeout(1000);
