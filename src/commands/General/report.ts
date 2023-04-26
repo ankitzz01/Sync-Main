@@ -1,5 +1,5 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, BaseGuildTextChannel } from "discord.js"
-import { CustomClient, editReply, SlashCommand } from "../../structure/index.js"
+import { SlashCommandBuilder, EmbedBuilder, BaseGuildTextChannel } from "discord.js"
+import { editReply, SlashCommand } from "../../structure/index.js"
 
 export default new SlashCommand({
     data: new SlashCommandBuilder()
@@ -11,13 +11,12 @@ export default new SlashCommand({
                 .setRequired(true)
         ),
     category: "General",
-    async execute(interaction: ChatInputCommandInteraction, client: CustomClient) {
+    async execute(interaction, client) {
 
         await interaction.deferReply({ ephemeral: true })
-
         editReply(interaction, "✅", `Thanks for reporting! The report is now submitted and will review shortly.`)
 
-        const channel = await client.channels.fetch(client.data.prod.log.error).catch(() => { }) as BaseGuildTextChannel
+        const channel = await client.channels.fetch(client.data.prod.log.error).catch(() => { })
         if (!channel) return
 
         return (channel as BaseGuildTextChannel).send({
@@ -28,7 +27,7 @@ export default new SlashCommand({
                     { name: `Guild`, value: `${interaction.guild?.name} (${interaction.guild?.id})` },
                     { name: `User`, value: `${interaction.user.tag} (${interaction.user.id})` },
                 )
-                .setDescription(`**Report: ${interaction.options.getString('description')}**`)
+                .setDescription(`**Report: ${interaction.options.getString('description', true)}**`)
                 .setThumbnail(interaction.user.displayAvatarURL())
                 .setTimestamp()
             ]

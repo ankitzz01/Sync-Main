@@ -1,14 +1,12 @@
-import { CustomClient, SlashCommand } from "../../structure/index.js"
-
-import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js"
-import { reply } from "../../structure"
+import { SlashCommand, reply } from "../../structure/index.js"
+import { SlashCommandBuilder } from "discord.js"
 
 export default new SlashCommand({
     data: new SlashCommandBuilder()
         .setName("ping")
         .setDescription("Shows my ping"),
     category: "General",
-    async execute(interaction: ChatInputCommandInteraction, client: CustomClient) {
+    execute(interaction, client) {
 
         return reply(interaction, "⌛", `Ping: **${client.ws.ping}** ms`, true)
 

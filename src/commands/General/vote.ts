@@ -1,34 +1,33 @@
-import { CustomClient, SlashCommand } from "../../structure/index.js"
-import { ChatInputCommandInteraction, EmbedBuilder, ButtonBuilder, SlashCommandBuilder, ButtonStyle, ActionRowBuilder } from "discord.js"
+import { SlashCommand } from "../../structure/index.js";
+import { EmbedBuilder, ButtonBuilder, SlashCommandBuilder, ButtonStyle, ActionRowBuilder } from "discord.js";
 
 export default new SlashCommand({
     data: new SlashCommandBuilder()
         .setName("vote")
         .setDescription("Vote me on top.gg"),
     category: "General",
-    async execute(interaction: ChatInputCommandInteraction, client: CustomClient) {
+    execute(interaction, client) {
 
-        const topgg = client.data.topgg.vote
-
-        const Embed = new EmbedBuilder()
-            .setColor(client.data.color)
-            .setTitle(`Vote Me`)
-            .setThumbnail(`${client.user?.displayAvatarURL()}`)
-            .setDescription(`Sync Music **top.gg** Vote\n\n**[Click Here](${topgg})**`)
-
-        const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
-            new ButtonBuilder()
-                .setLabel("Vote Me")
-                .setStyle(ButtonStyle.Link)
-                .setURL(topgg),
-
-            new ButtonBuilder()
-                .setStyle(ButtonStyle.Link)
-                .setURL(`${client.data.links.support}`)
-                .setLabel("Support Server")
-
-        )
-
-        return interaction.reply({ embeds: [Embed], components: [row] })
+        return interaction.reply({
+            embeds: [
+                new EmbedBuilder()
+                    .setColor(client.data.color)
+                    .setTitle(`Vote Me`)
+                    .setThumbnail(`${client.user?.displayAvatarURL()}`)
+                    .setDescription(`Sync Music **top.gg** Vote\n\n**[Click Here](${client.data.topgg.vote})**`)
+            ],
+            components: [
+                new ActionRowBuilder<ButtonBuilder>().addComponents(
+                    new ButtonBuilder()
+                        .setLabel("Vote Me")
+                        .setStyle(ButtonStyle.Link)
+                        .setURL(client.data.topgg.vote),
+                    new ButtonBuilder()
+                        .setStyle(ButtonStyle.Link)
+                        .setURL(`${client.data.links.support}`)
+                        .setLabel("Support Server")
+                )
+            ]
+        })
     }
 })
