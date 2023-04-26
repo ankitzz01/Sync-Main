@@ -1,5 +1,5 @@
-import { ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
-import { botVC, memberVoice, differentVoice, CustomClient, SlashCommand } from "../../structure/index.js"
+import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import { botVC, memberVoice, differentVoice, SlashCommand, reply, editReply } from "../../structure/index.js"
 
 export default new SlashCommand({
     data: new SlashCommandBuilder()
@@ -39,123 +39,107 @@ export default new SlashCommand({
             sub.setName('clear')
                 .setDescription('Clears the applied filter')),
     category: "Filter",
-    async execute(interaction: ChatInputCommandInteraction, client: CustomClient) {
+    async execute(interaction, client) {
 
-        const player: any = client.player.players.get(`${interaction.guild?.id}`)
+        const player = client.player.players.get(interaction.guild?.id as string)
 
         if (await botVC(interaction)) return
         if (await memberVoice(interaction)) return
         if (await differentVoice(interaction)) return
 
-        if (!player) return interaction.reply({
-            embeds: [new EmbedBuilder()
-                .setColor("Red")
-                .setDescription("No song player was found")
-            ], ephemeral: true
-        })
-
-        if (!player.playing) return interaction.reply({
-            embeds: [new EmbedBuilder()
-                .setColor("Red")
-                .setDescription("No song was found playing")
-            ], ephemeral: true
-        })
-
-        const Sub = interaction.options.getSubcommand()
+        if (!player) return reply(interaction, "❌", "No song player was found", true)
+        if (!player.playing) return reply(interaction, "❌", "No song was found playing", true)
 
         await interaction.deferReply()
 
-        const Embed = new EmbedBuilder()
-            .setColor(client.data.color)
-
-        switch (Sub) {
+        switch (interaction.options.getSubcommand()) {
 
             case "nightcore": {
 
-                player.nightcore = true
+                (player as any).nightcore = true
 
-                interaction.editReply({ embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)] })
+                editReply(interaction, "✅", `Successfully applied the **${interaction.options.getSubcommand()}** filter`)
 
             }
                 break;
             case "vaporwave": {
 
-                player.vaporwave = true
+                (player as any).vaporwave = true
 
-                interaction.editReply({ embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)] })
+                editReply(interaction, "✅", `Successfully applied the **${interaction.options.getSubcommand()}** filter`)
 
             }
                 break;
             case "bassboost": {
 
-                player.bassboost = true
+                (player as any).bassboost = true
 
-                interaction.editReply({ embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)] })
+                editReply(interaction, "✅", `Successfully applied the **${interaction.options.getSubcommand()}** filter`)
 
             }
                 break;
             case "pop": {
 
-                player.pop = true
+                (player as any).pop = true
 
-                interaction.editReply({ embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)] })
+                editReply(interaction, "✅", `Successfully applied the **${interaction.options.getSubcommand()}** filter`)
 
             }
                 break;
             case "soft": {
 
-                player.soft = true
+                (player as any).soft = true
 
-                interaction.editReply({ embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)] })
+                editReply(interaction, "✅", `Successfully applied the **${interaction.options.getSubcommand()}** filter`)
 
             }
                 break;
             case "treblebass": {
 
-                player.treblebass = true
+                (player as any).treblebass = true
 
-                interaction.editReply({ embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)] })
+                editReply(interaction, "✅", `Successfully applied the **${interaction.options.getSubcommand()}** filter`)
 
             }
                 break;
             case "8d": {
 
-                player.eightd = true
+                (player as any).eightd = true
 
-                interaction.editReply({ embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)] })
+                editReply(interaction, "✅", `Successfully applied the **${interaction.options.getSubcommand()}** filter`)
 
             }
                 break;
             case "karaoke": {
 
-                player.karaoke = true
+                (player as any).karaoke = true
 
-                interaction.editReply({ embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)] })
+                editReply(interaction, "✅", `Successfully applied the **${interaction.options.getSubcommand()}** filter`)
 
             }
                 break;
             case "vibrato": {
 
-                player.vibrato = true
+                (player as any).vibrato = true
 
-                interaction.editReply({ embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)] })
+                editReply(interaction, "✅", `Successfully applied the **${interaction.options.getSubcommand()}** filter`)
 
             }
                 break;
             case "tremolo": {
 
-                player.tremolo = true
+                (player as any).tremolo = true
 
-                interaction.editReply({ embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)] })
+                editReply(interaction, "✅", `Successfully applied the **${interaction.options.getSubcommand()}** filter`)
 
             }
                 break;
 
             case "clear": {
 
-                await player.reset()
+                await (player as any).reset()
 
-                interaction.editReply({ embeds: [Embed.setDescription(`Successfully cleared the filters`)] })
+                editReply(interaction, "✅", "Successfully cleared the filters")
 
             }
                 break;
