@@ -1,8 +1,8 @@
-import { EmbedBuilder, AttachmentBuilder, SlashCommandBuilder } from "discord.js"
-import db from "../../schemas/played"
-import { profileImage } from "discord-arts"
-import pms from "pretty-ms"
-import { SlashCommand } from "../../structure/index.js"
+import { EmbedBuilder, AttachmentBuilder, SlashCommandBuilder } from "discord.js";
+import db, { PlayedSchema } from "../../schemas/played";
+import { profileImage } from "discord-arts";
+import pms from "pretty-ms";
+import { SlashCommand } from "../../structure/index.js";
 
 export default new SlashCommand({
     data: new SlashCommandBuilder()
@@ -12,31 +12,30 @@ export default new SlashCommand({
     async execute(interaction, client) {
 
         await interaction.deferReply()
+        const data = await db.findOne<PlayedSchema>({ User: interaction.user.id })
 
-        let songplayed: number
-        let timeListened: string
-
-        const data = await db.findOne({ User: interaction.user.id })
-
-        if (!data) { songplayed = 0, timeListened = "0" }
-        else { songplayed = data.Played, timeListened = pms(data.Time, { verbose: true }) }
-
-        const buffer = await profileImage(interaction.user.id, {
-            customTag: 'Keep Syncing',
-            customBackground: './Assets/profile.png',
-            overwriteBadges: true,
-            borderColor: [client.color],
-            presenceStatus: 'dnd'
+        return interaction.editReply({
+            embeds: [
+                new EmbedBuilder()
+                    .setColor(client.data.color)
+                    .setImage("attachment://profile.png")
+                    .setDescription(
+                        `**Songs Played - ${data ? data.Played : 0} | Listened for - ${data ? pms(data.Time, { verbose: true }) : 0}**`
+                    )
+            ],
+            files: [
+                new AttachmentBuilder(
+                    await profileImage(interaction.user.id, {
+                        customTag: 'Keep Syncing',
+                        customBackground: './Assets/profile.png',
+                        overwriteBadges: true,
+                        borderColor: [client.color],
+                        presenceStatus: 'dnd'
+                    }),
+                    { name: 'profile.png' },
+                )
+            ]
         })
-
-        const attachment = new AttachmentBuilder(buffer, { name: 'profile.png' })
-
-        const Profile = new EmbedBuilder()
-            .setColor(client.data.color)
-            .setImage("attachment://profile.png")
-            .setDescription(`**Songs Played - ${songplayed} | Listened for - ${timeListened}**`)
-
-        return interaction.editReply({ embeds: [Profile], files: [attachment] })
 
     }
 })

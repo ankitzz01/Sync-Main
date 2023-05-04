@@ -1,17 +1,132 @@
-import { CustomClient, SlashCommand } from "../../structure"
-import { SlashCommandBuilder, EmbedBuilder, ChannelType, PermissionFlagsBits, Guild, ChatInputCommandInteraction, GuildChannel } from "discord.js"
+import { CustomClient, SlashCommand, reply, editReply } from "../../structure/index.js"
+import { SlashCommandBuilder, EmbedBuilder, ChannelType, PermissionFlagsBits, Guild, ChatInputCommandInteraction, GuildChannel, CategoryChannel, BaseGuildTextChannel } from "discord.js"
 import DB, { MusicChannelSchema } from "../../schemas/musicchannel"
 import { panelbutton } from "../../systems/button"
 
-async function setupCreate(data: MusicChannelSchema, guild: Guild, client: CustomClient, interaction: ChatInputCommandInteraction) {
+export default new SlashCommand({
+    data: new SlashCommandBuilder()
+        .setName("setup")
+        .setDescription("Setup the sync music requesting channel")
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
+        .addSubcommand(sub =>
+            sub.setName('create').setDescription('Setup the music channel')
+        )
+        .addSubcommand(sub =>
+            sub.setName('delete').setDescription('Delete the current music channel')
+        )
+        .addSubcommand(sub =>
+            sub.setName('info').setDescription('Check the current status of the music setup')
+        ),
+    category: "Others",
+    async execute(interaction, client) {
 
-    const parent = await guild.channels.create({
+        if (!interaction.guild?.members.me?.permissions.has(PermissionFlagsBits.ManageChannels)) return reply(
+            interaction, "❌", `Missing permissions for \`ManageChannels\`.`, true
+        )
+        let data = await DB.findOne<MusicChannelSchema>({ Guild: interaction.guild?.id })
+
+        switch (interaction.options.getSubcommand()) {
+            case "create": {
+
+                if (data) { //if there is data which means already used /setup create
+
+                    const channel = await interaction.guild.channels.fetch(data.Channel) as BaseGuildTextChannel
+                    if (channel) { //if there is data as well as the channel
+                        await interaction.deferReply({ ephemeral: true })
+                        return editReply(interaction, "❌", `The music channel is already set on <#${channel.id}>`)
+                    } else { //if there is data but not the channel
+
+                        await interaction.deferReply()
+                        await data.delete()
+                        let newdata = await setupCreate(interaction, client)
+                        return editReply(interaction, "✅", `Successfully created the music setup in <#${newdata?.Channel}>`)
+                    }
+
+                } else { // if there is no data i.e no setup created
+
+                    await interaction.deferReply()
+                    let newdata = await setupCreate(interaction, client)
+
+                    editReply(interaction, "✅", `Successfully created the music setup in <#${newdata?.Channel}>`)
+                }
+            }
+
+                break;
+
+            case "delete": {
+
+                if (!data) { // if there is no data to delete
+
+                    await interaction.deferReply({ ephemeral: true })
+                    return editReply(interaction, "❌", "No music setup found for this server")
+
+                } else { // if data found to be deleted
+
+                    await interaction.deferReply()
+
+                    try { // tries to delete those channels
+                        const channel = await interaction.guild.channels.fetch(data.Channel) as GuildChannel
+                        const vc = await interaction.guild.channels.fetch(data.VoiceChannel) as GuildChannel
+                        if (!channel && !vc) return
+                        let parent: CategoryChannel
+                        if (channel && !vc) parent = channel.parent as CategoryChannel
+                        else if (vc && !channel) parent = vc.parent as CategoryChannel
+                        else parent = channel.parent as CategoryChannel
+
+                        if (channel.deletable) await channel.delete()
+                        if (vc.deletable) await vc?.delete()
+                        if (parent?.deletable) await parent?.delete()
+
+                    } catch (error) { }
+
+                    await data.delete()
+                    editReply(interaction, "✅", "Successfully deleted the music setup for this server")
+                }
+            }
+                break;
+
+            case "info": {
+
+                await interaction.deferReply()
+
+                let status: string, vcStatus: string
+
+                if (data && await interaction.guild.channels.fetch(data?.Channel)) status = 'Enabled'
+                else status = 'Disabled'
+                if (data && await interaction.guild.channels.fetch(data?.VoiceChannel)) vcStatus = 'Enabled'
+                else vcStatus = 'Disabled'
+
+                const Embed = new EmbedBuilder()
+                    .setColor(status === 'Enabled' ? 'Green' : 'DarkRed')
+                    .setDescription(`
+                    **Current Status**: \`${status}\`\
+                    \n\n**Music Channel**: ${status === 'Enabled' ? `<#${data?.Channel}>` : '\`No Channel\`'}\
+                    \n\n**Voice Channel**: ${vcStatus === 'Enabled' ? `<#${data?.VoiceChannel}>` : '\`No Channel\`'}\
+                `)
+                    .setTitle(`__Music Setup Status__`)
+                    .setThumbnail(interaction.guild.iconURL())
+                    .setTimestamp()
+                    .setFooter({ text: `${status}` })
+
+                interaction.editReply({
+                    embeds: [Embed]
+                })
+
+            }
+                break;
+        }
+    }
+})
+
+async function setupCreate(interaction: ChatInputCommandInteraction, client: CustomClient) {
+
+    const parent = await interaction.guild?.channels.create({
         name: `${client.user?.username.toLowerCase()} zone`,
         type: ChannelType.GuildCategory,
         permissionOverwrites: [
             {
                 type: 0,
-                id: guild.roles.cache.find((x) => x.name === "@everyone")?.id as string,
+                id: interaction.guild?.roles.cache.find((x) => x.name === "@everyone")?.id as string,
                 allow: [
                     PermissionFlagsBits.SendMessages,
                     PermissionFlagsBits.ViewChannel,
@@ -35,11 +150,11 @@ async function setupCreate(data: MusicChannelSchema, guild: Guild, client: Custo
     const textChannel = await interaction.guild?.channels.create({
         name: `music-request`,
         type: ChannelType.GuildText,
-        parent: parent.id,
+        parent: parent?.id,
         permissionOverwrites: [
             {
                 type: 0,
-                id: guild.roles.cache.find((x) => x.name === "@everyone")?.id as string,
+                id: interaction.guild.roles.cache.find((x) => x.name === "@everyone")?.id as string,
                 allow: [
                     PermissionFlagsBits.ViewChannel,
                     PermissionFlagsBits.ReadMessageHistory
@@ -65,11 +180,11 @@ async function setupCreate(data: MusicChannelSchema, guild: Guild, client: Custo
         name: `${client.user?.username}`,
         type: ChannelType.GuildVoice,
         userLimit: 25,
-        parent: parent.id,
+        parent: parent?.id,
         permissionOverwrites: [
             {
                 type: 0,
-                id: guild.roles.cache.find((x) => x.name === "@everyone")?.id as string,
+                id: interaction.guild?.roles.cache.find((x) => x.name === "@everyone")?.id as string,
                 allow: [
                     PermissionFlagsBits.ViewChannel,
                     PermissionFlagsBits.Connect,
@@ -92,13 +207,11 @@ async function setupCreate(data: MusicChannelSchema, guild: Guild, client: Custo
 
     })
 
-    let title: string
-    let image: string
-
+    let title: string, image: string
     const player = client.player.players.get(interaction.guild?.id as string)
 
     if (player && player.playing && player.queue.current) {
-        title = player.queue.current.title
+        title = player.queue.current.title || "Unknown track"
         image = player.queue.current.displayThumbnail!("maxresdefault") || client.data.links.background;
     } else {
         title = `No song playing currently`
@@ -118,187 +231,12 @@ async function setupCreate(data: MusicChannelSchema, guild: Guild, client: Custo
         components: [panelbutton]
     })
 
-    data = new DB({
+    let data = await new DB({
         Guild: interaction.guild?.id,
         Channel: textChannel?.id,
         VoiceChannel: voiceChannel?.id,
         Message: panel?.id
-    })
+    }).save() as MusicChannelSchema
 
-    await data.save()
+    return data
 }
-
-export default new SlashCommand({
-    data: new SlashCommandBuilder()
-        .setName("setup")
-        .setDescription("Setup the sync music requesting channel")
-        .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
-        .addSubcommand(sub =>
-            sub.setName('create').setDescription('Setup the music channel')
-        )
-        .addSubcommand(sub =>
-            sub.setName('delete').setDescription('Delete the current music channel')
-        )
-        .addSubcommand(sub =>
-            sub.setName('info').setDescription('Check the current status of the music setup')
-        ),
-    category: "Others",
-
-    async execute(interaction, client) {
-
-        const sub = interaction.options.getSubcommand()
-
-        const errEmbed = new EmbedBuilder()
-            .setColor("DarkRed")
-
-        const guild = interaction.guild
-
-        if (!guild?.members.me?.permissions.has(PermissionFlagsBits.ManageChannels)) return interaction.reply({
-            embeds: [errEmbed.setDescription(`Missing permissions for \`ManageChannels\`.`)], ephemeral: true
-        })
-
-        let data = await DB.findOne({ Guild: interaction.guild?.id })
-
-        switch (sub) {
-            case "create": {
-
-                if (data) { //if there is data which means already used /setup create
-
-                    const channel = guild.channels.cache.get(data.Channel)
-
-                    if (channel) { //if there is data as well as the channel
-
-                        await interaction.deferReply({ ephemeral: true })
-
-                        return interaction.editReply({
-                            embeds: [errEmbed.setDescription(`The music channel is already set on <#${channel.id}>`)]
-                        })
-                    }
-
-                    else { //if there is data but not the channel
-
-                        await interaction.deferReply()
-
-                        await data.delete()
-
-                        await setupCreate(data, guild, client, interaction)
-
-                        return interaction.editReply({
-                            embeds: [new EmbedBuilder()
-                                .setColor(client.data.color)
-                                .setDescription(`Successfully created the music setup in <#${data.Channel}>`)
-                            ]
-                        })
-
-                    }
-
-                } else { // if there is no data i.e no setup created
-
-                    await interaction.deferReply()
-
-                    if (!data) return interaction.editReply({
-                        embeds: [new EmbedBuilder()
-                            .setColor(client.data.color)
-                            .setDescription(`Something went wrong!`)
-                        ]
-                    })
-
-                    await setupCreate(data, guild, client, interaction)
-
-                    let v = await DB.findOne({ Guild: interaction.guild?.id }).catch(err => { })
-
-                    interaction.editReply({
-                        embeds: [new EmbedBuilder()
-                            .setColor(client.data.color)
-                            .setDescription(`Successfully created the music setup in <#${v?.Channel}>`)
-                        ]
-                    })
-
-                }
-
-            }
-
-                break;
-
-            case "delete": {
-
-                if (!data) { // if there is no data to delete
-
-                    await interaction.deferReply({ ephemeral: true })
-
-                    return interaction.editReply({
-                        embeds: [errEmbed.setDescription(`No music setup found for this server`)]
-
-                    })
-                } else { // if data found to be deleted
-
-                    await interaction.deferReply()
-
-                    try { // tries to delete those channels
-                        const channel = guild.channels.cache.get(data.Channel) as GuildChannel
-                        const vc = guild.channels.cache.get(data.VoiceChannel) as GuildChannel
-
-                        if (!channel && !vc) return
-
-                        let parent
-
-                        if (channel && !vc) parent = channel.parent
-                        else if (vc && !channel) parent = vc.parent
-                        else parent = channel.parent
-
-                        if (channel.deletable) await channel.delete()
-                        if (vc.deletable) await vc?.delete()
-                        if (parent?.deletable) await parent?.delete()
-
-                    } catch (error) { }
-
-                    await data.delete()
-
-                    interaction.editReply({
-                        embeds: [new EmbedBuilder()
-                            .setColor(client.data.color)
-                            .setDescription(`Successfully deleted the music setup for this server`)
-                        ]
-                    })
-
-                }
-
-            }
-                break;
-
-            case "info": {
-
-                await interaction.deferReply()
-
-                let status
-                let vcStatus
-
-                if (data && guild.channels.cache.get(data?.Channel)) status = 'Enabled'
-                else status = 'Disabled'
-
-                if (data && guild.channels.cache.get(data?.VoiceChannel)) vcStatus = 'Enabled'
-                else vcStatus = 'Disabled'
-
-                let details = `
-                    **Current Status**: \`${status}\`\
-                    \n\n**Music Channel**: ${status === 'Enabled' ? `<#${data?.Channel}>` : '\`No Channel\`'}\
-                    \n\n**Voice Channel**: ${vcStatus === 'Enabled' ? `<#${data?.VoiceChannel}>` : '\`No Channel\`'}\
-                `
-
-                const Embed = new EmbedBuilder()
-                    .setColor(status === 'Enabled' ? 'Green' : 'DarkRed')
-                    .setDescription(details)
-                    .setTitle(`__Music Setup Status__`)
-                    .setThumbnail(guild.iconURL())
-                    .setTimestamp()
-                    .setFooter({ text: `${status}` })
-
-                interaction.editReply({
-                    embeds: [Embed]
-                })
-
-            }
-                break;
-        }
-    }
-})
