@@ -1,4 +1,4 @@
-import { BaseGuildTextChannel, Channel, ColorResolvable, EmbedBuilder } from "discord.js";
+import { BaseGuildTextChannel, ColorResolvable, EmbedBuilder } from "discord.js";
 import buttonDB, { TempButtonSchema } from "../../schemas/tempbutton.js";
 import setupDB from "../../schemas/musicchannel.js"
 import { CustomClient, PlayerEvent } from "../../structure/index.js"

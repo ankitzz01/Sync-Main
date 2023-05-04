@@ -1,7 +1,6 @@
 import { Player } from "erela.js"
 import { BaseGuildTextChannel, EmbedBuilder } from "discord.js"
 import { CustomClient } from "../classes/index.js"
-import { MusicChannelSchema } from "../../schemas/musicchannel"
 
 export async function musicSetupUpdate(client: CustomClient, player: Player, DB: any, Embed: EmbedBuilder) {
 
