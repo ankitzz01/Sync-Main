@@ -1,5 +1,5 @@
 import { GuildMember, SlashCommandBuilder } from "discord.js"
-import { SlashCommand, playSong, memberVoice, joinable, differentVoice, stageCheck } from "../../structure"
+import { SlashCommand, playSong, memberVoice, joinable, differentVoice, stageCheck, reply, editReply } from "../../structure"
 
 export default new SlashCommand({
     data: new SlashCommandBuilder()
@@ -12,7 +12,6 @@ export default new SlashCommand({
                 .setAutocomplete(true)
         ),
     category: "Music",
-
     async execute(interaction, client) {
 
         if (await memberVoice(interaction)) return

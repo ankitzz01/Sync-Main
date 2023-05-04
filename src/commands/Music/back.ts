@@ -1,5 +1,5 @@
-import { EmbedBuilder, SlashCommandBuilder } from "discord.js"
-import { SlashCommand, memberVoice, differentVoice, botVC, joinable } from "../../structure/index.js"
+import { SlashCommandBuilder } from "discord.js";
+import { SlashCommand, memberVoice, differentVoice, botVC, joinable, reply, editReply } from "../../structure/index.js";
 
 export default new SlashCommand({
     data: new SlashCommandBuilder()
@@ -15,20 +15,8 @@ export default new SlashCommand({
         if (await joinable(interaction)) return
 
         const player = client.player.players.get(interaction.guild?.id as string)
-
-        if (!player) return interaction.reply({
-            embeds: [new EmbedBuilder()
-                .setColor("DarkRed")
-                .setDescription("No song player was found")
-            ], ephemeral: true
-        })
-
-        if (!player.queue.previous) return interaction.reply({
-            embeds: [new EmbedBuilder()
-                .setColor("DarkRed")
-                .setDescription(`No previous song was found`)
-            ], ephemeral: true
-        })
+        if (!player) return reply(interaction, "❌", "No song player was found", true)
+        if (!player.queue.previous) return reply(interaction, "❌", "No previous song was found", true)
 
         await interaction.deferReply()
 
@@ -46,11 +34,6 @@ export default new SlashCommand({
         )
             await player.play()
 
-        return interaction.editReply({
-            embeds: [new EmbedBuilder()
-                .setColor(client.data.color)
-                .setDescription(`⏮ | Playing the **previous** song`)
-            ]
-        })
+        return editReply(interaction, "⏮", "Playing the **previous** song")
     },
 })

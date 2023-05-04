@@ -1,5 +1,5 @@
-import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
-import { SlashCommand, memberVoice, botVC, differentVoice } from "../../structure";
+import { SlashCommandBuilder } from "discord.js";
+import { SlashCommand, memberVoice, botVC, differentVoice, reply, editReply } from "../../structure";
 
 export default new SlashCommand({
     data: new SlashCommandBuilder()
@@ -11,11 +11,11 @@ export default new SlashCommand({
                 .setRequired(true)
                 .addChoices({
                     name: "Track",
-                    value: "song"
+                    value: "track"
                 },
                     {
                         name: "Queue",
-                        value: "playlist"
+                        value: "queue"
                     },
                     {
                         name: "Disable",
@@ -26,100 +26,50 @@ export default new SlashCommand({
 
     async execute(interaction, client) {
 
-        const { options } = interaction
-
-        const player = client.player.players.get(interaction.guild?.id as string)
-
         if (await memberVoice(interaction)) return
         if (await botVC(interaction)) return
         if (await differentVoice(interaction)) return
 
-        if (!player) return interaction.reply({
-            embeds: [new EmbedBuilder()
-                .setColor("DarkRed")
-                .setDescription("No song player was found")
-            ], ephemeral: true
-        })
+        const player = client.player.players.get(interaction.guild?.id as string)
+        if (!player) return reply(interaction, "❌", "No song player was found", true)
 
-        const choice = options.getString("mode")
+        switch (interaction.options.getString("mode", true)) {
 
-        if (choice == "song") {
+            case "track": {
+                if (player.trackRepeat) return reply(interaction, "❌", "This song is already being looped", true)
+                if (player.queueRepeat) return reply(interaction, "❌", "The queue is already being looped", true)
 
-            if (player.trackRepeat) return interaction.reply({
-                embeds: [new EmbedBuilder()
-                    .setColor("DarkRed")
-                    .setDescription(`This song is already being looped`)
-                ], ephemeral: true
-            })
+                await interaction.deferReply()
+                player.setTrackRepeat(true)
 
-            if (player.queueRepeat) return interaction.reply({
-                embeds: [new EmbedBuilder()
-                    .setColor("DarkRed")
-                    .setDescription(`The queue is already being looped`)
-                ], ephemeral: true
-            })
+                editReply(interaction, "🔄", "**Looping** the current track")
+            }
+                break;
 
-            await interaction.deferReply()
+            case "queue": {
+                if (player.trackRepeat) return reply(interaction, "❌", "This song is already being looped", true)
+                if (player.queueRepeat) return reply(interaction, "❌", "The queue is already being looped", true)
 
-            player.setTrackRepeat(true)
+                await interaction.deferReply()
+                player.setQueueRepeat(true)
 
-            return interaction.editReply({
-                embeds: [new EmbedBuilder()
-                    .setColor(client.data.color)
-                    .setDescription(`🔄 | **Looping** the current track`)
-                ]
-            })
-        }
+                editReply(interaction, "🔄", "Looping the queue")
+            }
+                break;
 
-        if (choice == "playlist") {
+            case "off": {
+                if (!player.trackRepeat && !player.queueRepeat) return reply(
+                    interaction, "❌", "The loop mode is already disabled", true
+                )
 
-            if (player.trackRepeat) return interaction.reply({
-                embeds: [new EmbedBuilder()
-                    .setColor("DarkRed")
-                    .setDescription(`This song is already being looped`)
-                ], ephemeral: true
-            })
+                await interaction.deferReply()
 
-            if (player.queueRepeat) return interaction.reply({
-                embeds: [new EmbedBuilder()
-                    .setColor("DarkRed")
-                    .setDescription(`The queue is already being looped`)
-                ], ephemeral: true
-            })
+                player.setTrackRepeat(false)
+                player.setQueueRepeat(false)
 
-            await interaction.deferReply()
-
-            player.setQueueRepeat(true)
-
-            return interaction.editReply({
-                embeds: [new EmbedBuilder()
-                    .setColor(client.data.color)
-                    .setDescription(`🔄 | Looping the queue`)
-                ]
-            })
-        }
-
-
-        if (choice == "off") {
-
-            if (!player.trackRepeat && !player.queueRepeat) return interaction.reply({
-                embeds: [new EmbedBuilder()
-                    .setColor("DarkRed")
-                    .setDescription(`The loop mode is already disabled`)
-                ], ephemeral: true
-            })
-
-            await interaction.deferReply()
-
-            player.setTrackRepeat(false)
-            player.setQueueRepeat(false)
-
-            return interaction.editReply({
-                embeds: [new EmbedBuilder()
-                    .setColor(client.data.color)
-                    .setDescription(`✅ | The loop mode has been disabled`)
-                ]
-            })
+                editReply(interaction, "✅", "The loop mode has been disabled")
+            }
+                break;
         }
     }
 })

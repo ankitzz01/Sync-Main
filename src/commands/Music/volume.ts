@@ -1,5 +1,5 @@
 import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
-import { SlashCommand, memberVoice, botVC, differentVoice } from "../../structure";
+import { SlashCommand, memberVoice, botVC, differentVoice, reply, editReply } from "../../structure";
 
 export default new SlashCommand({
     data: new SlashCommandBuilder()
@@ -15,30 +15,18 @@ export default new SlashCommand({
     category: "Music",
     async execute(interaction, client) {
 
-        const player = client.player.players.get(interaction.guild?.id as string)
-
         if (await memberVoice(interaction)) return
         if (await botVC(interaction)) return
         if (await differentVoice(interaction)) return
 
-        if (!player) return interaction.reply({
-            embeds: [new EmbedBuilder()
-                .setColor("DarkRed")
-                .setDescription("No song player was found")
-            ], ephemeral: true
-        })
+        const player = client.player.players.get(interaction.guild?.id as string)
+        if (!player) return reply(interaction, "❌", "No song player was found", true)
 
         const vol = interaction.options.getInteger("volume", true)
 
         await interaction.deferReply()
-
         player.setVolume(vol)
 
-        return interaction.editReply({
-            embeds: [new EmbedBuilder()
-                .setColor(client.data.color)
-                .setDescription(`🔊 | **Volume** set to ${vol}`)
-            ]
-        })
+        return editReply(interaction, "🔊", `**Volume** set to ${vol}`)
     }
 })

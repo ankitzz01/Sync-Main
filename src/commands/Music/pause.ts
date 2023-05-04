@@ -1,5 +1,5 @@
-import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
-import { SlashCommand, memberVoice, botVC, differentVoice } from "../../structure";
+import { SlashCommandBuilder } from "discord.js";
+import { SlashCommand, memberVoice, botVC, differentVoice, reply, editReply } from "../../structure";
 
 export default new SlashCommand({
     data: new SlashCommandBuilder()
@@ -8,36 +8,18 @@ export default new SlashCommand({
     category: "Music",
     async execute(interaction, client) {
 
-        const Manager = client.player
-        const player = Manager.players.get(interaction.guild?.id as string)
-
         if (await memberVoice(interaction)) return
         if (await botVC(interaction)) return
         if (await differentVoice(interaction)) return
 
-        if (!player) return interaction.reply({
-            embeds: [new EmbedBuilder()
-                .setColor("DarkRed")
-                .setDescription("No song player was found")
-            ], ephemeral: true
-        })
-
-        if (player.paused) return interaction.reply({
-            embeds: [new EmbedBuilder()
-                .setColor("DarkRed")
-                .setDescription(`The player is already paused`)
-            ], ephemeral: true
-        })
+        const player = client.player.players.get(interaction.guild?.id as string)
+        if (!player) return reply(interaction, "❌", "No song player was found", true)
+        if (player.paused) return reply(interaction, "❌", "The player is already paused", true)
 
         await interaction.deferReply()
 
-        await player.pause(true)
+        player.pause(true)
 
-        return interaction.editReply({
-            embeds: [new EmbedBuilder()
-                .setColor(client.data.color)
-                .setDescription(`⏸ | **Paused** the player`)
-            ]
-        })
+        return editReply(interaction, "⏸", "**Paused** the player")
     }
 })
