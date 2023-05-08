@@ -9,6 +9,7 @@ export default new SlashCommand({
         .setName("profile")
         .setDescription("Check your Sync profile"),
     category: "Others",
+    voteOnly: true,
     async execute(interaction, client) {
 
         await interaction.deferReply()
@@ -27,7 +28,7 @@ export default new SlashCommand({
                 new AttachmentBuilder(
                     await profileImage(interaction.user.id, {
                         customTag: 'Keep Syncing',
-                        customBackground: './Assets/profile.png',
+                        customBackground: 'dist/assets/profile.png',
                         overwriteBadges: true,
                         borderColor: [client.color],
                         presenceStatus: 'dnd'

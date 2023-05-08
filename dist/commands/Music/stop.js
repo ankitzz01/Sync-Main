@@ -14,24 +14,19 @@ exports.default = new structure_1.SlashCommand({
         .setDescription('Stop the current track'),
     category: "Music",
     async execute(interaction, client) {
-        const player = client.player.players.get(interaction.guild?.id);
         if (await (0, structure_1.memberVoice)(interaction))
             return;
         if (await (0, structure_1.botVC)(interaction))
             return;
         if (await (0, structure_1.differentVoice)(interaction))
             return;
+        const player = client.player.players.get(interaction.guild?.id);
         if (!player)
-            return interaction.reply({
-                embeds: [new discord_js_1.EmbedBuilder()
-                        .setColor("DarkRed")
-                        .setDescription("No song player was found")
-                ], ephemeral: true
-            });
+            return (0, structure_1.reply)(interaction, "❌", "No song player was found", true);
         await interaction.deferReply();
-        const Channel = interaction.guild?.channels.cache.get(player.textChannel);
+        const Channel = await interaction.guild?.channels.fetch(player.textChannel);
         if (!Channel)
-            return;
+            return (0, structure_1.reply)(interaction, "❌", "Failed to stop the track", true);
         const data = await tempbutton_1.default.find({ Guild: player.guild, Channel: player.textChannel });
         for (let i = 0; i < data.length; i++) {
             const msg = Channel.messages.cache.get(data[i].MessageID);
@@ -47,11 +42,6 @@ exports.default = new structure_1.SlashCommand({
             .setImage(client.data.links.background)
             .setDescription(`**[Invite Me](${client.data.links.invite})  :  [Support Server](${client.data.links.support})  :  [Vote Me](${client.data.topgg.vote})**`);
         await (0, structure_1.musicSetupUpdate)(client, player, musicchannel_1.default, setupUpdateEmbed);
-        return interaction.editReply({
-            embeds: [new discord_js_1.EmbedBuilder()
-                    .setColor(client.data.color)
-                    .setDescription(`⏹ | **Stopped** the player`)
-            ]
-        });
+        return (0, structure_1.editReply)(interaction, "⏹", "**Stopped** the player");
     }
 });

@@ -76,7 +76,6 @@ exports.default = new index_js_1.Event({
                 break;
             default:
                 {
-                    console.log(client.commands);
                     const Sorted = client.commands.filter(v => v.category === `${selection}`);
                     const MappedData = Sorted.map(value => `\`${value.data.name}\`\n${value.data.description}`).join("\n\n");
                     Embed = new discord_js_1.EmbedBuilder()

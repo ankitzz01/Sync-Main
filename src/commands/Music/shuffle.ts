@@ -6,6 +6,7 @@ export default new SlashCommand({
         .setName('shuffle')
         .setDescription('Shuffle the queue'),
     category: "Music",
+    voteOnly: true,
     async execute(interaction, client) {
 
         if (await memberVoice(interaction)) return

@@ -30,7 +30,7 @@ exports.default = new index_js_1.SlashCommand({
         .setDescription('Clears the applied filter')),
     category: "Filter",
     async execute(interaction, client) {
-        const player = client.player.players.get(`${interaction.guild?.id}`);
+        const player = client.player.players.get(interaction.guild?.id);
         if (await (0, index_js_1.botVC)(interaction))
             return;
         if (await (0, index_js_1.memberVoice)(interaction))
@@ -38,88 +38,75 @@ exports.default = new index_js_1.SlashCommand({
         if (await (0, index_js_1.differentVoice)(interaction))
             return;
         if (!player)
-            return interaction.reply({
-                embeds: [new discord_js_1.EmbedBuilder()
-                        .setColor("Red")
-                        .setDescription("No song player was found")
-                ], ephemeral: true
-            });
+            return (0, index_js_1.reply)(interaction, "❌", "No song player was found", true);
         if (!player.playing)
-            return interaction.reply({
-                embeds: [new discord_js_1.EmbedBuilder()
-                        .setColor("Red")
-                        .setDescription("No song was found playing")
-                ], ephemeral: true
-            });
-        const Sub = interaction.options.getSubcommand();
+            return (0, index_js_1.reply)(interaction, "❌", "No song was found playing", true);
         await interaction.deferReply();
-        const Embed = new discord_js_1.EmbedBuilder()
-            .setColor(client.data.color);
-        switch (Sub) {
+        switch (interaction.options.getSubcommand()) {
             case "nightcore":
                 {
                     player.nightcore = true;
-                    interaction.editReply({ embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)] });
+                    (0, index_js_1.editReply)(interaction, "✅", `Successfully applied the **${interaction.options.getSubcommand()}** filter`);
                 }
                 break;
             case "vaporwave":
                 {
                     player.vaporwave = true;
-                    interaction.editReply({ embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)] });
+                    (0, index_js_1.editReply)(interaction, "✅", `Successfully applied the **${interaction.options.getSubcommand()}** filter`);
                 }
                 break;
             case "bassboost":
                 {
                     player.bassboost = true;
-                    interaction.editReply({ embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)] });
+                    (0, index_js_1.editReply)(interaction, "✅", `Successfully applied the **${interaction.options.getSubcommand()}** filter`);
                 }
                 break;
             case "pop":
                 {
                     player.pop = true;
-                    interaction.editReply({ embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)] });
+                    (0, index_js_1.editReply)(interaction, "✅", `Successfully applied the **${interaction.options.getSubcommand()}** filter`);
                 }
                 break;
             case "soft":
                 {
                     player.soft = true;
-                    interaction.editReply({ embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)] });
+                    (0, index_js_1.editReply)(interaction, "✅", `Successfully applied the **${interaction.options.getSubcommand()}** filter`);
                 }
                 break;
             case "treblebass":
                 {
                     player.treblebass = true;
-                    interaction.editReply({ embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)] });
+                    (0, index_js_1.editReply)(interaction, "✅", `Successfully applied the **${interaction.options.getSubcommand()}** filter`);
                 }
                 break;
             case "8d":
                 {
                     player.eightd = true;
-                    interaction.editReply({ embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)] });
+                    (0, index_js_1.editReply)(interaction, "✅", `Successfully applied the **${interaction.options.getSubcommand()}** filter`);
                 }
                 break;
             case "karaoke":
                 {
                     player.karaoke = true;
-                    interaction.editReply({ embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)] });
+                    (0, index_js_1.editReply)(interaction, "✅", `Successfully applied the **${interaction.options.getSubcommand()}** filter`);
                 }
                 break;
             case "vibrato":
                 {
                     player.vibrato = true;
-                    interaction.editReply({ embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)] });
+                    (0, index_js_1.editReply)(interaction, "✅", `Successfully applied the **${interaction.options.getSubcommand()}** filter`);
                 }
                 break;
             case "tremolo":
                 {
                     player.tremolo = true;
-                    interaction.editReply({ embeds: [Embed.setDescription(`Successfully applied the **${Sub}** filter`)] });
+                    (0, index_js_1.editReply)(interaction, "✅", `Successfully applied the **${interaction.options.getSubcommand()}** filter`);
                 }
                 break;
             case "clear":
                 {
                     await player.reset();
-                    interaction.editReply({ embeds: [Embed.setDescription(`Successfully cleared the filters`)] });
+                    (0, index_js_1.editReply)(interaction, "✅", "Successfully cleared the filters");
                 }
                 break;
         }

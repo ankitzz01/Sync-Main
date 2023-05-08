@@ -8,20 +8,15 @@ exports.default = new structure_1.SlashCommand({
         .setDescription('Sends the current playing song to your DM'),
     category: "Music",
     async execute(interaction, client) {
-        const player = client.player.players.get(interaction.guild?.id);
         if (await (0, structure_1.botVC)(interaction))
             return;
         if (await (0, structure_1.memberVoice)(interaction))
             return;
         if (await (0, structure_1.differentVoice)(interaction))
             return;
+        const player = client.player.players.get(interaction.guild?.id);
         if (!player)
-            return interaction.reply({
-                embeds: [new discord_js_1.EmbedBuilder()
-                        .setColor("DarkRed")
-                        .setDescription("No song player was found")
-                ], ephemeral: true
-            });
+            return (0, structure_1.reply)(interaction, "❌", "No song player was found", true);
         if (!(player.playing || player.paused || player.queue.current))
             return interaction.reply({
                 embeds: [new discord_js_1.EmbedBuilder()
@@ -31,7 +26,7 @@ exports.default = new structure_1.SlashCommand({
             });
         await interaction.deferReply({ ephemeral: true });
         const track = player.queue.current;
-        let link = `https://www.google.com/search?q=${encodeURIComponent(track.title)}`;
+        const link = `https://www.google.com/search?q=${encodeURIComponent(track.title)}`;
         const Embed = new discord_js_1.EmbedBuilder()
             .setColor(client.data.color)
             .setAuthor({ name: "SAVED SONG", iconURL: track.requester.displayAvatarURL(), url: client.data.links.support })
@@ -41,18 +36,8 @@ exports.default = new structure_1.SlashCommand({
             .setFooter({ text: `${interaction.guild?.name}`, iconURL: interaction.guild?.iconURL() })
             .setTimestamp();
         await interaction.member.send({ embeds: [Embed] }).catch(() => {
-            return interaction.editReply({
-                embeds: [new discord_js_1.EmbedBuilder()
-                        .setColor("DarkRed")
-                        .setDescription("Unable to send the song. Check if you have your DMs open")
-                ]
-            });
+            return (0, structure_1.editReply)(interaction, "❌", "Unable to send the song. Check if you have your DMs open");
         });
-        return interaction.editReply({
-            embeds: [new discord_js_1.EmbedBuilder()
-                    .setColor(client.data.color)
-                    .setDescription("The Song has been sent in your DMs!")
-            ]
-        });
+        return (0, structure_1.editReply)(interaction, "✅", "The Song has been sent in your DMs!");
     }
 });

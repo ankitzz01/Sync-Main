@@ -23,6 +23,7 @@ export default new SlashCommand({
                     })
         ),
     category: "Music",
+    voteOnly: true,
 
     async execute(interaction, client) {
 

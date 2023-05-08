@@ -8,7 +8,6 @@ exports.default = new structure_1.SlashCommand({
         .setDescription('Replay the current song'),
     category: "Music",
     async execute(interaction, client) {
-        const player = client.player.players.get(interaction.guild?.id);
         if (await (0, structure_1.botVC)(interaction))
             return;
         if (await (0, structure_1.memberVoice)(interaction))
@@ -19,26 +18,14 @@ exports.default = new structure_1.SlashCommand({
             return;
         if (await (0, structure_1.joinable)(interaction))
             return;
+        const player = client.player.players.get(interaction.guild?.id);
         if (!player)
-            return interaction.reply({
-                embeds: [new discord_js_1.EmbedBuilder()
-                        .setColor("DarkRed")
-                        .setDescription("No song player was found")
-                ], ephemeral: true
-            });
-        if (!(player.playing || !player.paused))
-            return interaction.reply({
-                embeds: [new discord_js_1.EmbedBuilder()
-                        .setColor("DarkRed")
-                        .setDescription("No song was found playing")
-                ], ephemeral: true
-            });
+            return (0, structure_1.reply)(interaction, "❌", "No song player was found", true);
+        if (!player.playing || !player.paused)
+            return (0, structure_1.reply)(interaction, "❌", "No song was found playing", true);
         await interaction.deferReply();
         player.seek(0);
         player.pause(false);
-        const Embed = new discord_js_1.EmbedBuilder()
-            .setColor(client.data.color)
-            .setDescription(`🔁 | **Replaying** the current song`);
-        return interaction.editReply({ embeds: [Embed] });
+        return (0, structure_1.editReply)(interaction, "🔁", "**Replaying** the current song");
     }
 });

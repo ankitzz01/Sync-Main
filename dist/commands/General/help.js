@@ -7,18 +7,18 @@ const index_js_1 = require("../../structure/index.js");
 const discord_js_1 = require("discord.js");
 const fs_1 = __importDefault(require("fs"));
 const emojis_1 = __importDefault(require("../../systems/emojis"));
-const path_1 = __importDefault(require("path"));
 exports.default = new index_js_1.SlashCommand({
     data: new discord_js_1.SlashCommandBuilder()
         .setName("help")
         .setDescription("Get the command list"),
     category: "General",
     async execute(interaction, client) {
+        await interaction.deferReply();
         const Intro = `**Hey ${interaction.user.username}, it's me Sync Music.\nI offer non-stop playback of your favorite tunes with customizable filters to fit your taste.\nChoose me for all of your music needs.**\n\n`;
         const Features = `**My Command Categories:\n\n${emojis_1.default.music} | Music Commands\n${emojis_1.default.info} | General Commands\n${emojis_1.default.filter} | Filter\n${emojis_1.default.playlist} | Playlist\n${emojis_1.default.settings} | Others\n\n**`;
         const Last = `\`Choose a category from below\``;
         const Promo = `\n\n**[Invite Me](${client.data.links.invite})  :  [Support Server](${client.data.links.support})  :  [Vote Me](${client.data.topgg.vote})**`;
-        const embedMsg = new discord_js_1.EmbedBuilder()
+        const Embed = new discord_js_1.EmbedBuilder()
             .setAuthor({ name: `${client.user?.username}`, iconURL: client.user?.displayAvatarURL() })
             .setColor(client.data.color)
             .setDescription(`${Intro}${Features}${Last}${Promo}`)
@@ -36,7 +36,7 @@ exports.default = new index_js_1.SlashCommand({
             Others: emojis_1.default.settings,
             Playlist: emojis_1.default.playlist
         };
-        fs_1.default.readdirSync(path_1.default.join(__dirname, '..', '..', 'commands')).forEach((command) => {
+        fs_1.default.readdirSync("dist/commands").forEach((command) => {
             helpMenu.components[0].addOptions({
                 label: `${command}`,
                 description: `Command list for ${command}`,
@@ -50,6 +50,6 @@ exports.default = new index_js_1.SlashCommand({
             value: "Home",
             emoji: emojis_1.default.home,
         });
-        interaction.reply({ embeds: [embedMsg], components: [helpMenu] });
+        return interaction.editReply({ embeds: [Embed], components: [helpMenu] });
     }
 });

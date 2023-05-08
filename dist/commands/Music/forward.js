@@ -12,27 +12,17 @@ exports.default = new structure_1.SlashCommand({
         .setMinValue(1).setMaxValue(360)),
     category: "Music",
     async execute(interaction, client) {
-        const player = client.player.players.get(interaction.guild?.id);
         if (await (0, structure_1.botVC)(interaction))
             return;
         if (await (0, structure_1.memberVoice)(interaction))
             return;
         if (await (0, structure_1.differentVoice)(interaction))
             return;
+        const player = client.player.players.get(interaction.guild?.id);
         if (!player)
-            return interaction.reply({
-                embeds: [new discord_js_1.EmbedBuilder()
-                        .setColor("DarkRed")
-                        .setDescription("No song player was found")
-                ], ephemeral: true
-            });
+            return (0, structure_1.reply)(interaction, "❌", "No song player was found", true);
         if (!player.playing || !player.queue.current)
-            return interaction.reply({
-                embeds: [new discord_js_1.EmbedBuilder()
-                        .setColor("DarkRed")
-                        .setDescription("No song was found playing")
-                ], ephemeral: true
-            });
+            return (0, structure_1.reply)(interaction, "❌", "No song was found playing", true);
         await interaction.deferReply();
         const forwardAmount = interaction.options.getInteger("seconds");
         let seektime = Number(player.position) + Number(forwardAmount) * 1000;
@@ -41,9 +31,6 @@ exports.default = new structure_1.SlashCommand({
         if (Number(seektime) >= player.queue.current.duration)
             seektime = player.queue.current.duration - 1000;
         player.seek(Number(seektime));
-        const Embed = new discord_js_1.EmbedBuilder()
-            .setColor(client.data.color)
-            .setDescription(`⏩ | Skipped **${forwardAmount}** seconds forward`);
-        return interaction.editReply({ embeds: [Embed] });
+        return (0, structure_1.editReply)(interaction, "⏩", `Skipped **${forwardAmount}** seconds forward`);
     }
 });

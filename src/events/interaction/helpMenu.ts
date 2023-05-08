@@ -87,7 +87,6 @@ export default new Event({
 
             default: {
 
-                console.log(client.commands)
                 const Sorted = client.commands.filter(v => v.category === `${selection}`)
                 const MappedData = Sorted.map(value => `\`${value.data.name}\`\n${value.data.description}`).join("\n\n")
 

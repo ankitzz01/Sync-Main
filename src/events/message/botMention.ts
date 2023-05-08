@@ -1,7 +1,7 @@
-import { Message, EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder, Events } from "discord.js"
-import fs from "fs"
-import emojis from "../../systems/emojis"
-import { CustomClient, Event } from "../../structure/index.js"
+import { Message, EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder, Events } from "discord.js";
+import fs from "fs";
+import emojis from "../../systems/emojis";
+import { CustomClient, Event } from "../../structure/index.js";
 
 export default new Event({
     name: Events.MessageCreate,
@@ -26,16 +26,14 @@ export default new Event({
             .setThumbnail(`${client.user?.displayAvatarURL()}`)
 
         let helpMenu = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
-
             new StringSelectMenuBuilder()
                 .setCustomId("helpMenu")
                 .setMaxValues(1)
                 .setMinValues(1)
                 .setPlaceholder("Browse categories")
-
         )
 
-        const emojiss: any = {
+        const emojiss = {
             General: emojis.info,
             Music: emojis.music,
             Filter: emojis.filter,
@@ -43,24 +41,20 @@ export default new Event({
             Playlist: emojis.playlist
         }
 
-        fs.readdirSync("././Commands").forEach((command: string) => {
+        fs.readdirSync("dist/commands").forEach((command: string) => {
             helpMenu.components[0].addOptions({
-
                 label: `${command}`,
                 description: `Command list for ${command}`,
                 value: `${command}`,
-                emoji: emojiss[command]
+                emoji: (emojiss as any)[command]
             })
-
         })
 
         helpMenu.components[0].addOptions({
-
             label: "Home",
             description: "Go back to the home page",
             value: "Home",
             emoji: emojis.home,
-
         })
 
         message.reply({ embeds: [embedMsg], components: [helpMenu] })

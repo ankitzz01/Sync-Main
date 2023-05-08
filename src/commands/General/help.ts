@@ -2,7 +2,6 @@ import { SlashCommand } from "../../structure/index.js";
 import { EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder, SlashCommandBuilder } from "discord.js";
 import fs from "fs";
 import emojis from "../../systems/emojis";
-import path from "path";
 
 export default new SlashCommand({
   data: new SlashCommandBuilder()
@@ -42,7 +41,7 @@ export default new SlashCommand({
       Playlist: emojis.playlist
     }
 
-    fs.readdirSync(path.join(__dirname, '..', '..', 'commands')).forEach((command) => {
+    fs.readdirSync("dist/commands").forEach((command: string) => {
       helpMenu.components[0].addOptions({
         label: `${command}`,
         description: `Command list for ${command}`,

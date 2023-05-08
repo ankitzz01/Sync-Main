@@ -7,35 +7,21 @@ exports.default = new structure_1.SlashCommand({
         .setName('shuffle')
         .setDescription('Shuffle the queue'),
     category: "Music",
+    voteOnly: true,
     async execute(interaction, client) {
-        const player = client.player.players.get(interaction.guild?.id);
         if (await (0, structure_1.memberVoice)(interaction))
             return;
         if (await (0, structure_1.botVC)(interaction))
             return;
         if (await (0, structure_1.differentVoice)(interaction))
             return;
+        const player = client.player.players.get(interaction.guild?.id);
         if (!player)
-            return interaction.reply({
-                embeds: [new discord_js_1.EmbedBuilder()
-                        .setColor("DarkRed")
-                        .setDescription("No song player was found")
-                ], ephemeral: true
-            });
+            return (0, structure_1.reply)(interaction, "❌", "No song player was found", true);
         if (!player.queue.length)
-            return interaction.reply({
-                embeds: [new discord_js_1.EmbedBuilder()
-                        .setColor(client.data.color)
-                        .setDescription("⚠ | There is nothing in the queue")
-                ], ephemeral: true
-            });
+            return (0, structure_1.reply)(interaction, "❌", "There is nothing in the queue", true);
         await interaction.deferReply();
         player.queue.shuffle();
-        const shuffleEmbed = new discord_js_1.EmbedBuilder()
-            .setColor(client.data.color)
-            .setDescription(`🔀 | **Shuffled** the queue`);
-        return interaction.editReply({
-            embeds: [shuffleEmbed],
-        });
+        return (0, structure_1.editReply)(interaction, "🔀", "**Shuffled** the queue");
     },
 });

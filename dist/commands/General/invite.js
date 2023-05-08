@@ -19,10 +19,10 @@ exports.default = new index_js_1.SlashCommand({
             components: [
                 new discord_js_1.ActionRowBuilder().addComponents(new discord_js_1.ButtonBuilder()
                     .setStyle(discord_js_1.ButtonStyle.Link)
-                    .setURL(`${client.data.links.invite}`)
+                    .setURL(client.data.links.invite)
                     .setLabel("Invite Me"), new discord_js_1.ButtonBuilder()
                     .setStyle(discord_js_1.ButtonStyle.Link)
-                    .setURL(`${client.data.links.support}`)
+                    .setURL(client.data.links.support)
                     .setLabel("Support Server"))
             ]
         });

@@ -21,7 +21,7 @@ exports.default = new index_js_1.SlashCommand({
                     .setColor(client.data.color)
                     .setTitle(`Reported by ${interaction.user.tag}`)
                     .addFields({ name: `Guild`, value: `${interaction.guild?.name} (${interaction.guild?.id})` }, { name: `User`, value: `${interaction.user.tag} (${interaction.user.id})` })
-                    .setDescription(`**Report: ${interaction.options.getString('description')}**`)
+                    .setDescription(`**Report: ${interaction.options.getString('description', true)}**`)
                     .setThumbnail(interaction.user.displayAvatarURL())
                     .setTimestamp()
             ]

@@ -5,34 +5,23 @@ const structure_1 = require("../../structure");
 exports.default = new structure_1.SlashCommand({
     data: new discord_js_1.SlashCommandBuilder()
         .setName('now-playing')
-        .setDescription('See the current playing song'),
+        .setDescription('Get the current playing song'),
     category: "Music",
     async execute(interaction, client) {
-        const Manager = client.player;
-        const player = Manager.players.get(interaction.guild?.id);
         if (await (0, structure_1.botVC)(interaction))
             return;
         if (await (0, structure_1.memberVoice)(interaction))
             return;
         if (await (0, structure_1.differentVoice)(interaction))
             return;
+        const player = client.player.players.get(interaction.guild?.id);
         if (!player)
-            return interaction.reply({
-                embeds: [new discord_js_1.EmbedBuilder()
-                        .setColor("DarkRed")
-                        .setDescription("No song player was found")
-                ], ephemeral: true
-            });
-        if (!(player.playing || player.paused || player.queue.current))
-            return interaction.reply({
-                embeds: [new discord_js_1.EmbedBuilder()
-                        .setColor("DarkRed")
-                        .setDescription("No song was found playing")
-                ], ephemeral: true
-            });
+            return (0, structure_1.reply)(interaction, "❌", "No song player was found", true);
+        if (!player.queue.current)
+            return (0, structure_1.reply)(interaction, "❌", "No song was found playing", true);
         await interaction.deferReply();
         const track = player.queue.current;
-        let link = `https://www.google.com/search?q=${encodeURIComponent(track.title)}`;
+        const link = `https://www.google.com/search?q=${encodeURIComponent(track.title)}`;
         const Embed = new discord_js_1.EmbedBuilder()
             .setColor(client.data.color)
             .setAuthor({ name: "NOW PLAYING", iconURL: track.requester.displayAvatarURL() })

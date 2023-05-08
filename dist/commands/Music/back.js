@@ -18,19 +18,9 @@ exports.default = new index_js_1.SlashCommand({
             return;
         const player = client.player.players.get(interaction.guild?.id);
         if (!player)
-            return interaction.reply({
-                embeds: [new discord_js_1.EmbedBuilder()
-                        .setColor("DarkRed")
-                        .setDescription("No song player was found")
-                ], ephemeral: true
-            });
+            return (0, index_js_1.reply)(interaction, "❌", "No song player was found", true);
         if (!player.queue.previous)
-            return interaction.reply({
-                embeds: [new discord_js_1.EmbedBuilder()
-                        .setColor("DarkRed")
-                        .setDescription(`No previous song was found`)
-                ], ephemeral: true
-            });
+            return (0, index_js_1.reply)(interaction, "❌", "No previous song was found", true);
         await interaction.deferReply();
         let res = await player.search(player.queue.previous.uri, interaction.user);
         if (player.state !== "CONNECTED")
@@ -42,11 +32,6 @@ exports.default = new index_js_1.SlashCommand({
             !player.paused &&
             player.queue.totalSize === res.tracks.length)
             await player.play();
-        return interaction.editReply({
-            embeds: [new discord_js_1.EmbedBuilder()
-                    .setColor(client.data.color)
-                    .setDescription(`⏮ | Playing the **previous** song`)
-            ]
-        });
+        return (0, index_js_1.editReply)(interaction, "⏮", "Playing the **previous** song");
     },
 });

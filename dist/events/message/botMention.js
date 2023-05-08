@@ -40,7 +40,7 @@ exports.default = new index_js_1.Event({
             Others: emojis_1.default.settings,
             Playlist: emojis_1.default.playlist
         };
-        fs_1.default.readdirSync("././Commands").forEach((command) => {
+        fs_1.default.readdirSync("dist/commands").forEach((command) => {
             helpMenu.components[0].addOptions({
                 label: `${command}`,
                 description: `Command list for ${command}`,

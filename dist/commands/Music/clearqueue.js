@@ -8,27 +8,17 @@ exports.default = new index_js_1.SlashCommand({
         .setDescription('Clears the queue'),
     category: "Music",
     async execute(interaction, client) {
-        const player = client.player.players.get(interaction.guild?.id);
         if (await (0, index_js_1.memberVoice)(interaction))
             return;
         if (await (0, index_js_1.differentVoice)(interaction))
             return;
         if (await (0, index_js_1.botVC)(interaction))
             return;
+        const player = client.player.players.get(interaction.guild?.id);
         if (!player)
-            return interaction.reply({
-                embeds: [new discord_js_1.EmbedBuilder()
-                        .setColor("DarkRed")
-                        .setDescription("No song player was found")
-                ], ephemeral: true
-            });
+            return (0, index_js_1.reply)(interaction, "❌", "No song player was found", true);
         await interaction.deferReply();
-        await player.queue.clear();
-        return interaction.editReply({
-            embeds: [new discord_js_1.EmbedBuilder()
-                    .setColor(client.data.color)
-                    .setDescription(`🧹 | The queue has been **cleared**`)
-            ]
-        });
+        player.queue.clear();
+        return (0, index_js_1.editReply)(interaction, "🧹", "The queue has been **cleared**");
     }
 });

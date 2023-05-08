@@ -7,6 +7,7 @@ exports.default = new structure_1.SlashCommand({
         .setName('queue')
         .setDescription('View the queue'),
     category: "Music",
+    voteOnly: true,
     async execute(interaction, client) {
         if (await (0, structure_1.memberVoice)(interaction))
             return;
@@ -16,19 +17,9 @@ exports.default = new structure_1.SlashCommand({
             return;
         const player = client.player.players.get(interaction.guild?.id);
         if (!player)
-            return interaction.reply({
-                embeds: [new discord_js_1.EmbedBuilder()
-                        .setColor("DarkRed")
-                        .setDescription("No song player was found")
-                ], ephemeral: true
-            });
+            return (0, structure_1.reply)(interaction, "❌", "No song player was found", true);
         if (!player.queue?.length)
-            return interaction.reply({
-                embeds: [new discord_js_1.EmbedBuilder()
-                        .setColor(client.data.color)
-                        .setDescription("❕ | There is nothing in the queue")
-                ], ephemeral: true
-            });
+            return (0, structure_1.reply)(interaction, "❌", "There is nothing in the queue", true);
         await interaction.deferReply();
         const queue = player.queue.map((t, i) => `\`${++i}.\` [\`${t.title}\`](https://google.com/search?q=${encodeURIComponent(t.title)}) | ${t.requester}`);
         const util = class Util {
@@ -41,13 +32,13 @@ exports.default = new structure_1.SlashCommand({
             }
         };
         const chunked = util.chunk(queue, 10).map((x) => x.join("\n"));
-        const queueEmbed = new discord_js_1.EmbedBuilder()
+        const Embed = new discord_js_1.EmbedBuilder()
             .setColor(client.data.color)
             .setAuthor({ name: `${interaction.guild?.name}'s Queue`, iconURL: interaction.guild?.iconURL() })
             .setDescription(chunked[0])
             .setTimestamp();
         return interaction.editReply({
-            embeds: [queueEmbed],
+            embeds: [Embed],
         });
     }
 });

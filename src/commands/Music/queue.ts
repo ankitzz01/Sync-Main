@@ -7,6 +7,7 @@ export default new SlashCommand({
         .setName('queue')
         .setDescription('View the queue'),
     category: "Music",
+    voteOnly: true,
 
     async execute(interaction, client) {
 
