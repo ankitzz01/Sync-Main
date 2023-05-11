@@ -6,7 +6,6 @@ export default new SlashCommand({
         .setName("invite")
         .setDescription("Invite me to your Server"),
     category: "General",
-
     execute(interaction, client) {
 
         return interaction.reply({

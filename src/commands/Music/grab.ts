@@ -7,7 +7,6 @@ export default new SlashCommand({
         .setName('grab')
         .setDescription('Sends the current playing song to your DM'),
     category: "Music",
-
     async execute(interaction, client) {
 
         if (await botVC(interaction)) return

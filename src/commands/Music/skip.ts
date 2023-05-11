@@ -6,7 +6,6 @@ export default new SlashCommand({
         .setName('skip')
         .setDescription('Skip the current track'),
     category: "Music",
-
     async execute(interaction, client) {
 
         if (await memberVoice(interaction)) return

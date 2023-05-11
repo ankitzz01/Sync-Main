@@ -6,7 +6,6 @@ export default new SlashCommand({
         .setName('replay')
         .setDescription('Replay the current song'),
     category: "Music",
-
     async execute(interaction, client) {
 
         if (await botVC(interaction)) return

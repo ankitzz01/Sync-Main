@@ -6,7 +6,6 @@ export default new SlashCommand({
         .setName('back')
         .setDescription('Plays the previous song'),
     category: "Music",
-
     async execute(interaction, client) {
 
         if (await memberVoice(interaction)) return

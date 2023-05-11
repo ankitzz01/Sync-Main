@@ -6,7 +6,6 @@ export default new SlashCommand({
         .setName('clearqueue')
         .setDescription('Clears the queue'),
     category: "Music",
-
     async execute(interaction, client) {
 
         if (await memberVoice(interaction)) return

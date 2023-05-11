@@ -1,4 +1,4 @@
-import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder } from "discord.js";
 import { botVC, memberVoice, differentVoice, SlashCommand, reply, editReply } from "../../structure/index.js"
 
 export default new SlashCommand({
@@ -39,6 +39,7 @@ export default new SlashCommand({
             sub.setName('clear')
                 .setDescription('Clears the applied filter')),
     category: "Filter",
+    voteOnly: true,
     async execute(interaction, client) {
 
         if (await botVC(interaction)) return

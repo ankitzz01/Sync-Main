@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder, BaseGuildTextChannel } from "discord.js"
-import { editReply, SlashCommand } from "../../structure/index.js"
+import { editReply, log, SlashCommand } from "../../structure/index.js"
 
 export default new SlashCommand({
     data: new SlashCommandBuilder()
@@ -16,21 +16,20 @@ export default new SlashCommand({
         await interaction.deferReply({ ephemeral: true })
         editReply(interaction, "✅", `Thanks for reporting! The report is now submitted and will review shortly.`)
 
-        const channel = await client.channels.fetch(client.data.devBotEnabled ? client.data.dev.log.error : client.data.prod.log.error).catch(() => { })
-        if (!channel) return
+        const Embed = new EmbedBuilder()
+            .setColor(client.data.color)
+            .setTitle(`Reported by ${interaction.user.tag}`)
+            .addFields(
+                { name: `Guild`, value: `${interaction.guild?.name} (${interaction.guild?.id})` },
+                { name: `User`, value: `${interaction.user.tag} (${interaction.user.id})` },
+            )
+            .setDescription(`**Report: ${interaction.options.getString('description', true)}**`)
+            .setThumbnail(interaction.user.displayAvatarURL())
+            .setTimestamp()
 
-        return (channel as BaseGuildTextChannel).send({
-            embeds: [new EmbedBuilder()
-                .setColor(client.data.color)
-                .setTitle(`Reported by ${interaction.user.tag}`)
-                .addFields(
-                    { name: `Guild`, value: `${interaction.guild?.name} (${interaction.guild?.id})` },
-                    { name: `User`, value: `${interaction.user.tag} (${interaction.user.id})` },
-                )
-                .setDescription(`**Report: ${interaction.options.getString('description', true)}**`)
-                .setThumbnail(interaction.user.displayAvatarURL())
-                .setTimestamp()
-            ]
-        })
+        log(client,
+            Embed,
+            client.data.devBotEnabled ? client.data.dev.log.error : client.data.prod.log.error
+        )
     }
 })

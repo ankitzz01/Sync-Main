@@ -18,6 +18,7 @@ export default new SlashCommand({
             sub.setName('info').setDescription('Check the current status of the music setup')
         ),
     category: "Others",
+    voteOnly: true,
     async execute(interaction, client) {
 
         if (!interaction.guild?.members.me?.permissions.has(PermissionFlagsBits.ManageChannels)) return reply(

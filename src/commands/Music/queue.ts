@@ -8,7 +8,6 @@ export default new SlashCommand({
         .setDescription('View the queue'),
     category: "Music",
     voteOnly: true,
-
     async execute(interaction, client) {
 
         if (await memberVoice(interaction)) return
