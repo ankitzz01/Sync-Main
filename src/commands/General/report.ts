@@ -16,7 +16,7 @@ export default new SlashCommand({
         await interaction.deferReply({ ephemeral: true })
         editReply(interaction, "✅", `Thanks for reporting! The report is now submitted and will review shortly.`)
 
-        const channel = await client.channels.fetch(client.data.prod.log.error).catch(() => { })
+        const channel = await client.channels.fetch(client.data.devBotEnabled ? client.data.dev.log.error : client.data.prod.log.error).catch(() => { })
         if (!channel) return
 
         return (channel as BaseGuildTextChannel).send({
