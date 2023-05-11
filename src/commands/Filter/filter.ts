@@ -41,12 +41,11 @@ export default new SlashCommand({
     category: "Filter",
     async execute(interaction, client) {
 
-        const player = client.player.players.get(interaction.guild?.id as string)
-
         if (await botVC(interaction)) return
         if (await memberVoice(interaction)) return
         if (await differentVoice(interaction)) return
 
+        const player = client.player.players.get(interaction.guild?.id as string)
         if (!player) return reply(interaction, "❌", "No song player was found", true)
         if (!player.playing) return reply(interaction, "❌", "No song was found playing", true)
 

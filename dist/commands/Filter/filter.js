@@ -30,13 +30,13 @@ exports.default = new index_js_1.SlashCommand({
         .setDescription('Clears the applied filter')),
     category: "Filter",
     async execute(interaction, client) {
-        const player = client.player.players.get(interaction.guild?.id);
         if (await (0, index_js_1.botVC)(interaction))
             return;
         if (await (0, index_js_1.memberVoice)(interaction))
             return;
         if (await (0, index_js_1.differentVoice)(interaction))
             return;
+        const player = client.player.players.get(interaction.guild?.id);
         if (!player)
             return (0, index_js_1.reply)(interaction, "❌", "No song player was found", true);
         if (!player.playing)

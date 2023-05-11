@@ -1,6 +1,5 @@
 import { BaseGuildTextChannel, ButtonInteraction, EmbedBuilder, Events } from "discord.js"
-import { Event, CustomClient } from "../../structure/index.js"
-import { memberVoice, botVC, differentVoice } from "../../structure/functions/check.js"
+import { Event, CustomClient, memberVoice, botVC, differentVoice, editReply, reply } from "../../structure/index.js"
 import wait from "node:timers/promises"
 import buttonDB, { TempButtonSchema } from "../../schemas/tempbutton.js"
 import setupDB from "../../schemas/musicchannel.js"
@@ -22,36 +21,20 @@ export default new Event({
         if (await botVC(interaction)) return
         if (await differentVoice(interaction)) return
 
-        if (!player) return interaction.reply({
-            embeds: [new EmbedBuilder()
-                .setColor("DarkRed")
-                .setDescription("No song player was found")
-            ], ephemeral: true
-        })
+        if (!player) return reply(interaction, "❌", "No song player was found", true)
 
         switch (interaction.customId) {
-
             case "vol-up": {
 
                 const vol = player.volume + 10
 
-                if (vol > 100) return interaction.reply({
-                    embeds: [new EmbedBuilder()
-                        .setColor(client.data.color)
-                        .setDescription(`The volume can't be increased further!`)
-                    ], ephemeral: true
-                })
+                if (vol > 100) return reply(interaction, "❌", "The volume can't be increased further!", true)
 
                 await interaction.deferReply()
 
                 player.setVolume(vol)
 
-                interaction.editReply({
-                    embeds: [new EmbedBuilder()
-                        .setColor(client.data.color)
-                        .setDescription(`🔊 | The volume has been set to **${player.volume}**`)
-                    ]
-                })
+                editReply(interaction, "🔊", `The volume has been set to **${player.volume}**`)
 
                 await wait.setTimeout(1000)
                 interaction.deleteReply()
@@ -62,23 +45,13 @@ export default new Event({
 
                 const vol = player.volume - 10
 
-                if (vol < 0) return interaction.reply({
-                    embeds: [new EmbedBuilder()
-                        .setColor(client.data.color)
-                        .setDescription(`The volume can't be decreased further!`)
-                    ], ephemeral: true
-                })
+                if (vol < 0) return reply(interaction, "❌", "The volume can't be decreased further!", true)
 
                 await interaction.deferReply()
 
                 player.setVolume(vol)
 
-                interaction.editReply({
-                    embeds: [new EmbedBuilder()
-                        .setColor(client.data.color)
-                        .setDescription(`🔉 | The volume has been set to **${player.volume}**`)
-                    ]
-                })
+                editReply(interaction, "🔉", `The volume has been set to **${player.volume}**`)
 
                 await wait.setTimeout(1000)
                 interaction.deleteReply()
@@ -92,12 +65,7 @@ export default new Event({
                 if (player.paused) {
                     player.pause(false)
 
-                    interaction.editReply({
-                        embeds: [new EmbedBuilder()
-                            .setColor(client.data.color)
-                            .setDescription(`▶ | The player has been **resumed**`)
-                        ]
-                    })
+                    editReply(interaction, "▶", "The player has been **resumed**")
 
                     await wait.setTimeout(1000)
                     interaction.deleteReply()
@@ -105,12 +73,7 @@ export default new Event({
                 } else {
                     player.pause(true)
 
-                    interaction.editReply({
-                        embeds: [new EmbedBuilder()
-                            .setColor(client.data.color)
-                            .setDescription(`⏸ | The player has been **paused**`)
-                        ]
-                    })
+                    editReply(interaction, "⏸", "The player has been **paused**")
 
                     await wait.setTimeout(1000)
                     interaction.deleteReply()
@@ -125,12 +88,7 @@ export default new Event({
 
                 player.stop()
 
-                interaction.editReply({
-                    embeds: [new EmbedBuilder()
-                        .setColor(client.data.color)
-                        .setDescription(`⏭ | The current track has been **skipped**`)
-                    ]
-                })
+                editReply(interaction, "⏭", "The current track has been **skipped**")
 
                 await wait.setTimeout(1000)
                 interaction.deleteReply()
@@ -141,22 +99,27 @@ export default new Event({
 
                 await interaction.deferReply()
 
-                const data: any = await buttonDB.find<TempButtonSchema>({ Guild: player.guild, Channel: player.textChannel }).catch(err => { })
+                const data = await buttonDB.find<TempButtonSchema>({ Guild: player.guild, Channel: player.textChannel }).catch(err => { })
 
                 if (!player.textChannel) return
 
-                const Channel = await client.channels.fetch(player.textChannel).catch(() => { })
+                player.disconnect()
 
-                for (let i = 0; i < data.length; i++) {
-                    const msg = await (Channel as BaseGuildTextChannel).messages.fetch(data[i].MessageID).catch(() => { })
+                editReply(interaction, "⏹", "The player has been **stopped**")
+
+                await wait.setTimeout(1000)
+                interaction.deleteReply()
+
+                const Channel = await client.channels.fetch(player.textChannel).catch(() => { })
+                player.destroy()
+
+                for (let i = 0; i < (data as TempButtonSchema[]).length; i++) {
+                    const msg = await (Channel as BaseGuildTextChannel).messages.fetch((data as TempButtonSchema[])[i].MessageID).catch(() => { })
 
                     if (msg && msg.editable) await msg.edit({ components: [buttonDisable] })
 
-                    await data[i].delete()
+                    await (data as TempButtonSchema[])[i].delete()
                 }
-
-                player.disconnect()
-                player.destroy()
 
                 const setupUpdateEmbed = new EmbedBuilder()
                     .setColor(client.data.color)
@@ -167,16 +130,6 @@ export default new Event({
                     )
 
                 await musicSetupUpdate(client, player, setupDB, setupUpdateEmbed)
-
-                interaction.editReply({
-                    embeds: [new EmbedBuilder()
-                        .setColor(client.data.color)
-                        .setDescription(`⏹ | The player has been **stopped**`)
-                    ]
-                })
-
-                await wait.setTimeout(1000)
-                interaction.deleteReply()
 
             }
                 break;

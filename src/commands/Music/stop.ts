@@ -26,7 +26,7 @@ export default new SlashCommand({
         const data = await buttonDB.find<TempButtonSchema>({ Guild: player.guild, Channel: player.textChannel })
 
         for (let i = 0; i < data.length; i++) {
-            const msg = Channel.messages.cache.get(data[i].MessageID)
+            const msg = await Channel.messages.fetch(data[i].MessageID)
 
             if (msg && msg.editable) await msg.edit({ components: [buttonDisable] })
 

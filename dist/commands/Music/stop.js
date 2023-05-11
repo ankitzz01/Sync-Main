@@ -29,7 +29,7 @@ exports.default = new structure_1.SlashCommand({
             return (0, structure_1.reply)(interaction, "❌", "Failed to stop the track", true);
         const data = await tempbutton_1.default.find({ Guild: player.guild, Channel: player.textChannel });
         for (let i = 0; i < data.length; i++) {
-            const msg = Channel.messages.cache.get(data[i].MessageID);
+            const msg = await Channel.messages.fetch(data[i].MessageID);
             if (msg && msg.editable)
                 await msg.edit({ components: [button_1.buttonDisable] });
             await data[i].delete();
