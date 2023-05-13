@@ -23,7 +23,7 @@ export default new PlayerEvent({
 
       if (msg && msg.editable) await msg.edit({ components: [buttonDisable] })
 
-      await data[i].delete()
+      if (data && data[i]) await data[i].delete()
     }
 
     if (Channel.type !== ChannelType.GuildText) return

@@ -51,9 +51,7 @@ export default new PlayerEvent({
         const cdata = await setupDB.findOne<MusicChannelSchema>({ Guild: player.guild, Channel: player.textChannel })
 
         if (!cdata) {
-
             msg = await Channel.send({
-
                 embeds: [new EmbedBuilder()
                     .setColor("Blue")
                     .setAuthor({ name: "NOW PLAYING", iconURL: track.requester.displayAvatarURL(), url: client.data.links.invite })
@@ -62,7 +60,6 @@ export default new PlayerEvent({
                         { name: 'Requested by', value: `\`${track.requester.username}\``, inline: true },
                         { name: 'Song by', value: `\`${track.author}\``, inline: true },
                         { name: 'Duration', value: `\`❯ ${msToTimestamp(track.duration)}\``, inline: true })],
-
                 components: [buttonEnable]
             }).catch(() => { })
         }
@@ -81,15 +78,12 @@ export default new PlayerEvent({
         await musicSetupUpdate(client, player, setupDB, setupUpdateEmbed)
 
         if (!cdata) {
-
             const buttonData = new buttonDB({
                 Guild: player.guild,
                 Channel: player.textChannel,
                 MessageID: msg?.id
             })
-
             await wait.setTimeout(2000)
-
             await buttonData.save()
         }
     }

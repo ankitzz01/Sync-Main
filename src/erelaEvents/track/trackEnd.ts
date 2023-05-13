@@ -68,7 +68,7 @@ export default new PlayerEvent({
 
             if (msg && msg.editable) await msg.edit({ components: [buttonDisable] }).catch(() => { })
 
-            await bdata[i].delete()
+            if (data && bdata[i]) await bdata[i].delete()
         }
 
     }
