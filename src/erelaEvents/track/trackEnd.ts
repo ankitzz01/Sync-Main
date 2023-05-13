@@ -65,10 +65,8 @@ export default new PlayerEvent({
 
         for (let i = 0; i < bdata.length; i++) {
             const msg = await (Channel as BaseGuildTextChannel).messages?.fetch(bdata[i].MessageID).catch(() => { })
-
             if (msg && msg.editable) await msg.edit({ components: [buttonDisable] }).catch(() => { })
-
-            if (data && bdata[i]) await bdata[i].delete()
+            if (bdata && bdata[i]) await bdata[i].delete()
         }
 
     }

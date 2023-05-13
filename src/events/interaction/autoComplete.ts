@@ -14,7 +14,6 @@ export default new Event({
             case "play": {
                 const query = interaction.options?.getString('query')
                 if (!query) return
-
                 if (query.length <= 1) return
 
                 let choices: any[] = []
@@ -33,7 +32,7 @@ export default new Event({
                     })
                 })
 
-                await interaction.respond(choices)
+                await interaction.respond(choices).catch(() => { })
             }
                 break;
 
@@ -57,7 +56,7 @@ export default new Event({
                     })
                 })
 
-                await interaction.respond(choices)
+                await interaction.respond(choices).catch(() => { })
 
             }
                 break;

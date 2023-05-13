@@ -16,6 +16,7 @@ exports.default = new index_js_1.SlashCommand({
         .addSubcommand(sub => sub.setName('delete').setDescription('Delete the current music channel'))
         .addSubcommand(sub => sub.setName('info').setDescription('Check the current status of the music setup')),
     category: "Others",
+    voteOnly: true,
     async execute(interaction, client) {
         if (!interaction.guild?.members.me?.permissions.has(discord_js_1.PermissionFlagsBits.ManageChannels))
             return (0, index_js_1.reply)(interaction, "❌", `Missing permissions for \`ManageChannels\`.`, true);

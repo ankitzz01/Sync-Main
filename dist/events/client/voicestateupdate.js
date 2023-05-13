@@ -40,9 +40,8 @@ exports.default = new index_js_1.Event({
                             await msg.edit({ components: [button_1.buttonDisable] });
                         await data[i].delete();
                     }
-                }, 1000 * 5);
+                }, 1000 * 60 * 5);
                 botVoiceState.channel.timeout = timeout;
-                console.log(botVoiceState.channel);
             }
         }
         if (!oldState.channelId && newState.channelId) {

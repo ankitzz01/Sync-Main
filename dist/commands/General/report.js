@@ -13,18 +13,13 @@ exports.default = new index_js_1.SlashCommand({
     async execute(interaction, client) {
         await interaction.deferReply({ ephemeral: true });
         (0, index_js_1.editReply)(interaction, "✅", `Thanks for reporting! The report is now submitted and will review shortly.`);
-        const channel = await client.channels.fetch(client.data.prod.log.error).catch(() => { });
-        if (!channel)
-            return;
-        return channel.send({
-            embeds: [new discord_js_1.EmbedBuilder()
-                    .setColor(client.data.color)
-                    .setTitle(`Reported by ${interaction.user.tag}`)
-                    .addFields({ name: `Guild`, value: `${interaction.guild?.name} (${interaction.guild?.id})` }, { name: `User`, value: `${interaction.user.tag} (${interaction.user.id})` })
-                    .setDescription(`**Report: ${interaction.options.getString('description', true)}**`)
-                    .setThumbnail(interaction.user.displayAvatarURL())
-                    .setTimestamp()
-            ]
-        });
+        const Embed = new discord_js_1.EmbedBuilder()
+            .setColor(client.data.color)
+            .setTitle(`Reported by ${interaction.user.tag}`)
+            .addFields({ name: `Guild`, value: `${interaction.guild?.name} (${interaction.guild?.id})` }, { name: `User`, value: `${interaction.user.tag} (${interaction.user.id})` })
+            .setDescription(`**Report: ${interaction.options.getString('description', true)}**`)
+            .setThumbnail(interaction.user.displayAvatarURL())
+            .setTimestamp();
+        (0, index_js_1.log)(client, Embed, client.data.devBotEnabled ? client.data.dev.log.error : client.data.prod.log.error);
     }
 });

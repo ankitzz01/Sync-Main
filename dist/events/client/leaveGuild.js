@@ -15,6 +15,6 @@ exports.default = new index_js_1.Event({
                     \nOwner: ${guild.ownerId}\
                     \nMembers: ${guild.memberCount}\`\`\``)
             .setFooter({ text: `Total - ${client.guilds.cache.size}` });
-        (0, index_js_1.log)(client, Embed, client.data.prod.log.guild);
+        (0, index_js_1.log)(client, Embed, client.data.devBotEnabled ? client.data.dev.log.guild : client.data.prod.log.guild);
     }
 });

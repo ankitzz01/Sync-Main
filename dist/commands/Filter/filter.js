@@ -29,6 +29,7 @@ exports.default = new index_js_1.SlashCommand({
         .addSubcommand(sub => sub.setName('clear')
         .setDescription('Clears the applied filter')),
     category: "Filter",
+    voteOnly: true,
     async execute(interaction, client) {
         if (await (0, index_js_1.botVC)(interaction))
             return;

@@ -24,7 +24,8 @@ exports.default = new index_js_1.PlayerEvent({
             const msg = await Channel.messages?.fetch(data[i].MessageID).catch(() => { });
             if (msg && msg.editable)
                 await msg.edit({ components: [button_js_1.buttonDisable] });
-            await data[i].delete();
+            if (data && data[i])
+                await data[i].delete();
         }
         if (Channel.type !== discord_js_1.ChannelType.GuildText)
             return;

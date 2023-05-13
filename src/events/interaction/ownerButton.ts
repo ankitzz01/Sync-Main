@@ -1,19 +1,16 @@
-import { ButtonInteraction, EmbedBuilder, Events, ActionRowBuilder, TextInputBuilder, TextInputStyle, ModalBuilder } from "discord.js"
-import { CustomClient, Event, paginate } from "../../structure/index.js"
+import { ButtonInteraction, EmbedBuilder, Events, ActionRowBuilder, TextInputBuilder, TextInputStyle, ModalBuilder, italic } from "discord.js"
+import { CustomClient, Event, paginate, reply } from "../../structure/index.js"
 
 export default new Event({
     name: Events.InteractionCreate,
 
-    async execute(interaction: ButtonInteraction, client: CustomClient): Promise<any> {
+    async execute(interaction: ButtonInteraction, client: CustomClient) {
         if (!interaction.isButton()) return
         if (!["owner-leave", "owner-servers", "owner-eval"].includes(interaction.customId)) return
 
-        const embed = new EmbedBuilder()
-            .setColor("DarkRed")
-
-        if (!client.data.developers.includes(interaction.user.id)) return interaction.reply({
-            embeds: [embed.setDescription(`You cannot use this buttons`)], ephemeral: true
-        })
+        if (!client.data.developers.includes(interaction.user.id)) return reply(
+            interaction, "❌", "You cannot use this buttons", true
+            )
 
         switch (interaction.customId) {
 
