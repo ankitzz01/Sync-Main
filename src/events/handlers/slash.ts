@@ -32,7 +32,7 @@ export default new Event({
             .setAuthor({ name: `${interaction.guild?.name}`, iconURL: interaction.guild?.iconURL() || client.user?.displayAvatarURL() })
             .setDescription(`\`\`\`Used In: ${interaction.guild?.name} (${interaction.guild?.id})\
         \nCommand Used: ${interaction.commandName} (${interaction.commandId})\
-        \nUsed by: ${interaction.user.tag} (${interaction.user.id})\`\`\``)
+        \nUsed by: ${interaction.user.username} (${interaction.user.id})\`\`\``)
 
         log(client, Embed, client.data.devBotEnabled ? client.data.dev.log.command : client.data.prod.log.command);
     }

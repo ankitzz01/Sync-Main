@@ -18,10 +18,10 @@ export default new SlashCommand({
 
         const Embed = new EmbedBuilder()
             .setColor(client.data.color)
-            .setTitle(`Reported by ${interaction.user.tag}`)
+            .setTitle(`Reported by ${interaction.user.username}`)
             .addFields(
                 { name: `Guild`, value: `${interaction.guild?.name} (${interaction.guild?.id})` },
-                { name: `User`, value: `${interaction.user.tag} (${interaction.user.id})` },
+                { name: `User`, value: `${interaction.user.username} (${interaction.user.id})` },
             )
             .setDescription(`**Report: ${interaction.options.getString('description', true)}**`)
             .setThumbnail(interaction.user.displayAvatarURL())

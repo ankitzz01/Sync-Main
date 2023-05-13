@@ -9,7 +9,7 @@ export default new Event({
         client.player.init(client.user?.id)
 
         if (!client.user) return client.logger.error("System", `Error Finding : ${client.logger.highlight("Client User", "error")}`);
-        client.logger.info("System", `Successfully Logged in to : ${client.logger.highlight(client.user.tag, "success")}`);
+        client.logger.info("System", `Successfully Logged in to : ${client.logger.highlight(client.user.username, "success")}`);
 
         client.user?.setActivity({
             name: "Music",

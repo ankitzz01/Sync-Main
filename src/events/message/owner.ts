@@ -29,7 +29,7 @@ export default new Event({
 
         const Embed = new EmbedBuilder()
             .setColor(client.data.color)
-            .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL() })
+            .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL() })
             .setTimestamp()
             .setThumbnail(`${client.user?.displayAvatarURL()}`)
             .setFooter({ text: "Owner Panel" })
