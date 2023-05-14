@@ -14,13 +14,11 @@ export default new Event({
         if (!interaction.isButton()) return
         if (!["vol-up", "vol-down", "pause-resume-song", "skip-song", "stop-song"].includes(interaction.customId)) return
 
-        if (!interaction.guild) return
-
         if (await memberVoice(interaction)) return
         if (await botVC(interaction)) return
         if (await differentVoice(interaction)) return
 
-        const player = client.player.players.get(interaction.guild?.id)
+        const player = client.player.players.get(interaction.guild?.id as string)
         if (!player) return reply(interaction, "❌", "No song player was found", true)
 
         switch (interaction.customId) {
@@ -29,7 +27,7 @@ export default new Event({
                 const vol = player.volume + 10
                 if (vol > 100) return reply(interaction, "❌", "The volume can't be increased further!", true)
 
-                await interaction.deferReply()
+                await interaction.deferReply().catch(() => { })
 
                 player.setVolume(vol)
 
@@ -44,7 +42,7 @@ export default new Event({
                 const vol = player.volume - 10
                 if (vol < 0) return reply(interaction, "❌", "The volume can't be decreased further!", true)
 
-                await interaction.deferReply()
+                await interaction.deferReply().catch(() => { })
 
                 player.setVolume(vol)
 
@@ -56,7 +54,7 @@ export default new Event({
                 break;
             case "pause-resume-song": {
 
-                await interaction.deferReply()
+                await interaction.deferReply().catch(() => { })
 
                 if (player.paused) {
                     player.pause(false)
@@ -80,7 +78,7 @@ export default new Event({
                 break;
             case "skip-song": {
 
-                await interaction.deferReply()
+                await interaction.deferReply().catch(() => { })
 
                 player.stop()
 
@@ -92,7 +90,7 @@ export default new Event({
                 break;
             case "stop-song": {
 
-                await interaction.deferReply()
+                await interaction.deferReply().catch(() => { })
 
                 const data = await buttonDB.find<TempButtonSchema>({ Guild: player.guild, Channel: player.textChannel }).catch(err => { })
 

@@ -1,4 +1,4 @@
-import { ChannelType, EmbedBuilder, PermissionFlagsBits, Channel, PermissionResolvable } from "discord.js"
+import { ChannelType, EmbedBuilder, PermissionFlagsBits, Channel, PermissionResolvable, BaseGuildTextChannel, PermissionsBitField } from "discord.js"
 import { Player } from "erela.js"
 import { CustomClient, msToTimestamp, PlayerEvent } from "../../structure/index.js"
 import buttonDB from "../../schemas/tempbutton.js"
@@ -38,20 +38,19 @@ export default new PlayerEvent({
     name: "trackStart",
     async execute(player: Player, track: TrackOptions, type: any, client: CustomClient) {
 
-        if (player.textChannel === null) return
+        if (!player.textChannel) return
 
-        const Channel = await client.channels.fetch(player.textChannel).catch(() => { })
+        const Channel = await client.channels.fetch(player.textChannel).catch(() => { }) as BaseGuildTextChannel
         if (!Channel) return
         if (Channel.type !== ChannelType.GuildText) return
-        if (!Channel.guild?.members.me?.permissionsIn(Channel).has(PermissionFlagsBits.SendMessages as PermissionResolvable)) return
+        if (!Channel.guild?.members.me?.permissions.has(PermissionsBitField.Flags.SendMessages)) return
 
         let link = `https://www.google.com/search?q=${encodeURIComponent(track.title)}`
-        let msg
 
         const cdata = await setupDB.findOne<MusicChannelSchema>({ Guild: player.guild, Channel: player.textChannel })
 
         if (!cdata) {
-            msg = await Channel.send({
+            let msg = await Channel.send({
                 embeds: [new EmbedBuilder()
                     .setColor("Blue")
                     .setAuthor({ name: "NOW PLAYING", iconURL: track.requester.displayAvatarURL(), url: client.data.links.invite })
@@ -62,8 +61,15 @@ export default new PlayerEvent({
                         { name: 'Duration', value: `\`❯ ${msToTimestamp(track.duration)}\``, inline: true })],
                 components: [buttonEnable]
             }).catch(() => { })
-        }
 
+            if (!msg) return
+            await new buttonDB({
+                Guild: player.guild,
+                Channel: player.textChannel,
+                MessageID: msg.id
+            }).save()
+            await wait.setTimeout(2000)
+        }
         const setupUpdateEmbed = new EmbedBuilder()
             .setColor(client.data.color)
             .setAuthor({ name: "NOW PLAYING", iconURL: track.requester.displayAvatarURL() })
@@ -76,15 +82,5 @@ export default new PlayerEvent({
             .setImage(`${track.displayThumbnail("maxresdefault") || client.data.links.background}`)
 
         await musicSetupUpdate(client, player, setupDB, setupUpdateEmbed)
-
-        if (!cdata) {
-            const buttonData = new buttonDB({
-                Guild: player.guild,
-                Channel: player.textChannel,
-                MessageID: msg?.id
-            })
-            await wait.setTimeout(2000)
-            await buttonData.save()
-        }
     }
 })

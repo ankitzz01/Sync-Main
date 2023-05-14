@@ -4,13 +4,13 @@ import setupDB from "../../schemas/musicchannel.js"
 import { CustomClient, PlayerEvent } from "../../structure/index.js"
 import { Player, Payload } from "erela.js"
 import { musicSetupUpdate } from "../../structure/functions/index.js"
-import { buttonDisable } from "../../systems/button"
+import { buttonDisable } from "../../systems/button.js"
 
 export default new PlayerEvent({
     name: "socketClosed",
     async execute(player: Player, payload: Payload, client: CustomClient) {
 
-        if (player.textChannel === null) return
+        if (!player.textChannel) return
 
         const Channel = await client.channels.fetch(player.textChannel).catch(() => { })
         if (!Channel) return

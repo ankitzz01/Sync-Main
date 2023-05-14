@@ -10,7 +10,7 @@ export default new PlayerEvent({
   name: "queueEnd",
   async execute(player: Player, track: Track, type: any, client: CustomClient) {
 
-    if (player.textChannel === null) return
+    if (!player.textChannel) return
 
     const Channel = await client.channels?.fetch(player.textChannel).catch(() => { })
     if (!Channel) return

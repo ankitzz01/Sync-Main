@@ -40,7 +40,7 @@ class CustomClient extends discord_js_1.Client {
         plugins: [
             new erela_js_spotify_1.default({ clientID, clientSecret }),
             new better_erela_js_apple_1.AppleMusic(),
-            new erela_js_deezer_1.default(),
+            new erela_js_deezer_1.default({}),
             new erela_js_filters_1.default(),
             new erela_js_facebook_1.default()
         ]

@@ -27,7 +27,7 @@ exports.default = new index_1.PlayerEvent({
             data.Time += Number(track.duration);
             await data.save();
         }
-        if (player.textChannel === null)
+        if (!player.textChannel)
             return;
         const Channel = await client.channels.fetch(player.textChannel).catch(() => { });
         if (!Channel)

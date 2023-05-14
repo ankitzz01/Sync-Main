@@ -13,7 +13,7 @@ export async function playSong(interaction: ValidInteraction, client: CustomClie
 
         if (player.state !== "CONNECTED") player.connect()
         let res = await player.search(query, interaction.user)
-        const link = `https://www.google.com/search?q=${encodeURIComponent(res.tracks[0].title)}`
+        const link = `https://www.google.com/search?q=${encodeURIComponent(query)}`
 
         switch (res.loadType) {
             case "LOAD_FAILED": {
@@ -36,7 +36,7 @@ export async function playSong(interaction: ValidInteraction, client: CustomClie
                     embeds: [new EmbedBuilder()
                         .setColor(client.data.color)
                         .setAuthor({ name: "ADDED TO QUEUE", iconURL: interaction.user.displayAvatarURL(), url: client.data.links.invite })
-                        .setDescription(`[\`\`${res.tracks[0].title}\`\`](${link})\n\nAdded by: ${interaction.user} | Duration: \`❯ ${msToTimestamp(res.tracks[0].duration)}\``)]
+                        .setDescription(`[\`\`${res.tracks[0].title || query}\`\`](${link})\n\nAdded by: ${interaction.user} | Duration: \`❯ ${msToTimestamp(res.tracks[0].duration)}\``)]
                 })
             }
                 break;

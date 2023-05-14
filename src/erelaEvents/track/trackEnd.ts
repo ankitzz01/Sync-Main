@@ -55,7 +55,7 @@ export default new PlayerEvent({
             await data.save()
         }
 
-        if (player.textChannel === null) return
+        if (!player.textChannel) return
 
         const Channel = await client.channels.fetch(player.textChannel).catch(() => { })
         if (!Channel) return

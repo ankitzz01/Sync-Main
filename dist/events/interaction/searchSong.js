@@ -4,7 +4,7 @@ const discord_js_1 = require("discord.js");
 const index_js_1 = require("../../structure/index.js");
 exports.default = new index_js_1.Event({
     name: discord_js_1.Events.InteractionCreate,
-    async execute(interaction, client) {
+    async execute(interaction) {
         if (!interaction.isButton())
             return;
         if (interaction.customId !== "search-song")

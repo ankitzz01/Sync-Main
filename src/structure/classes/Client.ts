@@ -40,7 +40,7 @@ export class CustomClient extends Client {
         plugins: [
             new Spotify({ clientID, clientSecret }),
             new AppleMusic(),
-            new Deezer(),
+            new Deezer({}),
             new Filters(),
             new Facebook()
         ]

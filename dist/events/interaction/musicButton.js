@@ -17,15 +17,13 @@ exports.default = new index_js_1.Event({
             return;
         if (!["vol-up", "vol-down", "pause-resume-song", "skip-song", "stop-song"].includes(interaction.customId))
             return;
-        if (!interaction.guild)
-            return;
-        const player = client.player.players.get(interaction.guild?.id);
         if (await (0, index_js_1.memberVoice)(interaction))
             return;
         if (await (0, index_js_1.botVC)(interaction))
             return;
         if (await (0, index_js_1.differentVoice)(interaction))
             return;
+        const player = client.player.players.get(interaction.guild?.id);
         if (!player)
             return (0, index_js_1.reply)(interaction, "❌", "No song player was found", true);
         switch (interaction.customId) {
@@ -34,7 +32,7 @@ exports.default = new index_js_1.Event({
                     const vol = player.volume + 10;
                     if (vol > 100)
                         return (0, index_js_1.reply)(interaction, "❌", "The volume can't be increased further!", true);
-                    await interaction.deferReply();
+                    await interaction.deferReply().catch(() => { });
                     player.setVolume(vol);
                     (0, index_js_1.editReply)(interaction, "🔊", `The volume has been set to **${player.volume}**`);
                     await promises_1.default.setTimeout(1000);
@@ -46,7 +44,7 @@ exports.default = new index_js_1.Event({
                     const vol = player.volume - 10;
                     if (vol < 0)
                         return (0, index_js_1.reply)(interaction, "❌", "The volume can't be decreased further!", true);
-                    await interaction.deferReply();
+                    await interaction.deferReply().catch(() => { });
                     player.setVolume(vol);
                     (0, index_js_1.editReply)(interaction, "🔉", `The volume has been set to **${player.volume}**`);
                     await promises_1.default.setTimeout(1000);
@@ -55,7 +53,7 @@ exports.default = new index_js_1.Event({
                 break;
             case "pause-resume-song":
                 {
-                    await interaction.deferReply();
+                    await interaction.deferReply().catch(() => { });
                     if (player.paused) {
                         player.pause(false);
                         (0, index_js_1.editReply)(interaction, "▶", "The player has been **resumed**");
@@ -72,7 +70,7 @@ exports.default = new index_js_1.Event({
                 break;
             case "skip-song":
                 {
-                    await interaction.deferReply();
+                    await interaction.deferReply().catch(() => { });
                     player.stop();
                     (0, index_js_1.editReply)(interaction, "⏭", "The current track has been **skipped**");
                     await promises_1.default.setTimeout(1000);
@@ -81,7 +79,7 @@ exports.default = new index_js_1.Event({
                 break;
             case "stop-song":
                 {
-                    await interaction.deferReply();
+                    await interaction.deferReply().catch(() => { });
                     const data = await tempbutton_js_1.default.find({ Guild: player.guild, Channel: player.textChannel }).catch(err => { });
                     if (!player.textChannel)
                         return;

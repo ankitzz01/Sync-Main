@@ -38,7 +38,8 @@ exports.default = new index_js_1.Event({
                         const msg = await channel.messages.fetch(data[i].MessageID);
                         if (msg && msg.editable)
                             await msg.edit({ components: [button_1.buttonDisable] });
-                        await data[i].delete();
+                        if (data && data[i])
+                            await data[i].delete();
                     }
                 }, 1000 * 60 * 5);
                 botVoiceState.channel.timeout = timeout;

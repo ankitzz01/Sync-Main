@@ -12,7 +12,7 @@ const button_js_1 = require("../../systems/button.js");
 exports.default = new index_js_1.PlayerEvent({
     name: "queueEnd",
     async execute(player, track, type, client) {
-        if (player.textChannel === null)
+        if (!player.textChannel)
             return;
         const Channel = await client.channels?.fetch(player.textChannel).catch(() => { });
         if (!Channel)
