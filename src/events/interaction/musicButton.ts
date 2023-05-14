@@ -15,19 +15,18 @@ export default new Event({
         if (!["vol-up", "vol-down", "pause-resume-song", "skip-song", "stop-song"].includes(interaction.customId)) return
 
         if (!interaction.guild) return
-        const player = client.player.players.get(interaction.guild?.id)
 
         if (await memberVoice(interaction)) return
         if (await botVC(interaction)) return
         if (await differentVoice(interaction)) return
 
+        const player = client.player.players.get(interaction.guild?.id)
         if (!player) return reply(interaction, "❌", "No song player was found", true)
 
         switch (interaction.customId) {
             case "vol-up": {
 
                 const vol = player.volume + 10
-
                 if (vol > 100) return reply(interaction, "❌", "The volume can't be increased further!", true)
 
                 await interaction.deferReply()
@@ -35,7 +34,6 @@ export default new Event({
                 player.setVolume(vol)
 
                 editReply(interaction, "🔊", `The volume has been set to **${player.volume}**`)
-
                 await wait.setTimeout(1000)
                 interaction.deleteReply()
 
@@ -44,7 +42,6 @@ export default new Event({
             case "vol-down": {
 
                 const vol = player.volume - 10
-
                 if (vol < 0) return reply(interaction, "❌", "The volume can't be decreased further!", true)
 
                 await interaction.deferReply()
@@ -52,7 +49,6 @@ export default new Event({
                 player.setVolume(vol)
 
                 editReply(interaction, "🔉", `The volume has been set to **${player.volume}**`)
-
                 await wait.setTimeout(1000)
                 interaction.deleteReply()
 
@@ -89,7 +85,6 @@ export default new Event({
                 player.stop()
 
                 editReply(interaction, "⏭", "The current track has been **skipped**")
-
                 await wait.setTimeout(1000)
                 interaction.deleteReply()
 
@@ -102,22 +97,17 @@ export default new Event({
                 const data = await buttonDB.find<TempButtonSchema>({ Guild: player.guild, Channel: player.textChannel }).catch(err => { })
 
                 if (!player.textChannel) return
-
                 player.disconnect()
 
                 editReply(interaction, "⏹", "The player has been **stopped**")
-
                 await wait.setTimeout(1000)
                 interaction.deleteReply()
 
                 const Channel = await client.channels.fetch(player.textChannel).catch(() => { })
                 player.destroy()
-
                 for (let i = 0; i < (data as TempButtonSchema[]).length; i++) {
                     const msg = await (Channel as BaseGuildTextChannel).messages.fetch((data as TempButtonSchema[])[i].MessageID).catch(() => { })
-
                     if (msg && msg.editable) await msg.edit({ components: [buttonDisable] })
-
                     await (data as TempButtonSchema[])[i].delete()
                 }
 
@@ -130,7 +120,6 @@ export default new Event({
                     )
 
                 await musicSetupUpdate(client, player, setupDB, setupUpdateEmbed)
-
             }
                 break;
         }

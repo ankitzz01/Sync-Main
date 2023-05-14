@@ -38,8 +38,7 @@ export default new Event({
                         const msg = await channel.messages.fetch(data[i].MessageID)
 
                         if (msg && msg.editable) await msg.edit({ components: [buttonDisable] })
-
-                        await data[i].delete()
+                        if (data && data[i]) await data[i].delete()
                     }
                 }, 1000 * 60 * 5); // 1000 * 60 * 5 = 5 mins
                 (botVoiceState as any).channel.timeout = timeout;

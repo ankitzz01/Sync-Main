@@ -23,7 +23,7 @@ exports.default = new index_js_1.Event({
             .setStyle(discord_js_1.ButtonStyle.Primary));
         const Embed = new discord_js_1.EmbedBuilder()
             .setColor(client.data.color)
-            .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL() })
+            .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL() })
             .setTimestamp()
             .setThumbnail(`${client.user?.displayAvatarURL()}`)
             .setFooter({ text: "Owner Panel" })

@@ -20,8 +20,7 @@ export default new Event({
             interaction, "❌", "This command is only available for bot developers"
         );
 
-        const topgg = new Api(client.data.topgg.token)
-        if (command.voteOnly && !(await topgg.hasVoted(interaction.user.id))) return reply(
+        if (command.voteOnly && !(await new Api(client.data.topgg.token).hasVoted(interaction.user.id))) return reply(
             interaction, "❌", `You must vote me on [top.gg](${client.data.topgg.vote}) before using this command`
         )
 

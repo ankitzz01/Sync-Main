@@ -15,8 +15,8 @@ exports.default = new index_js_1.SlashCommand({
         (0, index_js_1.editReply)(interaction, "✅", `Thanks for reporting! The report is now submitted and will review shortly.`);
         const Embed = new discord_js_1.EmbedBuilder()
             .setColor(client.data.color)
-            .setTitle(`Reported by ${interaction.user.tag}`)
-            .addFields({ name: `Guild`, value: `${interaction.guild?.name} (${interaction.guild?.id})` }, { name: `User`, value: `${interaction.user.tag} (${interaction.user.id})` })
+            .setTitle(`Reported by ${interaction.user.username}`)
+            .addFields({ name: `Guild`, value: `${interaction.guild?.name} (${interaction.guild?.id})` }, { name: `User`, value: `${interaction.user.username} (${interaction.user.id})` })
             .setDescription(`**Report: ${interaction.options.getString('description', true)}**`)
             .setThumbnail(interaction.user.displayAvatarURL())
             .setTimestamp();

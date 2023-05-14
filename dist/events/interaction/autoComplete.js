@@ -32,7 +32,7 @@ exports.default = new index_js_1.Event({
                             value: x.url
                         });
                     });
-                    await interaction.respond(choices);
+                    await interaction.respond(choices).catch(() => { });
                 }
                 break;
             case "playlist":
@@ -51,7 +51,7 @@ exports.default = new index_js_1.Event({
                             value: x.name
                         });
                     });
-                    await interaction.respond(choices);
+                    await interaction.respond(choices).catch(() => { });
                 }
                 break;
         }

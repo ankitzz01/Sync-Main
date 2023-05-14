@@ -9,12 +9,8 @@ exports.default = new index_js_1.Event({
             return;
         if (!["owner-leave", "owner-servers", "owner-eval"].includes(interaction.customId))
             return;
-        const embed = new discord_js_1.EmbedBuilder()
-            .setColor("DarkRed");
         if (!client.data.developers.includes(interaction.user.id))
-            return interaction.reply({
-                embeds: [embed.setDescription(`You cannot use this buttons`)], ephemeral: true
-            });
+            return (0, index_js_1.reply)(interaction, "❌", "You cannot use this buttons", true);
         switch (interaction.customId) {
             case "owner-servers":
                 {

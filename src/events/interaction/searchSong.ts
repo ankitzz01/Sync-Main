@@ -3,7 +3,7 @@ import { memberVoice, joinable, differentVoice, stageCheck, CustomClient, Event 
 
 export default new Event({
     name: Events.InteractionCreate,
-    async execute(interaction: ButtonInteraction, client: CustomClient) {
+    async execute(interaction: ButtonInteraction) {
         if (!interaction.isButton()) return
         if (interaction.customId !== "search-song") return
 

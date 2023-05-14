@@ -26,7 +26,7 @@ exports.default = new index_js_1.Event({
             .setAuthor({ name: `${interaction.guild?.name}`, iconURL: interaction.guild?.iconURL() || client.user?.displayAvatarURL() })
             .setDescription(`\`\`\`Used In: ${interaction.guild?.name} (${interaction.guild?.id})\
         \nCommand Used: ${interaction.commandName} (${interaction.commandId})\
-        \nUsed by: ${interaction.user.tag} (${interaction.user.id})\`\`\``);
+        \nUsed by: ${interaction.user.username} (${interaction.user.id})\`\`\``);
         (0, index_js_2.log)(client, Embed, client.data.devBotEnabled ? client.data.dev.log.command : client.data.prod.log.command);
     }
 });

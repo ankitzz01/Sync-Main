@@ -39,7 +39,7 @@ exports.default = new index_1.PlayerEvent({
             const msg = await Channel.messages?.fetch(bdata[i].MessageID).catch(() => { });
             if (msg && msg.editable)
                 await msg.edit({ components: [button_js_1.buttonDisable] }).catch(() => { });
-            if (data && bdata[i])
+            if (bdata && bdata[i])
                 await bdata[i].delete();
         }
     }
