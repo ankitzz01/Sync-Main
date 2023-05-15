@@ -1,4 +1,4 @@
-import { ChannelType, EmbedBuilder, PermissionFlagsBits, Channel, PermissionResolvable, BaseGuildTextChannel, PermissionsBitField } from "discord.js"
+import { ChannelType, EmbedBuilder, BaseGuildTextChannel, PermissionsBitField } from "discord.js"
 import { Player } from "erela.js"
 import { CustomClient, msToTimestamp, PlayerEvent } from "../../structure/index.js"
 import buttonDB from "../../schemas/tempbutton.js"
@@ -49,7 +49,20 @@ export default new PlayerEvent({
 
         const cdata = await setupDB.findOne<MusicChannelSchema>({ Guild: player.guild, Channel: player.textChannel })
 
-        if (!cdata) {
+        const setupUpdateEmbed = new EmbedBuilder()
+            .setColor(client.data.color)
+            .setAuthor({ name: "NOW PLAYING", iconURL: track.requester.displayAvatarURL() })
+            .setDescription(`[\`\`${track.title}\`\`](${link})`)
+            .addFields(
+                { name: 'Requested by', value: `<@${track.requester.id}>`, inline: true },
+                { name: 'Song by', value: `\`${track.author}\``, inline: true },
+                { name: 'Duration', value: `\`❯ ${msToTimestamp(track.duration)}\``, inline: true },
+            )
+            .setImage(`${track.displayThumbnail("maxresdefault") || client.data.links.background}`)
+
+        if (cdata) {
+            await musicSetupUpdate(client, player, setupDB, setupUpdateEmbed)
+        } else {
             let msg = await Channel.send({
                 embeds: [new EmbedBuilder()
                     .setColor("Blue")
@@ -63,24 +76,14 @@ export default new PlayerEvent({
             }).catch(() => { })
 
             if (!msg) return
-            await new buttonDB({
+            await musicSetupUpdate(client, player, setupDB, setupUpdateEmbed)
+            const data = new buttonDB({
                 Guild: player.guild,
                 Channel: player.textChannel,
                 MessageID: msg.id
-            }).save()
+            })
             await wait.setTimeout(2000)
+            await data.save()
         }
-        const setupUpdateEmbed = new EmbedBuilder()
-            .setColor(client.data.color)
-            .setAuthor({ name: "NOW PLAYING", iconURL: track.requester.displayAvatarURL() })
-            .setDescription(`[\`\`${track.title}\`\`](${link})`)
-            .addFields(
-                { name: 'Requested by', value: `<@${track.requester.id}>`, inline: true },
-                { name: 'Song by', value: `\`${track.author}\``, inline: true },
-                { name: 'Duration', value: `\`❯ ${msToTimestamp(track.duration)}\``, inline: true },
-            )
-            .setImage(`${track.displayThumbnail("maxresdefault") || client.data.links.background}`)
-
-        await musicSetupUpdate(client, player, setupDB, setupUpdateEmbed)
     }
 })

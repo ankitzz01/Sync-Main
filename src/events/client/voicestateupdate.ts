@@ -18,18 +18,20 @@ export default new Event({
             if (botVoiceState.channel.members.filter((m) => !m.user.bot).size < 1) {
                 const timeout = setTimeout(async () => {
 
+                    if (!player) return
                     player.disconnect()
 
-                    const channel = await oldState.guild.channels.fetch(player.textChannel as string) as BaseGuildTextChannel
+                    const channel = await oldState.guild.channels.fetch(player.textChannel as string).catch(() => { }) as BaseGuildTextChannel
+                    if (!channel) return player.destroy()
                     player.destroy()
 
-                    if(!channel) return
-                    await channel.send({ embeds: [new EmbedBuilder()
-                                .setAuthor({
-                                    name: "Left the VC because of inactivity exceeding 5 minutes",
-                                    iconURL: client.user?.displayAvatarURL()
-                                })
-                                .setColor(client.data.color)
+                    await channel.send({
+                        embeds: [new EmbedBuilder()
+                            .setAuthor({
+                                name: "Left the VC because of inactivity exceeding 5 minutes",
+                                iconURL: client.user?.displayAvatarURL()
+                            })
+                            .setColor(client.data.color)
                         ]
                     }).catch(() => { })
 
@@ -40,7 +42,7 @@ export default new Event({
                         if (msg && msg.editable) await msg.edit({ components: [buttonDisable] })
                         if (data && data[i]) await data[i].delete()
                     }
-                }, 1000 * 60 * 5); // 1000 * 60 * 5 = 5 mins
+                }, 1000 * 1 * 5); // 1000 * 60 * 5 = 5 mins
                 (botVoiceState as any).channel.timeout = timeout;
             }
         }

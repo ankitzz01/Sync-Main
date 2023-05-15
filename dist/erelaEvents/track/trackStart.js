@@ -24,7 +24,16 @@ exports.default = new index_js_1.PlayerEvent({
             return;
         let link = `https://www.google.com/search?q=${encodeURIComponent(track.title)}`;
         const cdata = await musicchannel_js_1.default.findOne({ Guild: player.guild, Channel: player.textChannel });
-        if (!cdata) {
+        const setupUpdateEmbed = new discord_js_1.EmbedBuilder()
+            .setColor(client.data.color)
+            .setAuthor({ name: "NOW PLAYING", iconURL: track.requester.displayAvatarURL() })
+            .setDescription(`[\`\`${track.title}\`\`](${link})`)
+            .addFields({ name: 'Requested by', value: `<@${track.requester.id}>`, inline: true }, { name: 'Song by', value: `\`${track.author}\``, inline: true }, { name: 'Duration', value: `\`❯ ${(0, index_js_1.msToTimestamp)(track.duration)}\``, inline: true })
+            .setImage(`${track.displayThumbnail("maxresdefault") || client.data.links.background}`);
+        if (cdata) {
+            await (0, setupUpdate_js_1.musicSetupUpdate)(client, player, musicchannel_js_1.default, setupUpdateEmbed);
+        }
+        else {
             let msg = await Channel.send({
                 embeds: [new discord_js_1.EmbedBuilder()
                         .setColor("Blue")
@@ -35,19 +44,14 @@ exports.default = new index_js_1.PlayerEvent({
             }).catch(() => { });
             if (!msg)
                 return;
-            await new tempbutton_js_1.default({
+            await (0, setupUpdate_js_1.musicSetupUpdate)(client, player, musicchannel_js_1.default, setupUpdateEmbed);
+            const data = new tempbutton_js_1.default({
                 Guild: player.guild,
                 Channel: player.textChannel,
                 MessageID: msg.id
-            }).save();
+            });
             await promises_1.default.setTimeout(2000);
+            await data.save();
         }
-        const setupUpdateEmbed = new discord_js_1.EmbedBuilder()
-            .setColor(client.data.color)
-            .setAuthor({ name: "NOW PLAYING", iconURL: track.requester.displayAvatarURL() })
-            .setDescription(`[\`\`${track.title}\`\`](${link})`)
-            .addFields({ name: 'Requested by', value: `<@${track.requester.id}>`, inline: true }, { name: 'Song by', value: `\`${track.author}\``, inline: true }, { name: 'Duration', value: `\`❯ ${(0, index_js_1.msToTimestamp)(track.duration)}\``, inline: true })
-            .setImage(`${track.displayThumbnail("maxresdefault") || client.data.links.background}`);
-        await (0, setupUpdate_js_1.musicSetupUpdate)(client, player, musicchannel_js_1.default, setupUpdateEmbed);
     }
 });

@@ -20,12 +20,15 @@ exports.default = new index_js_1.Event({
                 return;
             if (botVoiceState.channel.members.filter((m) => !m.user.bot).size < 1) {
                 const timeout = setTimeout(async () => {
-                    player.disconnect();
-                    const channel = await oldState.guild.channels.fetch(player.textChannel);
-                    player.destroy();
-                    if (!channel)
+                    if (!player)
                         return;
-                    await channel.send({ embeds: [new discord_js_2.EmbedBuilder()
+                    player.disconnect();
+                    const channel = await oldState.guild.channels.fetch(player.textChannel).catch(() => { });
+                    if (!channel)
+                        return player.destroy();
+                    player.destroy();
+                    await channel.send({
+                        embeds: [new discord_js_2.EmbedBuilder()
                                 .setAuthor({
                                 name: "Left the VC because of inactivity exceeding 5 minutes",
                                 iconURL: client.user?.displayAvatarURL()
@@ -41,7 +44,7 @@ exports.default = new index_js_1.Event({
                         if (data && data[i])
                             await data[i].delete();
                     }
-                }, 1000 * 60 * 5);
+                }, 1000 * 1 * 5);
                 botVoiceState.channel.timeout = timeout;
             }
         }

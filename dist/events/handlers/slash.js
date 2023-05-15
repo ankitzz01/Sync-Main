@@ -18,7 +18,7 @@ exports.default = new index_js_1.Event({
         if (command.botOwnerOnly && !client.data.developers.includes(interaction.user.id))
             return (0, index_js_1.reply)(interaction, "❌", "This command is only available for bot developers");
         if (command.voteOnly && !(await new sdk_1.Api(client.data.topgg.token).hasVoted(interaction.user.id)))
-            return (0, index_js_1.reply)(interaction, "❌", `You must vote me on [top.gg](${client.data.topgg.vote}) before using this command`);
+            return (0, index_js_1.reply)(interaction, "❌", `You must vote me on [top.gg](${client.data.topgg.vote}) to use this command`);
         command.execute(interaction, client);
         const Embed = new discord_js_1.EmbedBuilder()
             .setColor("DarkBlue")
