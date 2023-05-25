@@ -13,9 +13,9 @@ export default {
             command: "1085926090435985468"
         },
         webhook: {
-            command: "",
-            guild: "",
-            error: ""
+            command: "https://discord.com/api/webhooks/1111357176640970873/GlvidxW7chNDFnFKUxkUB7-hWJ1me_MKuTF7RYRLa7UZE6y1GvIDL0xuvAuxvYle86OG",
+            guild: "https://discord.com/api/webhooks/1111357176640970873/GlvidxW7chNDFnFKUxkUB7-hWJ1me_MKuTF7RYRLa7UZE6y1GvIDL0xuvAuxvYle86OG",
+            error: "https://discord.com/api/webhooks/1111357176640970873/GlvidxW7chNDFnFKUxkUB7-hWJ1me_MKuTF7RYRLa7UZE6y1GvIDL0xuvAuxvYle86OG"
         },
     },
     prod: {
