@@ -6,8 +6,8 @@ export default new Event({
     async execute(guild: Guild, client: CustomClient) {
 
         const Embed = new EmbedBuilder()
-            .setAuthor({ name: `New Server - ${guild.name}`, iconURL: `${guild.iconURL() ? guild.iconURL() : null}` })
-            .setThumbnail(guild.iconURL() ? guild.iconURL() : null)
+            .setAuthor({ name: `New Server - ${guild.name}`, iconURL: guild.iconURL() || client.user?.displayAvatarURL() as string })
+            .setThumbnail(guild.iconURL() || client.user?.displayAvatarURL() as string)
             .setTimestamp()
             .setColor("DarkGreen")
             .setDescription(`\`\`\`Name: ${guild.name}\

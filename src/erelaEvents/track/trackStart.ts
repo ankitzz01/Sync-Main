@@ -73,10 +73,11 @@ export default new PlayerEvent({
                         { name: 'Song by', value: `\`${track.author}\``, inline: true },
                         { name: 'Duration', value: `\`❯ ${msToTimestamp(track.duration)}\``, inline: true })],
                 components: [buttonEnable]
-            }).catch(() => { })
-
-            if (!msg) return
+            }).catch((err: Error) => { 
+                if (err) return
+            })
             await musicSetupUpdate(client, player, setupDB, setupUpdateEmbed)
+            if (!msg || !msg.id) return
             const data = new buttonDB({
                 Guild: player.guild,
                 Channel: player.textChannel,

@@ -6,8 +6,8 @@ exports.default = new index_js_1.Event({
     name: discord_js_1.Events.GuildDelete,
     async execute(guild, client) {
         const Embed = new discord_js_1.EmbedBuilder()
-            .setAuthor({ name: `Removed from - ${guild.name}`, iconURL: `${guild.iconURL() ? guild.iconURL() : null}` })
-            .setThumbnail(guild.iconURL() ? guild.iconURL() : null)
+            .setAuthor({ name: `Removed from - ${guild.name}`, iconURL: guild.iconURL() || client.user?.displayAvatarURL() })
+            .setThumbnail(guild.iconURL() || client.user?.displayAvatarURL())
             .setTimestamp()
             .setColor("DarkRed")
             .setDescription(`\`\`\`Name: ${guild.name}\

@@ -41,10 +41,13 @@ exports.default = new index_js_1.PlayerEvent({
                         .setDescription(`[\`\`${track.title}\`\`](${link})`)
                         .addFields({ name: 'Requested by', value: `\`${track.requester.username}\``, inline: true }, { name: 'Song by', value: `\`${track.author}\``, inline: true }, { name: 'Duration', value: `\`❯ ${(0, index_js_1.msToTimestamp)(track.duration)}\``, inline: true })],
                 components: [button_js_1.buttonEnable]
-            }).catch(() => { });
-            if (!msg)
-                return;
+            }).catch((err) => {
+                if (err)
+                    return;
+            });
             await (0, setupUpdate_js_1.musicSetupUpdate)(client, player, musicchannel_js_1.default, setupUpdateEmbed);
+            if (!msg || !msg.id)
+                return;
             const data = new tempbutton_js_1.default({
                 Guild: player.guild,
                 Channel: player.textChannel,

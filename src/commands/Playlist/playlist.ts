@@ -285,8 +285,7 @@ export default new SlashCommand({
 
                 if (data.Playlist[0]) {
 
-                    info1 = `
-                    __**${data.Playlist[0].name}**__\
+                    info1 = `__**${data.Playlist[0].name}**__\
                     \n> **Total Songs: ${data.Playlist[0].songs.length} / 20\
                     \n> Privacy: ${data.Playlist[0].private === true ? `Private` : `Public`}\
                     \n> Created On: **<t:${data.Playlist[0].created}>`
@@ -294,16 +293,14 @@ export default new SlashCommand({
                 }
                 if (data.Playlist[1]) {
 
-                    info2 = `
-                    __**${data.Playlist[1].name}**__\
+                    info2 = `__**${data.Playlist[1].name}**__\
                     \n> **Total Songs: ${data.Playlist[1].songs.length} / 20\
                     \n> Privacy: ${data.Playlist[1].private === true ? `Private` : `Public`}\
                     \n> Created On: **<t:${data.Playlist[1].created}>`
                 }
                 if (data.Playlist[2]) {
 
-                    info3 = `
-                    __**${data.Playlist[2].name}**__\
+                    info3 = `__**${data.Playlist[2].name}**__\
                     \n> **Total Songs: ${data.Playlist[2].songs.length} / 20\
                     \n> Privacy: ${data.Playlist[2].private === true ? `Private` : `Public`}\
                     \n> Created On: **<t:${data.Playlist[2].created}>`
@@ -313,7 +310,7 @@ export default new SlashCommand({
                 const List = new EmbedBuilder()
                     .setColor(client.data.color)
                     .setAuthor({ name: `${interaction.user.username} Playlist(s)`, iconURL: interaction.user.displayAvatarURL() })
-                    .setDescription(`${info1}\n${info2}\n${info3}`)
+                    .setDescription(`${info1}\n\n${info2}\n\n${info3}`)
                     .setThumbnail(interaction.user.displayAvatarURL())
                     .setFooter({ text: `Playlist ${data.Playlist.length} / 3` })
 

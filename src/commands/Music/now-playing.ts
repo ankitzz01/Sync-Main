@@ -15,7 +15,9 @@ export default new SlashCommand({
 
         const player = client.player.players.get(interaction.guild?.id as string)
         if (!player) return reply(interaction, "❌", "No song player was found", true)
-        if (!player.queue.current) return reply(interaction, "❌", "No song was found playing", true)
+        if (!(player.queue.current as Track)) return reply(interaction, "❌", "No song was found playing", true)
+        if (!(player.queue.current as Track).displayThumbnail) return reply(
+            interaction, "❌", "Failed to display the current playing song", true)
 
         await interaction.deferReply()
 
