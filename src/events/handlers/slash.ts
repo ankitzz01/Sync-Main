@@ -33,6 +33,6 @@ export default new Event({
         \nCommand Used: ${interaction.commandName} (${interaction.commandId})\
         \nUsed by: ${interaction.user.username} (${interaction.user.id})\`\`\``)
 
-        log(client, Embed, client.data.devBotEnabled ? client.data.dev.log.command : client.data.prod.log.command);
+        log(client, Embed, client.data.devBotEnabled ? client.data.dev.webhook.command : client.data.prod.webhook.command);
     }
 });

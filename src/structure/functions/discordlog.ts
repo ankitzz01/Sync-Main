@@ -1,10 +1,17 @@
-import { EmbedBuilder, Client, Message, BaseGuildTextChannel } from "discord.js"
+import { EmbedBuilder, WebhookClient, BaseGuildTextChannel } from "discord.js"
 import { CustomClient } from "../classes"
 
-export async function log(client: Client | CustomClient, embed: EmbedBuilder, channelId: string) {
+export async function log(client: CustomClient, embed: EmbedBuilder, address: string) {
 
-    const Channel = await client.channels.fetch(channelId).catch(() => { })
-    if (!Channel) return
+    if (address.length == 121) {
+        const webClient = new WebhookClient({ url: address })
 
-    return await (Channel as BaseGuildTextChannel).send({ embeds: [embed] })
+        return await webClient.send({ embeds: [embed] }).catch(() => { })
+    }
+    else {
+        const Channel = await client.channels.fetch(address).catch(() => { })
+        if (!Channel) return
+
+        return await (Channel as BaseGuildTextChannel).send({ embeds: [embed] }).catch(() => { })
+    }
 }

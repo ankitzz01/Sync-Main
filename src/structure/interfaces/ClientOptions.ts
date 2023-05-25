@@ -15,6 +15,11 @@ export interface ClientDataOptions {
             guild: string;
             command: string;
         }
+        webhook: {
+            command: string;
+            guild: string;
+            error: string;
+        }
     }
     prod: {
         id: string;
@@ -25,6 +30,11 @@ export interface ClientDataOptions {
             error: string;
             guild: string;
             command: string;
+        }
+        webhook: {
+            command: string;
+            guild: string;
+            error: string;
         }
     }
     links: {
