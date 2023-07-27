@@ -10,7 +10,12 @@ exports.default = {
             error: "",
             guild: "",
             command: ""
-        }
+        },
+        webhook: {
+            command: "",
+            guild: "",
+            error: ""
+        },
     },
     prod: {
         id: "",
@@ -21,7 +26,12 @@ exports.default = {
             error: "",
             guild: "",
             command: ""
-        }
+        },
+        webhook: {
+            command: "",
+            guild: "",
+            error: ""
+        },
     },
     links: {
         invite: "",
@@ -36,10 +46,10 @@ exports.default = {
         id: "",
         secret: "",
     },
-    handlers: { commands: "./dist/commands", events: "./dist/events", erelaEvents: "./dist/erelaEvents" },
+    handlers: {commands: "./dist/commands", events: "./dist/events", erelaEvents: "./dist/erelaEvents"},
     guilds: {
         dev: [""]
     },
-    color: "Blue",
+    color: "Blue" as ColorResolvable,
     developers: [""]
 };
