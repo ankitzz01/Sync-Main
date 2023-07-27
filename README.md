@@ -1,1 +1,1 @@
-# This the private source code of the discord music bot Sync Music
+# This is the private source code of the discord music bot Sync Music
